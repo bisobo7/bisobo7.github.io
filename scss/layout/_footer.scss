@@ -1,0 +1,169 @@
+.footer {
+  background-color: #151920; // Slightly darker than header
+  color: #ffffff;
+  padding: 5rem 0 2rem;
+  position: relative;
+  
+  // Add subtle texture overlay
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0V0zm10 17.5c4.142 0 7.5-3.358 7.5-7.5 0-4.142-3.358-7.5-7.5-7.5-4.142 0-7.5 3.358-7.5 7.5 0 4.142 3.358 7.5 7.5 7.5zm20 0c4.142 0 7.5-3.358 7.5-7.5 0-4.142-3.358-7.5-7.5-7.5-4.142 0-7.5 3.358-7.5 7.5 0 4.142 3.358 7.5 7.5 7.5zM10 37.5c4.142 0 7.5-3.358 7.5-7.5 0-4.142-3.358-7.5-7.5-7.5-4.142 0-7.5 3.358-7.5 7.5 0 4.142 3.358 7.5 7.5 7.5zm20 0c4.142 0 7.5-3.358 7.5-7.5 0-4.142-3.358-7.5-7.5-7.5-4.142 0-7.5 3.358-7.5 7.5 0 4.142 3.358 7.5 7.5 7.5z' fill='%23ffffff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  // Top accent border
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(200, 16, 46, 0.2) 0%, rgba(200, 16, 46, 0.8) 50%, rgba(200, 16, 46, 0.2) 100%);
+  }
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    
+    @media (min-width: 768px) {
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+    }
+    
+    .footer-info {
+      .logo-small {
+        display: block;
+        margin-bottom: 1.5rem;
+        filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+      }
+      
+      p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        max-width: 90%;
+      }
+    }
+    
+    .footer-links {
+      h4 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 40px;
+          height: 2px;
+          background-color: #c8102e;
+        }
+      }
+      
+      .footer-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          margin-bottom: 0.75rem;
+          position: relative;
+          padding-left: 1.25rem;
+          
+          // Custom list item indicator
+          &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 6px;
+            height: 6px;
+            background-color: #c8102e;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+          }
+          
+          &:hover:before {
+            transform: translateY(-50%) scale(1.3);
+            box-shadow: 0 0 5px rgba(200, 16, 46, 0.6);
+          }
+          
+          a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            
+            &:hover {
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+    
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        
+        svg {
+          width: 18px;
+          height: 18px;
+          fill: #ffffff;
+        }
+        
+        &:hover {
+          background-color: #c8102e;
+          transform: translateY(-3px);
+        }
+      }
+    }
+  }
+  
+  .copyright {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    
+    p {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+} 

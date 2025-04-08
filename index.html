@@ -10,15 +10,19 @@
   <link rel="icon" type="image/svg+xml" href="public/images/favicon.svg">
   <!-- Fallback for browsers that don't support SVG favicons -->
   <link rel="icon" type="image/x-icon" href="public/images/favicon.ico">
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "r0qm9v26i3");
+</script>
 </head>
 <body>
   <header class="header">
     <div class="container">
       <div class="logo-container">
-        <svg class="logo" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20,10 C40,5 60,10 80,15 C100,20 120,15 140,10 C160,5 180,10 190,15" stroke="#c8102e" stroke-width="2" fill="none"/>
-          <text x="30" y="40" class="logo-text">DIXIE AUTO LAND</text>
-        </svg>
+        <img src="public/images/dixie-logo-black.svg" alt="Dixie Auto Land" class="logo">
       </div>
       <nav class="nav">
         <ul class="nav-list">
@@ -74,91 +78,30 @@
         <div class="section-header animate-on-scroll">
           <h2 class="section-title">Featured Used Vehicles</h2>
         </div>
-        <div class="vehicle-grid">
-          <!-- Vehicle Cards -->
-          <div class="vehicle-card animate-on-scroll">
-            <div class="vehicle-image">
-              <div class="vehicle-badge">Certified</div>
-              <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Used Luxury Sedan">
-            </div>
-            <div class="vehicle-details">
-              <h3 class="vehicle-title">2019 Audi A6 Premium</h3>
-              <div class="vehicle-price">$36,900</div>
-              <p class="vehicle-description">Low mileage, single-owner luxury sedan with complete service history. Includes premium package and extended warranty coverage.</p>
-              <div class="vehicle-specs">
-                <div class="vehicle-spec">
-                  <div class="spec-value">32K</div>
-                  <div class="spec-label">Mileage</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">340</div>
-                  <div class="spec-label">Horsepower</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">AWD</div>
-                  <div class="spec-label">Drivetrain</div>
-                </div>
-              </div>
-              <a href="#contact" class="btn btn-secondary">Inquire Now</a>
-            </div>
-          </div>
-          
-          <div class="vehicle-card animate-on-scroll">
-            <div class="vehicle-image">
-              <div class="vehicle-badge">Great Value</div>
-              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Used Family SUV">
-            </div>
-            <div class="vehicle-details">
-              <h3 class="vehicle-title">2020 BMW X5 xDrive40i</h3>
-              <div class="vehicle-price">$49,500</div>
-              <p class="vehicle-description">Well-maintained family SUV with third-row seating and advanced safety features. Thoroughly inspected with clean vehicle history.</p>
-              <div class="vehicle-specs">
-                <div class="vehicle-spec">
-                  <div class="spec-value">45K</div>
-                  <div class="spec-label">Mileage</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">335</div>
-                  <div class="spec-label">Horsepower</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">AWD</div>
-                  <div class="spec-label">Drivetrain</div>
-                </div>
-              </div>
-              <a href="#contact" class="btn btn-secondary">Inquire Now</a>
-            </div>
-          </div>
-          
-          <div class="vehicle-card animate-on-scroll">
-            <div class="vehicle-image">
-              <div class="vehicle-badge">Recent Arrival</div>
-              <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Used Truck">
-            </div>
-            <div class="vehicle-details">
-              <h3 class="vehicle-title">2021 F-150 XLT</h3>
-              <div class="vehicle-price">$42,400</div>
-              <p class="vehicle-description">Lightly used work truck with towing package and bed liner. Full mechanical inspection completed with all maintenance up to date.</p>
-              <div class="vehicle-specs">
-                <div class="vehicle-spec">
-                  <div class="spec-value">28K</div>
-                  <div class="spec-label">Mileage</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">12,700</div>
-                  <div class="spec-label">Towing (lbs)</div>
-                </div>
-                <div class="vehicle-spec">
-                  <div class="spec-value">4x4</div>
-                  <div class="spec-label">Drivetrain</div>
-                </div>
-              </div>
-              <a href="#contact" class="btn btn-secondary">Inquire Now</a>
-            </div>
-          </div>
-        </div>
-        <div class="view-all-container animate-on-scroll">
-          <a href="#" class="btn btn-primary">View All Used Inventory</a>
+        <div class="coming-soon-container animate-on-scroll">
+          <svg class="coming-soon-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+            <!-- Car being prepared animation -->
+            <defs>
+              <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#c8102e" />
+                <stop offset="100%" stop-color="#9e0c24" />
+              </linearGradient>
+              <filter id="carShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="rgba(0,0,0,0.3)" />
+              </filter>
+              <clipPath id="carClip">
+                <rect x="100" y="180" width="600" height="120" rx="20" />
+              </clipPath>
+            </defs> 
+            <!-- Coming Soon Text with animation -->
+            <text class="coming-soon-text" x="400" y="90" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="48" font-weight="bold" fill="#c8102e">
+              COMING SOON
+              <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />
+            </text>
+            <text x="400" y="130" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="20" fill="#555">
+              We're preparing our premium vehicle inventory
+            </text>
+          </svg>
         </div>
       </div>
     </section>
@@ -171,7 +114,7 @@
         <div class="services-grid">
           <div class="service-card animate-on-scroll">
             <div class="service-icon">
-              <img src="https://cdn-icons-png.flaticon.com/512/5223/5223009.png" alt="OEM Parts">
+              <object data="public/images/parts-icon-animated.svg" type="image/svg+xml" class="animated-service-icon"></object>
             </div>
             <h3 class="service-title">OEM & Color-Matching Parts</h3>
             <p class="service-description">Access our extensive inventory of genuine OEM and aftermarket parts with precise color matching, ensuring perfect integration with your vehicle.</p>
@@ -179,7 +122,7 @@
           
           <div class="service-card animate-on-scroll">
             <div class="service-icon">
-              <img src="https://cdn-icons-png.flaticon.com/512/2421/2421989.png" alt="Paintless Dent Repair">
+              <object data="public/images/dent-repair-animated.svg" type="image/svg+xml" class="animated-service-icon"></object>
             </div>
             <h3 class="service-title">Paintless Dent Repair</h3>
             <p class="service-description">Our skilled technicians restore your vehicle's appearance using specialized techniques that preserve the original paint and finish, saving you time and money.</p>
@@ -187,7 +130,9 @@
           
           <div class="service-card animate-on-scroll">
             <div class="service-icon">
-              <img src="https://cdn-icons-png.flaticon.com/512/3002/3002240.png" alt="Windshield Replacement">
+              <object data="public/images/windshield-animated.svg" type="image/svg+xml" class="animated-service-icon">
+                <img src="public/images/windshield-icon.svg" alt="Windshield Replacement" class="static-service-icon">
+              </object>
             </div>
             <h3 class="service-title">Windshield Replacement</h3>
             <p class="service-description">We provide professional windshield replacement services using high-quality materials and expert installation, ensuring optimal visibility and safety.</p>
@@ -195,7 +140,7 @@
           
           <div class="service-card animate-on-scroll">
             <div class="service-icon">
-              <img src="https://cdn-icons-png.flaticon.com/512/2450/2450972.png" alt="Financing Options">
+              <object data="public/images/financing-animated.svg" type="image/svg+xml" class="animated-service-icon"></object>
             </div>
             <h3 class="service-title">Flexible Financing</h3>
             <p class="service-description">Our partnerships with premium lenders allow us to offer competitive rates and customized financing plans tailored to your specific situation.</p>
@@ -216,31 +161,79 @@
             <ul class="network-benefits">
               <li>
                 <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="#c8102e"/>
+                  <defs>
+                    <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#c8102e"/>
+                      <stop offset="100%" stop-color="#9e0c24"/>
+                    </linearGradient>
+                    <filter id="checkShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="1" dy="1" stdDeviation="0.5" flood-color="#00000022"/>
+                    </filter>
+                  </defs>
+                  <circle cx="12" cy="12" r="11" fill="white" stroke="#f0f0f0" stroke-width="1"/>
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="url(#checkGradient)" filter="url(#checkShadow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+                  </path>
                 </svg>
                 <span>Rare and discontinued parts availability</span>
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="#c8102e"/>
+                  <defs>
+                    <linearGradient id="checkGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#c8102e"/>
+                      <stop offset="100%" stop-color="#9e0c24"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="12" cy="12" r="11" fill="white" stroke="#f0f0f0" stroke-width="1"/>
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="url(#checkGradient2)" filter="url(#checkShadow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" begin="0.6s"/>
+                  </path>
                 </svg>
                 <span>OEM parts at a fraction of dealer costs</span>
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="#c8102e"/>
+                  <defs>
+                    <linearGradient id="checkGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#c8102e"/>
+                      <stop offset="100%" stop-color="#9e0c24"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="12" cy="12" r="11" fill="white" stroke="#f0f0f0" stroke-width="1"/>
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="url(#checkGradient3)" filter="url(#checkShadow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" begin="1.2s"/>
+                  </path>
                 </svg>
                 <span>Perfect color matches for body panels</span>
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="#c8102e"/>
+                  <defs>
+                    <linearGradient id="checkGradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#c8102e"/>
+                      <stop offset="100%" stop-color="#9e0c24"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="12" cy="12" r="11" fill="white" stroke="#f0f0f0" stroke-width="1"/>
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="url(#checkGradient4)" filter="url(#checkShadow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" begin="1.8s"/>
+                  </path>
                 </svg>
                 <span>Comprehensive quality inspection</span>
               </li>
               <li>
                 <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="#c8102e"/>
+                  <defs>
+                    <linearGradient id="checkGradient5" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#c8102e"/>
+                      <stop offset="100%" stop-color="#9e0c24"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="12" cy="12" r="11" fill="white" stroke="#f0f0f0" stroke-width="1"/>
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" fill="url(#checkGradient5)" filter="url(#checkShadow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" begin="2.4s"/>
+                  </path>
                 </svg>
                 <span>Fast nationwide shipping options</span>
               </li>
@@ -250,49 +243,58 @@
           <div class="network-map animate-on-scroll">
             <div class="usa-map-container">
               <svg class="usa-map" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                <!-- USA Map Base -->
-                <path class="map-base" d="M610.7,495.6l-0.4,2.2l-1.1-2.2l-1.9-0.9l0.4-1.5l1.5-1.9l1.1,2.2l0.4,0.9L610.7,495.6z M604.2,487.8l1.9,1.1l0.8,1.1 l-0.8,0.4l-1.5-1.5L604.2,487.8z M614.9,485.9l1.1,5.2v1.1l-0.8,1.1l-1.1-3.7l-1.1-3.7H614.9z M635.1,495.6l-0.8,2.2l-1.5,0.8 l-1.1,0.8l-0.8-1.9h2.6L635.1,495.6z M633.2,486.7l1.9,1.9l0.8,2.2l0.8,1.1l2.2,1.1l-4.1,1.1l-4.1,0.4l-3,1.9h-2.6l-1.1-1.5 l-0.4-1.9l2.6-0.8l0.8-1.1h1.5l0.4-1.9L633.2,486.7z M637.7,496l2.6-0.4l1.9-0.8l2.2-0.8l1.1,0.4l1.9,1.5l4.1-0.4v-1.5 l-0.8-1.5l-1.1-1.1l-2.2,1.5l-2.2,1.1l-4.1,0.4l-2.6-0.8L637.7,496z M670.5,498.2l3.4-1.1l1.1-1.9l-0.4-1.9l-1.9,0.4l-3.7,1.1 l-1.5,2.2L670.5,498.2z M722.8,507.9l3-1.5l3-1.5h2.6l-0.4-1.5l-4.1-1.1l-4.1,0.8l-3.7,1.1L722.8,507.9z M726.1,502.3l1.5-1.9 l1.9-1.5l-3.4-1.1l-4.1-1.1l-1.5,1.9l-1.1,1.9l3.4,0.8L726.1,502.3z M732.9,492.6h3.4l0.4-1.9l-0.4-1.9l-4.1-1.1l-1.9,1.5l-1.5,1.9 l1.1,1.1L732.9,492.6z M737,486.7l2.6-2.6l-4.1-0.4h-4.1l-1.9,1.5l5.2,1.5H737z M746.7,480.7l-4.5,0.8l-3.4,0.4l-0.8,1.9l4.9,0.4 l4.9-0.4l1.5-1.1L746.7,480.7z M753.5,489.3l2.6-3l-1.5-1.9l-4.9,0.4l-4.5,0.8l1.5,1.9l3.4,1.1L753.5,489.3z M797.2,472.5 l-2.2,1.1l-0.4,1.5l2.2,1.5l4.5,1.5l0.4-1.9l0.4-1.9l-1.5-1.1L797.2,472.5z M797.6,469.9l3.7-0.4v-1.5l-2.6-1.1l-3.7-0.4l-3,1.1 l-2.6,1.1l0.4,1.5L797.6,469.9z M752,464.3l1.9-0.8l1.9-0.8l-0.8-1.5l-3.7-0.4l-3,0.4l-2.6,0.8l0.8,1.5L752,464.3z M783.3,476.2 l-0.4,1.9l-0.4,1.9l2.2,1.5l4.5,1.5l4.9-0.4l4.5-0.4l4.1-0.4l-0.8-1.5l-3.7-1.9l-3.7-1.9l-4.9,0.4l-4.5,0.8L783.3,476.2z M789.3,472.5l3.7-0.4l3.7-0.4l-0.8-1.5l-2.6-1.5l-4.5-1.5l-0.4,1.9L789.3,472.5z M799.1,465.4l2.2-0.8l2.2-0.8l-0.8-1.5 l-3.7-0.4l-3.7-0.4l-2.2,0.8L799.1,465.4z M811.2,463.9l2.2-1.1h3.7l1.9-0.8l-1.9-1.1l-4.5-0.4l-4.5-0.4l-3,0.4l-2.6,0.8l0.8,1.5 L811.2,463.9z M817.5,458l3-1.5h3.4l-4.1-1.1l-6.3-0.8l-4.5,0.8l-3,1.5l4.5,0.8L817.5,458z M827.2,451.7h3.4l0.4-1.9l-0.4-1.9 l-4.1-1.1l-1.9,1.9l-1.5,1.9l0.8,1.5L827.2,451.7z M831.6,445.3l1.9-1.9l1.5-1.9l-3.4-1.1l-4.1-1.1l-1.9,1.9l-1.5,1.9l3.4,1.1 L831.6,445.3z M744.5,477.3l3.7-0.4v-1.5l-1.5-1.1l-3.4-1.1l-1.9,0.8h-1.9l-3,1.1l3.4,1.1L744.5,477.3z M74.9,288.6l0.7,2.9 l1.3,4.4l0.8,5.4l0.8,1.5l2.1,2.5v2.5l-1.6,1.3l-3.6,1.5l-1.8,0.5l-1.8-1.5l-2.1-1.5l-2.9-1.3l-0.5-2.1l-2.6-2.1l-2.9-6.9v-2.2 l1-1.8l2.1-1.3h2.9l3.1,0.8L74.9,288.6z M86,288.6v3.4l0.5,2.9l1.8-0.5l2.3-2.9l-1-4.4l-1.8-1.5L86,288.6z" fill="#f9f9f9" stroke="#c8102e" stroke-width="1" />
-                <!-- More detailed USA map paths would be added here -->
-
-                <!-- State borders with elegant styling -->
-                <path class="state-borders" d="M600,220 L750,220 M750,220 L750,320 M750,320 L600,320 M600,320 L600,220" stroke="#c8102e" stroke-width="0.5" fill="none" opacity="0.5" />
-                <path class="state-borders" d="M500,270 L600,270 M600,270 L600,370 M600,370 L500,370 M500,370 L500,270" stroke="#c8102e" stroke-width="0.5" fill="none" opacity="0.5" />
-                <!-- More state borders would be added -->
+                <!-- Map Definitions -->
+                <defs>
+                  <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f9f9f9"/>
+                    <stop offset="100%" stop-color="#f0f0f0"/>
+                  </linearGradient>
+                  <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.1)"/>
+                  </filter>
+                </defs>
+                
+                <!-- USA Map Base - Simplified outline -->
+                <path class="map-base" d="M215,185 L370,185 L390,140 L510,140 L555,185 L700,185 L745,230 L745,330 L700,375 L610,375 L565,420 L510,420 L470,375 L370,375 L215,330 Z" fill="url(#mapGradient)" stroke="#c8102e" stroke-width="1" filter="url(#mapShadow)"/>
+                
+                <!-- Great Lakes -->
+                <path d="M480,185 C495,170 525,165 540,180 C555,195 560,210 545,225 C530,240 505,235 490,220 C475,205 470,195 480,185 Z" fill="#f1f8fe" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="1,1"/>
+                
+                <!-- Major Regions - Subtle Dividers -->
+                <path class="region-divider" d="M370,185 L370,375" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
+                <path class="region-divider" d="M510,140 L510,420" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
+                <path class="region-divider" d="M610,185 L610,375" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
               </svg>
-
+              
               <!-- Interactive Junkyard Network Points -->
               <div class="map-dots">
                 <!-- Main Michigan dot (Saginaw) -->
-                <span class="map-dot pulsing michigan-dot" title="Dixie Auto Land - Saginaw, MI"></span>
+                <span class="map-dot pulsing michigan-dot" title="Dixie Auto Land - Saginaw, MI" style="top: 30%; left: 63%"></span>
                 
                 <!-- East Coast Network -->
-                <span class="map-dot east-coast" title="East Coast Partner"></span>
-                <span class="map-dot east-coast" title="East Coast Partner"></span>
-                <span class="map-dot east-coast" title="East Coast Partner"></span>
+                <span class="map-dot east-coast" title="East Coast Partner - New York" style="top: 25%; left: 80%"></span>
+                <span class="map-dot east-coast" title="East Coast Partner - Virginia" style="top: 40%; left: 76%"></span>
+                <span class="map-dot east-coast" title="East Coast Partner - Florida" style="top: 65%; left: 75%"></span>
                 
                 <!-- Midwest Network -->
-                <span class="map-dot midwest" title="Midwest Partner"></span>
-                <span class="map-dot midwest" title="Midwest Partner"></span>
-                <span class="map-dot midwest" title="Midwest Partner"></span>
+                <span class="map-dot midwest" title="Midwest Partner - Illinois" style="top: 35%; left: 55%"></span>
+                <span class="map-dot midwest" title="Midwest Partner - Missouri" style="top: 45%; left: 50%"></span>
+                <span class="map-dot midwest" title="Midwest Partner - Minnesota" style="top: 20%; left: 48%"></span>
                 
                 <!-- West Coast Network -->
-                <span class="map-dot west-coast" title="West Coast Partner"></span>
-                <span class="map-dot west-coast" title="West Coast Partner"></span>
-                <span class="map-dot west-coast" title="West Coast Partner"></span>
+                <span class="map-dot west-coast" title="West Coast Partner - California" style="top: 45%; left: 15%"></span>
+                <span class="map-dot west-coast" title="West Coast Partner - Washington" style="top: 15%; left: 18%"></span>
+                <span class="map-dot west-coast" title="West Coast Partner - Arizona" style="top: 58%; left: 25%"></span>
                 
                 <!-- Southern Network -->
-                <span class="map-dot southern" title="Southern Partner"></span>
-                <span class="map-dot southern" title="Southern Partner"></span>
-                <span class="map-dot southern" title="Southern Partner"></span>
+                <span class="map-dot southern" title="Southern Partner - Texas" style="top: 65%; left: 40%"></span>
+                <span class="map-dot southern" title="Southern Partner - Georgia" style="top: 55%; left: 65%"></span>
+                <span class="map-dot southern" title="Southern Partner - Louisiana" style="top: 70%; left: 50%"></span>
               </div>
 
-              <!-- Network Connections -->
+              <!-- Network Connections will be created by JavaScript -->
               <svg class="network-connections" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                <!-- Connection paths would be dynamically created with JavaScript -->
-                <path class="connection-path" d="M480,240 C550,280 620,300 690,260" stroke="#c8102e" stroke-width="1" fill="none" stroke-dasharray="5,5" />
-                <path class="connection-path" d="M480,240 C400,260 320,280 240,300" stroke="#c8102e" stroke-width="1" fill="none" stroke-dasharray="5,5" />
-                <path class="connection-path" d="M480,240 C500,300 520,360 490,420" stroke="#c8102e" stroke-width="1" fill="none" stroke-dasharray="5,5" />
-                <!-- More connection paths would be dynamically created -->
+                <!-- Connection paths will be dynamically created with JavaScript -->
               </svg>
             </div>
             <div class="map-caption">Our Saginaw location (pulsing dot) connects to a vast network of junkyards across the entire country</div>
@@ -437,10 +439,7 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-info animate-on-scroll">
-          <svg class="logo-small" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20,10 C40,5 60,10 80,15 C100,20 120,15 140,10 C160,5 180,10 190,15" stroke="#ffffff" stroke-width="2" fill="none"/>
-            <text x="30" y="40" class="logo-text-small">DIXIE AUTO LAND</text>
-          </svg>
+          <img src="public/images/dixie-logo-white.svg" alt="Dixie Auto Land" class="logo-small">
           <p>Dixie Auto Land is your trusted specialist for quality used vehicles and OEM parts. With exceptional service, transparent pricing, and access to a nationwide network of over 1,000 junkyards, we're your complete automotive solution.</p>
         </div>
         <div class="footer-links animate-on-scroll">

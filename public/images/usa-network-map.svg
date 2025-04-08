@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="100%" height="100%">
+  <!-- Definitions -->
+  <defs>
+    <!-- Map Gradients -->
+    <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f5f5"/>
+    </linearGradient>
+    
+    <!-- State Hover Effect -->
+    <linearGradient id="stateHover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#e8e8e8"/>
+    </linearGradient>
+    
+    <!-- Location Marker Gradient -->
+    <radialGradient id="markerGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Connection Line Gradient -->
+    <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#c8102e" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0.8"/>
+    </linearGradient>
+    
+    <!-- Map Shadow -->
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+    
+    <!-- Glow Effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    
+    <!-- Pulse Animation -->
+    <radialGradient id="pulseGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="1">
+        <animate attributeName="stop-opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0">
+        <animate attributeName="stop-opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+    
+    <!-- Connection Animation -->
+    <linearGradient id="flowingGradient">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="0.1"/>
+      <stop offset="50%" stop-color="#c8102e" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0.1"/>
+      <animate attributeName="x1" from="0%" to="100%" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="x2" from="100%" to="200%" dur="3s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with subtle texture -->
+  <rect width="960" height="600" fill="url(#mapGradient)" filter="url(#mapShadow)"/>
+  
+  <!-- Detailed USA Map -->
+  <g id="usa-states" stroke="#c8102e" stroke-width="0.5" fill="#ffffff" opacity="0.9">
+    <!-- Northeastern States -->
+    <path id="maine" d="M813,175 L820,132 L832,107 L852,105 L865,121 L871,165 L863,189 L850,193 L840,190 Z" class="state"/>
+    <path id="vermont" d="M797,190 L802,168 L798,150 L803,140 L819,147 L819,188 L805,200 Z" class="state"/>
+    <path id="new-hampshire" d="M820,190 L820,147 L832,138 L841,144 L846,173 L839,189 Z" class="state"/>
+    <path id="massachusetts" d="M799,210 L842,200 L850,202 L856,196 L820,212 Z" class="state"/>
+    <path id="rhode-island" d="M831,214 L836,206 L844,210 L840,218 Z" class="state"/>
+    <path id="connecticut" d="M810,213 L830,214 L840,220 L812,225 Z" class="state"/>
+    <path id="new-york" d="M759,172 L790,155 L795,150 L800,165 L796,195 L795,205 L782,213 L770,203 L763,188 Z" class="state"/>
+    <path id="new-jersey" d="M790,220 L800,215 L805,225 L794,240 L785,230 Z" class="state"/>
+    <path id="pennsylvania" d="M750,200 L790,190 L790,215 L780,230 L740,215 Z" class="state"/>
+    <path id="delaware" d="M795,240 L800,230 L807,240 L800,248 Z" class="state"/>
+    <path id="maryland" d="M775,232 L793,242 L788,255 L765,245 L755,242 L765,235 Z" class="state"/>
+    
+    <!-- Southern States -->
+    <path id="virginia" d="M740,240 L770,232 L785,245 L790,255 L765,270 L741,255 Z" class="state"/>
+    <path id="north-carolina" d="M738,255 L765,270 L780,275 L790,280 L755,290 L720,275 Z" class="state"/>
+    <path id="south-carolina" d="M750,290 L780,275 L798,285 L790,300 L765,305 Z" class="state"/>
+    <path id="georgia" d="M730,300 L765,305 L780,315 L785,345 L760,365 L740,340 L730,320 Z" class="state"/>
+    <path id="florida" d="M745,365 L760,365 L785,345 L795,355 L815,390 L805,425 L780,435 L765,410 L755,375 Z" class="state"/>
+    <path id="alabama" d="M695,315 L730,310 L740,340 L730,365 L710,365 L700,338 Z" class="state"/>
+    <path id="mississippi" d="M670,325 L695,320 L700,338 L690,365 L675,390 L660,360 L670,340 Z" class="state"/>
+    <path id="tennessee" d="M675,290 L720,275 L730,295 L700,305 L670,305 Z" class="state"/>
+    <path id="kentucky" d="M675,270 L695,262 L735,250 L740,265 L720,275 L675,290 Z" class="state"/>
+    <path id="west-virginia" d="M735,250 L750,242 L760,235 L765,245 L743,255 L735,250 Z" class="state"/>
+    
+    <!-- Midwestern States -->
+    <path id="ohio" d="M710,225 L740,215 L750,240 L735,250 L695,260 Z" class="state"/>
+    <path id="michigan" d="M670,170 L685,130 L695,145 L685,165 L695,190 L685,210 L660,210 L645,190 L655,180 Z" class="state"/>
+    <path id="indiana" d="M695,230 L705,228 L695,260 L675,270 L670,250 L680,240 Z" class="state"/>
+    <path id="illinois" d="M655,245 L670,240 L680,250 L670,270 L665,290 L650,295 L645,270 Z" class="state"/>
+    <path id="wisconsin" d="M625,175 L645,165 L655,180 L645,190 L635,220 L615,230 L605,210 L615,190 Z" class="state"/>
+    <path id="minnesota" d="M585,165 L605,160 L625,175 L610,190 L605,210 L590,215 L575,195 L570,175 Z" class="state"/>
+    <path id="iowa" d="M590,215 L615,225 L635,225 L645,250 L625,265 L605,260 L590,235 Z" class="state"/>
+    <path id="missouri" d="M625,265 L645,265 L665,290 L655,315 L630,315 L620,305 L615,285 Z" class="state"/>
+    <path id="arkansas" d="M625,315 L655,315 L670,325 L670,345 L660,360 L645,355 L635,335 Z" class="state"/>
+    <path id="louisiana" d="M645,355 L660,360 L675,390 L665,410 L635,400 L625,375 Z" class="state"/>
+    
+    <!-- Southwestern States -->
+    <path id="texas" d="M555,325 L605,325 L625,315 L635,335 L645,355 L625,375 L605,400 L590,415 L560,390 L540,365 L525,345 Z" class="state"/>
+    <path id="oklahoma" d="M555,325 L605,325 L625,315 L620,305 L615,285 L550,290 L545,315 Z" class="state"/>
+    <path id="kansas" d="M550,265 L605,260 L610,285 L550,290 Z" class="state"/>
+    <path id="nebraska" d="M550,265 L590,235 L605,260 L550,265 Z" class="state"/>
+    <path id="south-dakota" d="M550,210 L575,195 L590,215 L580,235 L550,235 Z" class="state"/>
+    <path id="north-dakota" d="M550,175 L570,175 L575,195 L550,210 Z" class="state"/>
+    <path id="new-mexico" d="M485,330 L525,325 L525,345 L540,365 L530,390 L480,390 L485,370 Z" class="state"/>
+    <path id="colorado" d="M485,290 L545,290 L550,290 L550,235 L485,235 Z" class="state"/>
+    <path id="wyoming" d="M485,235 L550,235 L550,175 L485,175 Z" class="state"/>
+    <path id="montana" d="M485,175 L550,175 L550,140 L510,130 L485,135 Z" class="state"/>
+    <path id="arizona" d="M430,320 L480,325 L480,390 L440,375 L410,340 Z" class="state"/>
+    <path id="utah" d="M430,270 L485,270 L485,325 L425,320 Z" class="state"/>
+    <path id="idaho" d="M430,225 L485,235 L485,135 L465,125 L445,145 L430,170 Z" class="state"/>
+    <path id="nevada" d="M375,260 L430,270 L430,225 L410,210 L390,220 Z" class="state"/>
+    
+    <!-- Western States -->
+    <path id="california" d="M370,260 L390,220 L410,210 L410,170 L375,175 L360,215 L350,260 L375,310 L410,340 L430,320 L425,270 Z" class="state"/>
+    <path id="oregon" d="M375,175 L410,170 L430,170 L445,145 L425,130 L395,135 L380,155 Z" class="state"/>
+    <path id="washington" d="M395,135 L425,130 L465,125 L455,95 L420,90 L385,115 Z" class="state"/>
+    
+    <!-- Alaska and Hawaii (scaled down and positioned) -->
+    <path id="alaska" d="M190,350 L165,325 L200,315 L225,335 L240,360 L215,370 Z" class="state"/>
+    <path id="hawaii" d="M275,400 L285,390 L300,400 L290,410 Z M310,390 L320,385 L330,395 L320,405 Z" class="state"/>
+  </g>
+  
+  <!-- Great Lakes -->
+  <path id="great-lakes" d="M665,170 L685,150 L720,155 L750,170 L745,190 L705,205 L675,200 Z" fill="#e6f2ff" stroke="#b3d9ff" stroke-width="1"/>
+  
+  <!-- Main Hub - Saginaw, MI -->
+  <g id="main-hub" transform="translate(685, 190)">
+    <!-- Glow Effect -->
+    <circle r="25" fill="url(#pulseGradient)" opacity="0.6" filter="url(#glow)"/>
+    
+    <!-- Marker -->
+    <circle r="8" fill="#c8102e" stroke="#ffffff" stroke-width="2"/>
+    
+    <!-- Pulse Animation -->
+    <circle r="8" fill="none" stroke="#ffffff" stroke-width="2">
+      <animate attributeName="r" values="8;20;8" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Hub Label -->
+    <g transform="translate(0, -20)">
+      <rect x="-50" y="-15" width="100" height="25" rx="5" fill="white" stroke="#c8102e" stroke-width="1" opacity="0.9"/>
+      <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#333">Dixie Auto Land</text>
+    </g>
+  </g>
+  
+  <!-- Network Locations -->
+  <g id="network-locations" class="network-dots">
+    <!-- Northeast -->
+    <circle id="ny-partner" cx="795" cy="180" r="5" class="network-dot" data-region="northeast" fill="#c8102e" opacity="0.7"/>
+    <circle id="pa-partner" cx="770" cy="205" r="5" class="network-dot" data-region="northeast" fill="#c8102e" opacity="0.7"/>
+    
+    <!-- Southeast -->
+    <circle id="fl-partner" cx="780" cy="400" r="5" class="network-dot" data-region="southeast" fill="#c8102e" opacity="0.7"/>
+    <circle id="ga-partner" cx="760" cy="325" r="5" class="network-dot" data-region="southeast" fill="#c8102e" opacity="0.7"/>
+    <circle id="sc-partner" cx="775" cy="290" r="5" class="network-dot" data-region="southeast" fill="#c8102e" opacity="0.7"/>
+    
+    <!-- Midwest -->
+    <circle id="il-partner" cx="665" cy="260" r="5" class="network-dot" data-region="midwest" fill="#c8102e" opacity="0.7"/>
+    <circle id="mn-partner" cx="595" cy="180" r="5" class="network-dot" data-region="midwest" fill="#c8102e" opacity="0.7"/>
+    <circle id="mo-partner" cx="635" cy="295" r="5" class="network-dot" data-region="midwest" fill="#c8102e" opacity="0.7"/>
+    
+    <!-- Southwest -->
+    <circle id="tx-partner" cx="580" cy="365" r="5" class="network-dot" data-region="southwest" fill="#c8102e" opacity="0.7"/>
+    <circle id="ok-partner" cx="585" cy="310" r="5" class="network-dot" data-region="southwest" fill="#c8102e" opacity="0.7"/>
+    <circle id="az-partner" cx="450" cy="350" r="5" class="network-dot" data-region="southwest" fill="#c8102e" opacity="0.7"/>
+    
+    <!-- West -->
+    <circle id="ca-partner" cx="385" cy="270" r="5" class="network-dot" data-region="west" fill="#c8102e" opacity="0.7"/>
+    <circle id="wa-partner" cx="415" cy="115" r="5" class="network-dot" data-region="west" fill="#c8102e" opacity="0.7"/>
+  </g>
+  
+  <!-- Connection lines to be animated with JavaScript -->
+  <g id="network-connections">
+    <!-- These paths will be dynamically created/updated by JavaScript -->
+  </g>
+  
+  <!-- Map Overlay Elements -->
+  <g id="map-overlay">
+    <!-- Title and Legend -->
+    <g transform="translate(480, 50)">
+      <rect x="-200" y="-30" width="400" height="40" rx="5" fill="white" stroke="#c8102e" stroke-width="1" opacity="0.9"/>
+      <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Nationwide Junkyard Network</text>
+      <text x="0" y="20" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#666">Over 1,000 Partner Yards Across America</text>
+    </g>
+    
+    <!-- Legend -->
+    <g transform="translate(150, 520)">
+      <rect x="-100" y="-60" width="200" height="110" rx="5" fill="white" stroke="#c8102e" stroke-width="1" opacity="0.9"/>
+      <text x="0" y="-40" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#333">Network Legend</text>
+      
+      <!-- Main Hub -->
+      <circle cx="-80" cy="-20" r="6" fill="#c8102e" stroke="#ffffff" stroke-width="2"/>
+      <text x="-65" y="-15" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Main Hub (Saginaw, MI)</text>
+      
+      <!-- Partner Yards -->
+      <circle cx="-80" cy="5" r="4" fill="#c8102e" opacity="0.7"/>
+      <text x="-65" y="10" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Partner Junkyard</text>
+      
+      <!-- Connection Line -->
+      <line x1="-90" y1="30" x2="-70" y2="30" stroke="#c8102e" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="-65" y="35" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Parts Network Connection</text>
+    </g>
+    
+    <!-- Scale -->
+    <g transform="translate(820, 520)">
+      <rect x="-60" y="-20" width="120" height="40" rx="5" fill="white" stroke="#c8102e" stroke-width="1" opacity="0.9"/>
+      <line x1="-50" y1="0" x2="50" y2="0" stroke="#333" stroke-width="2"/>
+      <line x1="-50" y1="-5" x2="-50" y2="5" stroke="#333" stroke-width="2"/>
+      <line x1="50" y1="-5" x2="50" y2="5" stroke="#333" stroke-width="2"/>
+      <text x="0" y="15" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#333">500 miles</text>
+    </g>
+  </g>
+</svg> 

@@ -1,0 +1,149 @@
+// scss/components/_custom-lists.scss
+
+// Reusable mixins for custom list styling
+@mixin custom-list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin service-list-item {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateX(3px);
+  }
+  
+  a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: block;
+  }
+}
+
+// Service list styling
+.services-list, 
+.footer-services {
+  @include custom-list-reset;
+  
+  li {
+    @include service-list-item;
+    
+    // Custom elegant bullet point
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background-color: $primary-color;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.3);
+    }
+    
+    &:hover:before {
+      transform: translateY(-50%) scale(1.2);
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.4);
+    }
+  }
+}
+
+// Dark theme list (for footer)
+.footer-nav {
+  @include custom-list-reset;
+  
+  li {
+    @include service-list-item;
+    
+    // Specialized dual-dot indicator
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: $primary-color;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    // Secondary decorative dot
+    &:after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 50%;
+      transform: translateY(-50%) scale(0);
+      width: 12px;
+      height: 12px;
+      border: 1px solid rgba($primary-color, 0.5);
+      border-radius: 50%;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    &:hover:before {
+      transform: translateY(-50%) scale(1.2);
+      box-shadow: 0 0 5px rgba($primary-color, 0.5);
+    }
+    
+    &:hover:after {
+      transform: translateY(-50%) scale(1);
+      opacity: 0.7;
+    }
+    
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+// Our Services section in the footer
+.our-services-list {
+  @include custom-list-reset;
+  
+  li {
+    @include service-list-item;
+    margin-bottom: 0.8rem;
+    
+    // Arrow bullet point
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid $primary-color;
+      transform: translateY(-50%);
+      transition: all 0.3s ease;
+    }
+    
+    &:hover:before {
+      transform: translateY(-50%) translateX(3px);
+    }
+    
+    a {
+      color: rgba(255, 255, 255, 0.7);
+      
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+} 
