@@ -1,0 +1,25 @@
+// scss/styles.scss
+// Main SCSS file for Dixie Auto Land
+
+// Variables
+@import 'variables';
+
+// Layout components
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/grid';
+
+// Page sections
+@import 'pages/hero';
+@import 'pages/about';
+@import 'pages/inventory';
+@import 'pages/services';
+@import 'pages/network';
+@import 'pages/testimonials';
+@import 'pages/contact';
+
+// Components
+@import 'components/buttons';
+@import 'components/cards';
+@import 'components/forms';
+@import 'components/animations'; 

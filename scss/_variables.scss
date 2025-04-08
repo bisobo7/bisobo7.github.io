@@ -1,0 +1,44 @@
+// scss/_variables.scss
+// Variables for Dixie Auto Land
+
+// Color scheme
+$primary-color: #c8102e; // Dixie red
+$secondary-color: #333333;
+$accent-color: #f8b500;
+$light-color: #f9f9f9;
+$dark-color: #1a1a1a;
+$bg-color: #ffffff;
+$text-color: #333333;
+$light-text: #ffffff;
+$border-color: #e0e0e0;
+
+// Typography
+$font-family: 'Montserrat', sans-serif;
+$base-font-size: 16px;
+$heading-font-weight: 700;
+$subtitle-font-weight: 500;
+$body-font-weight: 400;
+$light-font-weight: 300;
+
+// Spacing
+$base-spacing: 1rem;
+$section-spacing: 5rem;
+$card-spacing: 1.5rem;
+
+// Breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 992px;
+$large-desktop: 1200px;
+
+// Border radius
+$border-radius: 4px;
+$card-radius: 8px;
+
+// Shadows
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+
+// Transitions
+$transition-speed: 0.3s;
+$transition-ease: ease-in-out; 

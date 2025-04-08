@@ -1,0 +1,120 @@
+.contact {
+  background-color: $light-color;
+  padding: $section-spacing 0;
+
+  .contact-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    
+    @media (min-width: $desktop) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .contact-form {
+    flex: 1 1 100%;
+    
+    @media (min-width: $desktop) {
+      flex: 1 1 60%;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: $subtitle-font-weight;
+      }
+      
+      input, textarea {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        font-family: $font-family;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+        }
+      }
+      
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+    }
+  }
+
+  .contact-info {
+    flex: 1 1 100%;
+    
+    @media (min-width: $desktop) {
+      flex: 1 1 40%;
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      
+      .info-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 1rem;
+        fill: $primary-color;
+      }
+      
+      .info-content {
+        h4 {
+          margin-top: 0;
+          margin-bottom: 0.5rem;
+        }
+        
+        p {
+          margin: 0.25rem 0;
+        }
+      }
+    }
+    
+    .hours {
+      margin: 2rem 0;
+      
+      h3 {
+        margin-bottom: 1rem;
+        color: $secondary-color;
+      }
+      
+      p {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.5rem 0;
+      }
+    }
+    
+    .map {
+      margin-top: 2rem;
+      position: relative;
+      
+      .static-map {
+        width: 100%;
+        height: 250px;
+        border-radius: $border-radius;
+        object-fit: cover;
+        background-color: #e9e9e9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      
+      .map-btn {
+        margin-top: 0.5rem;
+        display: inline-block;
+      }
+    }
+  }
+} 

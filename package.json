@@ -1,0 +1,19 @@
+{
+  "name": "dixie-auto-land",
+  "version": "1.0.0",
+  "description": "Dixie Auto Land - Used Vehicles and Parts Specialists",
+  "main": "server/static-server.js",
+  "scripts": {
+    "start": "node server/static-server.js",
+    "dev": "node server/static-server.js",
+    "sass": "sass --watch scss/styles.scss:css/styles.css"
+  },
+  "keywords": [
+    "auto",
+    "vehicles",
+    "parts",
+    "repairs"
+  ],
+  "author": "Dixie Auto Land",
+  "license": "UNLICENSED"
+} 
