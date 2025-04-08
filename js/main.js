@@ -106,158 +106,348 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Enhanced USA Network Map
+  // Enhanced USA Network Map Interactions
   function enhanceNetworkMap() {
-    // Wait for DOM to be fully loaded
-    setTimeout(() => {
-      const mapDots = document.querySelectorAll('.map-dot');
-      const mapContainer = document.querySelector('.usa-map-container');
-      
-      if (!mapDots.length || !mapContainer) {
-        console.log('Map elements not found, will retry');
-        setTimeout(enhanceNetworkMap, 500); // Try again in 500ms
+    const networkMap = document.getElementById('usa-network-map');
+    
+    if (!networkMap) {
+      console.log('Network map not found, will try again soon');
+      setTimeout(enhanceNetworkMap, 500);
+      return;
+    }
+    
+    networkMap.addEventListener('load', function() {
+      const svgDoc = networkMap.contentDocument;
+      if (!svgDoc) {
+        console.log('SVG document not accessible');
         return;
       }
       
-      console.log('Map elements found, initializing map');
+      console.log('Network map SVG loaded, initializing interactions');
       
-      // Create SVG connections container if it doesn't exist
-      let connectionsContainer = document.querySelector('.network-connections');
-      if (!connectionsContainer) {
-        console.log('Creating connections container');
-        connectionsContainer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        connectionsContainer.setAttribute('class', 'network-connections');
-        connectionsContainer.setAttribute('viewBox', '0 0 960 600');
-        connectionsContainer.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-        mapContainer.appendChild(connectionsContainer);
+      // Get map elements
+      const mainHub = svgDoc.getElementById('main-hub');
+      const networkDots = svgDoc.querySelectorAll('.network-dot');
+      const networkConnections = svgDoc.getElementById('network-connections');
+      const usaOutline = svgDoc.getElementById('usa-outline');
+      
+      // Add hover effect for USA outline
+      if (usaOutline) {
+        usaOutline.addEventListener('mouseenter', () => {
+          usaOutline.setAttribute('fill', 'url(#stateHover)');
+        });
+        
+        usaOutline.addEventListener('mouseleave', () => {
+          usaOutline.setAttribute('fill', 'url(#stateFill)');
+        });
       }
       
-      // Create custom SVG connections between dots
-      function createCustomConnections() {
-        console.log('Creating connections');
-        const mainDot = document.querySelector('.michigan-dot');
-        if (!mainDot) {
-          console.log('Main dot not found');
+      // Create dynamic connections between main hub and network dots
+      function createConnections() {
+        // Clear existing connections
+        while (networkConnections.firstChild) {
+          networkConnections.removeChild(networkConnections.firstChild);
+        }
+        
+        // Get main hub position
+        const hubTransform = mainHub.getAttribute('transform');
+        const hubMatch = hubTransform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+        
+        if (!hubMatch) {
+          console.log('Could not determine hub position');
           return;
         }
         
-        // Clear existing connections
-        while (connectionsContainer.firstChild) {
-          connectionsContainer.removeChild(connectionsContainer.firstChild);
-        }
+        const hubX = parseFloat(hubMatch[1]);
+        const hubY = parseFloat(hubMatch[2]);
         
-        // Get main dot position
-        const mainRect = mainDot.getBoundingClientRect();
-        const containerRect = mapContainer.getBoundingClientRect();
-        
-        const mainX = ((mainRect.left + mainRect.width/2) - containerRect.left) / containerRect.width * 960;
-        const mainY = ((mainRect.top + mainRect.height/2) - containerRect.top) / containerRect.height * 600;
-        
-        console.log(`Main dot position: ${mainX}, ${mainY}`);
-        
-        // Create connections to other dots
-        mapDots.forEach(dot => {
-          if (dot.classList.contains('michigan-dot')) return;
+        // Create connection to each network dot
+        networkDots.forEach((dot, index) => {
+          const dotX = parseFloat(dot.getAttribute('cx'));
+          const dotY = parseFloat(dot.getAttribute('cy'));
           
-          const dotRect = dot.getBoundingClientRect();
-          const dotX = ((dotRect.left + dotRect.width/2) - containerRect.left) / containerRect.width * 960;
-          const dotY = ((dotRect.top + dotRect.height/2) - containerRect.top) / containerRect.height * 600;
-          
-          console.log(`Connection to: ${dotX}, ${dotY}`);
-          
-          // Create SVG path for connection
+          // Create path element
           const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          path.classList.add('connection-path');
           
-          // Create curved path
-          const dx = dotX - mainX;
-          const dy = dotY - mainY;
-          const distance = Math.sqrt(dx*dx + dy*dy);
+          // Calculate control points for a nice curve
+          const dx = dotX - hubX;
+          const dy = dotY - hubY;
+        const distance = Math.sqrt(dx*dx + dy*dy);
+        
+          // Control point offset factor - varies by distance
+          const curveFactor = Math.min(0.3, distance / 1000);
           
-          // Control points for curve
-          const midX = mainX + dx/2;
-          const midY = mainY + dy/2;
-          const curveFactor = 0.3;
-          const perpX = -dy * curveFactor;
-          const perpY = dx * curveFactor;
+          // Control points perpendicular to line between dots
+          const midX = hubX + dx * 0.5;
+          const midY = hubY + dy * 0.5;
+        const perpX = -dy * curveFactor;
+        const perpY = dx * curveFactor;
+        
+          // Path data with quadratic curve
+          const pathData = `M${hubX},${hubY} Q${midX + perpX},${midY + perpY} ${dotX},${dotY}`;
+        path.setAttribute('d', pathData);
+        
+          // Styling
+          path.setAttribute('stroke', 'url(#connLine)');
+          path.setAttribute('stroke-width', '1.5');
+        path.setAttribute('fill', 'none');
+          path.setAttribute('stroke-dasharray', '5,3');
+          path.setAttribute('class', 'connection-path');
           
-          // Create curved path
-          const pathData = `M${mainX},${mainY} Q${midX + perpX},${midY + perpY} ${dotX},${dotY}`;
-          path.setAttribute('d', pathData);
+          // Animation
+          const flow = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+          flow.setAttribute('attributeName', 'stroke-dashoffset');
+          flow.setAttribute('from', distance.toString());
+          flow.setAttribute('to', '0');
+          flow.setAttribute('dur', `${10 + Math.random() * 10}s`);
+          flow.setAttribute('repeatCount', 'indefinite');
           
-          // Style the path
-          path.setAttribute('stroke', '#c8102e');
-          path.setAttribute('stroke-width', '1');
-          path.setAttribute('fill', 'none');
-          path.setAttribute('stroke-dasharray', '5,5');
-          path.setAttribute('opacity', '0.6');
+          path.appendChild(flow);
+          networkConnections.appendChild(path);
           
-          // Add animation with unique speed
-          const animationDuration = 20 + Math.random() * 10;
-          const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
-          animate.setAttribute('attributeName', 'stroke-dashoffset');
-          animate.setAttribute('from', distance.toString());
-          animate.setAttribute('to', '0');
-          animate.setAttribute('dur', `${animationDuration}s`);
-          animate.setAttribute('repeatCount', 'indefinite');
+          // Animate the dot on hover
+          dot.addEventListener('mouseenter', () => {
+            dot.setAttribute('r', '8');
+            path.setAttribute('stroke-width', '2.5');
+            path.setAttribute('opacity', '0.9');
+            
+            // Create tooltip
+            let tooltip = svgDoc.getElementById('map-tooltip');
+            if (!tooltip) {
+              tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+              tooltip.setAttribute('id', 'map-tooltip');
+              svgDoc.querySelector('svg').appendChild(tooltip);
+            }
+            
+            // Get location name from id
+            const dotId = dot.getAttribute('id');
+            const location = dotId.replace('-dot', '').toUpperCase();
+            
+            // Create tooltip content
+            tooltip.innerHTML = `
+              <rect x="${dotX - 60}" y="${dotY - 40}" width="120" height="30" rx="5" ry="5" 
+                    fill="rgba(15, 25, 35, 0.9)" stroke="#fff" stroke-width="1" filter="url(#dropShadow)"/>
+              <text x="${dotX}" y="${dotY - 20}" font-family="Arial, sans-serif" 
+                    font-size="12" fill="white" text-anchor="middle" font-weight="bold">${location} PARTNER</text>
+              <path d="M${dotX - 5},${dotY - 10} L${dotX},${dotY - 5} L${dotX + 5},${dotY - 10}" 
+                    fill="rgba(15, 25, 35, 0.9)"/>
+            `;
+          });
           
-          path.appendChild(animate);
-          connectionsContainer.appendChild(path);
+          dot.addEventListener('mouseleave', () => {
+            dot.setAttribute('r', '6');
+            path.setAttribute('stroke-width', '1.5');
+            path.setAttribute('opacity', '0.7');
+            
+            // Remove tooltip
+            const tooltip = svgDoc.getElementById('map-tooltip');
+            if (tooltip) {
+              tooltip.remove();
+            }
+          });
+          
+          // Start animations with slight delay
+          setTimeout(() => {
+            flow.beginElement();
+          }, index * 200);
         });
       }
       
-      // Add tooltip functionality
-      mapDots.forEach(dot => {
-        // Remove any existing tooltips first
-        const existingTooltip = dot.querySelector('.map-tooltip');
-        if (existingTooltip) existingTooltip.remove();
-        
-        const tooltip = document.createElement('div');
-        tooltip.className = 'map-tooltip';
-        tooltip.textContent = dot.getAttribute('title') || 'Network Location';
-        tooltip.style.position = 'absolute';
-        tooltip.style.visibility = 'hidden';
-        tooltip.style.opacity = '0';
-        tooltip.style.transition = 'opacity 0.3s';
-        mapContainer.appendChild(tooltip);
-        
-        // Show tooltip on hover
-        dot.addEventListener('mouseenter', () => {
-          const rect = dot.getBoundingClientRect();
-          const containerRect = mapContainer.getBoundingClientRect();
-          
-          tooltip.style.left = (rect.left - containerRect.left + rect.width/2) + 'px';
-          tooltip.style.top = (rect.top - containerRect.top - 30) + 'px';
-          tooltip.style.visibility = 'visible';
-          tooltip.style.opacity = '1';
-        });
-        
-        // Hide tooltip
-        dot.addEventListener('mouseleave', () => {
-          tooltip.style.visibility = 'hidden';
-          tooltip.style.opacity = '0';
-        });
-        
-        // Add pulse animation class to dots
-        if (!dot.classList.contains('pulsing') && Math.random() > 0.7) {
-          dot.classList.add('pulsing');
-        }
-      });
-      
       // Initialize connections
-      createCustomConnections();
+      createConnections();
       
-      // Update connections on resize
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(createCustomConnections, 250);
+      // Main hub interactions
+      if (mainHub) {
+        mainHub.addEventListener('mouseenter', () => {
+          // Highlight all connections
+          const connections = svgDoc.querySelectorAll('.connection-path');
+          connections.forEach(conn => {
+            conn.setAttribute('stroke-width', '2');
+            conn.setAttribute('opacity', '0.9');
+          });
+          
+          // Highlight all dots
+          networkDots.forEach(dot => {
+            dot.setAttribute('r', '7');
+          });
+        });
+        
+        mainHub.addEventListener('mouseleave', () => {
+          // Reset connections
+          const connections = svgDoc.querySelectorAll('.connection-path');
+          connections.forEach(conn => {
+            conn.setAttribute('stroke-width', '1.5');
+            conn.setAttribute('opacity', '0.7');
+          });
+          
+          // Reset dots
+          networkDots.forEach(dot => {
+            dot.setAttribute('r', '6');
+          });
+        });
+      }
+    });
+  }
+  
+  // Enhanced Location Map Interactions
+  function enhanceLocationMap() {
+    const locationMap = document.getElementById('location-map');
+    
+    if (!locationMap) {
+      console.log('Location map not found, will try again soon');
+      setTimeout(enhanceLocationMap, 500);
+      return;
+    }
+    
+    locationMap.addEventListener('load', function() {
+      const svgDoc = locationMap.contentDocument;
+      if (!svgDoc) {
+        console.log('Location SVG document not accessible');
+        return;
+      }
+      
+      console.log('Location map SVG loaded, initializing interactions');
+      
+      // Get map elements
+      const mainMarker = svgDoc.getElementById('main-marker');
+      const roads = svgDoc.querySelectorAll('#roads path');
+      const buildings = svgDoc.querySelectorAll('#buildings rect');
+      
+      // Add hover effects for buildings
+      buildings.forEach(building => {
+        building.addEventListener('mouseenter', () => {
+          // Store original fill if not already stored
+          if (!building.dataset.originalFill) {
+            building.dataset.originalFill = building.getAttribute('fill');
+          }
+          
+          // Highlight building
+          building.setAttribute('fill', '#c8102e');
+          building.setAttribute('opacity', '0.7');
+          building.setAttribute('filter', 'url(#softShadow)');
+          
+          // Show tooltip near building
+          const buildingX = parseFloat(building.getAttribute('x')) + parseFloat(building.getAttribute('width')) / 2;
+          const buildingY = parseFloat(building.getAttribute('y'));
+          
+          const tooltip = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          tooltip.setAttribute('id', 'building-tooltip');
+          
+          tooltip.innerHTML = `
+            <rect x="${buildingX - 40}" y="${buildingY - 30}" width="80" height="20" rx="5" ry="5" 
+                  fill="rgba(15, 25, 35, 0.9)" stroke="#fff" stroke-width="0.5"/>
+            <text x="${buildingX}" y="${buildingY - 16}" font-family="Arial, sans-serif" 
+                  font-size="10" fill="white" text-anchor="middle">Local Business</text>
+          `;
+          
+          svgDoc.querySelector('svg').appendChild(tooltip);
+        });
+        
+        building.addEventListener('mouseleave', () => {
+          // Restore original appearance
+          if (building.dataset.originalFill) {
+            building.setAttribute('fill', building.dataset.originalFill);
+          }
+          building.setAttribute('opacity', '1');
+          building.setAttribute('filter', 'none');
+          
+          // Remove tooltip
+          const tooltip = svgDoc.getElementById('building-tooltip');
+          if (tooltip && tooltip.parentNode) {
+            tooltip.parentNode.removeChild(tooltip);
+          }
+        });
       });
-    }, 500); // Wait 500ms for DOM to be fully ready
+      
+      // Add hover effects for roads
+      roads.forEach(road => {
+        road.addEventListener('mouseenter', () => {
+          road.setAttribute('stroke-width', parseFloat(road.getAttribute('stroke-width')) * 1.2);
+        });
+        
+        road.addEventListener('mouseleave', () => {
+          road.setAttribute('stroke-width', parseFloat(road.getAttribute('stroke-width')) / 1.2);
+        });
+      });
+      
+      // Main marker animations and interactions
+      if (mainMarker) {
+        // Add click interaction to marker
+        mainMarker.addEventListener('click', () => {
+          // Animate marker bounce
+          const markerPath = mainMarker.querySelector('path');
+          if (markerPath) {
+            markerPath.style.transformOrigin = 'center bottom';
+            markerPath.style.animation = 'none';
+            
+            setTimeout(() => {
+              markerPath.style.animation = 'markerBounce 0.5s ease-in-out 2';
+            }, 10);
+          }
+          
+          // Show more detailed info
+          let detailsPanel = svgDoc.getElementById('location-details-panel');
+          
+          if (!detailsPanel) {
+            detailsPanel = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            detailsPanel.setAttribute('id', 'location-details-panel');
+            
+            detailsPanel.innerHTML = `
+              <rect x="250" y="100" width="300" height="180" rx="10" ry="10" 
+                    fill="white" stroke="#c8102e" stroke-width="2" filter="url(#dropShadow)"/>
+              <text x="400" y="130" font-family="Arial, sans-serif" font-size="16" 
+                    fill="#333" text-anchor="middle" font-weight="bold">Dixie Auto Land - Saginaw</text>
+              <line x1="300" y1="145" x2="500" y2="145" stroke="#c8102e" stroke-width="1" stroke-dasharray="1,1"/>
+              
+              <text x="280" y="170" font-family="Arial, sans-serif" font-size="14" fill="#555">• Premium Used Vehicles</text>
+              <text x="280" y="195" font-family="Arial, sans-serif" font-size="14" fill="#555">• OEM & Aftermarket Parts</text>
+              <text x="280" y="220" font-family="Arial, sans-serif" font-size="14" fill="#555">• Paintless Dent Repair</text>
+              <text x="280" y="245" font-family="Arial, sans-serif" font-size="14" fill="#555">• Windshield Replacement</text>
+              
+              <rect x="510" y="110" width="30" height="30" rx="15" ry="15" fill="#c8102e" cursor="pointer" id="close-details"/>
+              <line x1="520" y1="120" x2="530" y2="130" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="520" y1="130" x2="530" y2="120" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            `;
+            
+            svgDoc.querySelector('svg').appendChild(detailsPanel);
+            
+            // Add close button interaction
+            const closeButton = svgDoc.getElementById('close-details');
+            if (closeButton) {
+              closeButton.addEventListener('click', () => {
+                detailsPanel.style.opacity = '0';
+                setTimeout(() => {
+                  if (detailsPanel.parentNode) {
+                    detailsPanel.parentNode.removeChild(detailsPanel);
+                  }
+                }, 300);
+              });
+            }
+            
+            detailsPanel.style.opacity = '0';
+            setTimeout(() => {
+              detailsPanel.style.opacity = '1';
+              detailsPanel.style.transition = 'opacity 0.3s';
+            }, 10);
+          }
+        });
+      }
+    });
   }
   
   // Initialize map enhancements
   enhanceNetworkMap();
+  enhanceLocationMap();
+  
+  // Add marker bounce animation style
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes markerBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+  `;
+  document.head.appendChild(style);
   
   // Form validation
   const contactForm = document.querySelector('.contact-form');

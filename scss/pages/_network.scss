@@ -116,7 +116,7 @@
   }
 }
 
-// Map Container Styling
+// Map Container Styling - Enhanced Version
 .network-map {
   position: relative;
 }
@@ -126,116 +126,74 @@
   background: linear-gradient(145deg, #f9f9f9, #ffffff);
   border-radius: 16px;
   overflow: hidden;
-  padding: 20px;
+  padding: 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 
               inset 0 1px 0 rgba(255,255,255,0.6);
   margin-bottom: 20px;
-  min-height: 400px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   
   @media (max-width: 768px) {
-    min-height: 300px;
+    min-height: 400px;
+  }
+  
+  // Animated gradient border effect
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px;
+    padding: 1px; // Border width
+    background: linear-gradient(
+      45deg, 
+      rgba(200, 16, 46, 0.2), 
+      rgba(255, 255, 255, 0.2), 
+      rgba(200, 16, 46, 0.2), 
+      rgba(255, 255, 255, 0.2), 
+      rgba(200, 16, 46, 0.2)
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: borderRotate 10s linear infinite;
+    z-index: 0;
+  }
+  
+  @keyframes borderRotate {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 300% 0%;
+    }
   }
 }
 
-.usa-map {
-  width: 90%;
-  height: auto;
-  margin: 0 auto;
+.usa-map-svg {
+  width: 100%;
+  height: 100%;
   display: block;
   position: relative;
   z-index: 1;
   
-  @media (max-width: 992px) {
-    width: 95%;
-  }
-}
-
-.map-base {
-  transition: all 0.3s ease;
-  
+  // SVG hover effects
   &:hover {
-    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.1));
+    .network-dot {
+      filter: drop-shadow(0 0 5px rgba(200, 16, 46, 0.5));
+    }
   }
 }
 
-.map-dots {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.map-dot {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: var(--primary-color);
-  border-radius: 50%;
-  opacity: 0.7;
-  box-shadow: 0 0 5px rgba(200, 16, 46, 0.5);
-  transition: all 0.3s ease;
-  pointer-events: auto;
-  cursor: pointer;
-  
-  &:hover {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-  
-  &.pulsing {
-    background-color: var(--primary-color);
-    opacity: 1;
-    width: 12px;
-    height: 12px;
-    animation: mapPulse 2s infinite;
-    z-index: 3;
-  }
-}
-
-.network-connections {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.connection-path {
-  stroke: var(--primary-color);
-  stroke-width: 1;
-  fill: none;
-  stroke-dasharray: 5,5;
-  opacity: 0.4;
-  animation: flowDash 30s linear infinite;
-}
-
-@keyframes flowDash {
-  to {
-    stroke-dashoffset: -1000;
-  }
-}
-
-@keyframes mapPulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.7);
-    transform: scale(1);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(200, 16, 46, 0);
-    transform: scale(1.2);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(200, 16, 46, 0);
-    transform: scale(1);
-  }
+// Fallback styling
+.network-fallback-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
 }
 
 .map-caption {
@@ -245,6 +203,7 @@
   font-size: 1rem;
   margin-top: 15px;
   position: relative;
+  padding: 0 50px;
   
   &::before,
   &::after {
@@ -252,7 +211,7 @@
     position: absolute;
     height: 1px;
     background: linear-gradient(to right, transparent, var(--primary-color), transparent);
-    width: 80px;
+    width: 120px;
     top: 50%;
     
     @media (max-width: 768px) {
@@ -261,15 +220,25 @@
   }
   
   &::before {
-    left: 15%;
+    left: 10%;
   }
   
   &::after {
-    right: 15%;
+    right: 10%;
   }
 }
 
 // Map Tooltip
+.map-tooltip-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
 .map-tooltip {
   position: absolute;
   background-color: rgba(15, 25, 35, 0.9);
@@ -279,8 +248,9 @@
   font-size: 12px;
   font-weight: 500;
   pointer-events: none;
-  transform: translateX(-50%);
-  transition: opacity 0.2s ease;
+  transform: translateX(-50%) translateY(-100%);
+  margin-top: -10px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 10;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
@@ -297,9 +267,89 @@
     border-right: 6px solid transparent;
     border-top: 6px solid rgba(15, 25, 35, 0.9);
   }
+  
+  &.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-100%);
+  }
+  
+  &.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-90%);
+    pointer-events: none;
+  }
 }
 
-// Interactive hover effect
-.usa-map-container:hover .map-dot:not(:hover) {
-  opacity: 0.5;
+// Location Map Styling
+.map {
+  position: relative;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.location-map-svg {
+  width: 100%;
+  height: 350px;
+  display: block;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.static-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.map-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Animation for Network States
+@keyframes stateHover {
+  0% {
+    fill-opacity: 0.7;
+  }
+  50% {
+    fill-opacity: 0.9;
+  }
+  100% {
+    fill-opacity: 0.7;
+  }
+}
+
+// Animation for Connection Paths
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+// Animation for Map Dots
+@keyframes mapPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(200, 16, 46, 0.7);
+    transform: scale(1);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(200, 16, 46, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(200, 16, 46, 0);
+    transform: scale(1);
+  }
 } 

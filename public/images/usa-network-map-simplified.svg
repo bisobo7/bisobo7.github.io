@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="100%" height="100%">
+  <!-- Definitions -->
+  <defs>
+    <!-- Map Background -->
+    <linearGradient id="mapBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f9f9f9"/>
+    </linearGradient>
+    
+    <!-- State Fill -->
+    <linearGradient id="stateFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f5f5"/>
+    </linearGradient>
+    
+    <!-- State Hover -->
+    <linearGradient id="stateHover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f5"/>
+      <stop offset="100%" stop-color="#e8e8e8"/>
+    </linearGradient>
+    
+    <!-- Main Hub Glow -->
+    <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Connection Line -->
+    <linearGradient id="connLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0.4"/>
+    </linearGradient>
+    
+    <!-- Pulse Animation for Hub -->
+    <radialGradient id="hubPulse" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#c8102e" stop-opacity="1">
+        <animate attributeName="stop-opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#c8102e" stop-opacity="0">
+        <animate attributeName="stop-opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </radialGradient>
+    
+    <!-- Card Background -->
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f9f9f9"/>
+    </linearGradient>
+    
+    <!-- Shadows -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.1)"/>
+    </filter>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="960" height="600" fill="url(#mapBg)"/>
+  
+  <!-- Title and Subtitle -->
+  <g transform="translate(480, 50)">
+    <rect x="-200" y="-30" width="400" height="50" rx="5" ry="5" fill="url(#cardBg)" stroke="#c8102e" stroke-width="1" filter="url(#dropShadow)"/>
+    <text x="0" y="0" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">Nationwide Junkyard Network</text>
+    <text x="0" y="25" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#666">Over 1,000 Partner Yards Across America</text>
+  </g>
+  
+  <!-- Continental USA Outline - More Precise and Clean -->
+  <g id="usa-continental" transform="translate(100, 150)" stroke="#c8102e" stroke-width="0.75" fill="url(#stateFill)" opacity="0.9" filter="url(#dropShadow)">
+    <!-- Simplified Outline of Continental USA -->
+    <path id="usa-outline" d="M650,40 L670,42 L671,51 L676,51 L683,44 L694,40 L697,35 L723,32 L726,35 L736,32 L741,27 L749,27 L749,21 L753,21 L754,16 L749,11 L749,6 L743,6 L740,0 L649,16 L644,18 L645,31 L647,31 L647,38 L650,40 
+    M598,29 L649,16 M598,29 L585,39 L576,48 L566,59 L553,49 L539,47 L524,46 L514,43 L514,40 L499,40 L492,46 L480,60 L468,69 L452,73 L444,74 L444,78 L437,78 L433,71 L434,57 L438,50 L436,40 L429,24 L425,17 L422,17 L423,9 L418,0 L304,24 L301,30 L306,42 L307,50 L311,58 L317,61 L319,64 L316,68 L317,77 L323,85 L325,98 L318,110 L318,119 L326,129 L337,136 L354,151 L378,153 L410,159 L421,168 L427,168 L431,172 L434,176 L444,175 L450,185 L451,195 L453,194 L458,193 L462,187 L462,178 L466,171 L477,154 L487,151 L501,141 L504,132 L512,126 L518,126 L525,134 L532,126 L537,126 L543,128 L539,136 L541,140 L547,140 L553,143 L559,137 L565,131 L576,126 L580,121 L598,112 L597,106 L602,100 L606,90 L615,87 L623,79 L624,71 L633,59 L638,56 L645,43 L647,38 
+    M301,30 L295,37 L296,43 L303,49 L304,54 L309,63 L316,68 M301,30 L300,24 L292,20 L291,10 L286,8 L282,0 L0,68 L0,215 L172,215 L183,216 L183,212 L187,211 L192,208 L199,208 L199,219 L204,222 L209,227 L216,231 L224,234 L227,241 L232,241 L232,234 L236,230 L238,223 L240,219 L249,229 L254,232 L255,237 L268,240 L273,235 L288,234 L297,237 L303,242 L312,247 L320,253 L331,254 L334,250 L341,247 L343,240 L348,233 L353,226 L353,222 L358,216 L367,216 L368,211 L376,211 L376,203 L377,198 L385,196 L385,190 L387,187 L397,189 L399,186 L411,186 L414,190 L421,190 L428,192 L438,193 L443,195 L447,201 L454,201 L457,200 L463,208 L467,208 L472,206 L472,210 L483,217 L484,228 L490,237 L500,233 L500,229 L504,229 L510,232 L514,244 L518,249 L521,256 L528,261 L535,264 L537,258 L539,254 L546,252 L542,263 L552,275 L554,285 L566,294 L574,294 L583,294 L593,290 L605,285 L615,271 L621,264 L629,251 L639,249 L641,254 L654,247 L659,248 L660,242 L667,230 L670,224 L675,219 L679,212 L685,206 L690,195 L695,194 L700,185 L712,175 L717,172 L715,164 L715,151 L716,145 L712,140 L707,125 L707,115 L708,108 L699,100 L695,90 L692,85 L691,76 L684,68 L683,58 L677,51 M682,44 L682,58 L687,69 L695,76 L696,88 L699,92 L704,98 L708,109 L707,118 L708,125 L713,135 L714,143 L714,153 L713,165 L715,175 L706,184 L701,186 L697,195 L692,204 L687,206 L682,211 L677,219 L671,224 L667,231 L659,242 L659,250 L652,248 L644,254 L639,250 L629,252 L622,261 L616,271 L606,286 L594,291 L583,295 L574,295 L566,295 L554,285 L552,274 L542,262 L545,252 L539,254 L536,264 L528,260 L521,255 L518,248 L514,243 L510,231 L504,228 L500,228 L500,232 L490,236 L483,227 L483,215 L473,209 L473,205 L467,207 L462,207 L457,199 L455,200 L448,200 L443,194 L436,193 L428,190 L414,190 L410,186 L399,185 L397,188 L388,186 L386,190 L385,199 L377,201 L374,211 L367,211 L367,216 L359,216 L352,222 L352,227 L345,235 L343,240 L334,249 L331,254 L318,252 L309,248 L300,242 L294,236 L288,234 L273,236 L268,240 L255,236 L254,231 L248,228 L241,219 L238,223 L235,229 L232,234 L230,241 L226,241 L222,232 L214,231 L208,228 L203,222 L198,217 L198,208 L191,208 L187,210 L183,212 L183,288 L752,288 L752,0 L743,0 L740,0" class="usa-shape"/>
+
+    <!-- Regional Dividers - Very Light -->
+    <path d="M370,50 L370,240" stroke="#c8102e" stroke-width="0.3" stroke-dasharray="2,3" opacity="0.2"/>
+    <path d="M500,30 L500,260" stroke="#c8102e" stroke-width="0.3" stroke-dasharray="2,3" opacity="0.2"/>
+    <path d="M620,50 L620,240" stroke="#c8102e" stroke-width="0.3" stroke-dasharray="2,3" opacity="0.2"/>
+  </g>
+    
+  <!-- Network Connection Points -->
+  <g id="network-points">
+    <!-- Main Hub - Michigan (Saginaw) -->
+    <g id="main-hub" transform="translate(585, 200)">
+      <!-- Glow Effect -->
+      <circle r="25" fill="url(#hubPulse)" opacity="0.6" filter="url(#glow)"/>
+      
+      <!-- Main Marker -->
+      <circle r="9" fill="#c8102e" stroke="#ffffff" stroke-width="2"/>
+      
+      <!-- Pulse Animation -->
+      <circle r="9" fill="none" stroke="#ffffff" stroke-width="2">
+        <animate attributeName="r" values="9;20;9" dur="3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0;0.8" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      
+      <!-- Label -->
+      <g transform="translate(0, -25)">
+        <rect x="-60" y="-15" width="120" height="30" rx="5" fill="white" stroke="#c8102e" stroke-width="1" opacity="0.9" filter="url(#dropShadow)"/>
+        <text x="0" y="5" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" font-weight="bold" fill="#333">Dixie Auto Land</text>
+      </g>
+    </g>
+    
+    <!-- Network Dots -->
+    <!-- Northeast -->
+    <circle id="ny-dot" cx="690" cy="180" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="northeast"/>
+    <circle id="pa-dot" cx="660" cy="200" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="northeast"/>
+    
+    <!-- Southeast -->
+    <circle id="fl-dot" cx="650" cy="350" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southeast"/>
+    <circle id="ga-dot" cx="620" cy="300" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southeast"/>
+    <circle id="nc-dot" cx="650" cy="250" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southeast"/>
+    
+    <!-- Midwest -->
+    <circle id="il-dot" cx="530" cy="220" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="midwest"/>
+    <circle id="mn-dot" cx="500" cy="160" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="midwest"/>
+    <circle id="mo-dot" cx="510" cy="250" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="midwest"/>
+    
+    <!-- Southwest -->
+    <circle id="tx-dot" cx="450" cy="320" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southwest"/>
+    <circle id="az-dot" cx="330" cy="280" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southwest"/>
+    <circle id="nm-dot" cx="380" cy="270" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="southwest"/>
+    
+    <!-- West -->
+    <circle id="ca-dot" cx="260" cy="240" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="west"/>
+    <circle id="wa-dot" cx="280" cy="150" r="6" fill="#c8102e" opacity="0.7" class="network-dot" data-region="west"/>
+  </g>
+  
+  <!-- Connection Lines (Will be animated by JS) -->
+  <g id="network-connections">
+    <!-- Will be populated by JavaScript -->
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(200, 490)">
+    <rect x="-110" y="-70" width="220" height="110" rx="5" ry="5" fill="url(#cardBg)" stroke="#c8102e" stroke-width="1" filter="url(#dropShadow)"/>
+    <text x="0" y="-45" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" font-weight="bold" fill="#333">Network Legend</text>
+    
+    <!-- Main Hub -->
+    <circle cx="-80" cy="-20" r="7" fill="#c8102e" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="-60" y="-15" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Main Hub (Saginaw, MI)</text>
+    
+    <!-- Partner Yards -->
+    <circle cx="-80" cy="10" r="5" fill="#c8102e" opacity="0.7"/>
+    <text x="-60" y="15" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Partner Junkyard</text>
+    
+    <!-- Connection Line -->
+    <line x1="-90" y1="35" x2="-70" y2="35" stroke="#c8102e" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <text x="-60" y="40" font-family="Arial, sans-serif" font-size="12" text-anchor="start" fill="#333">Parts Network Connection</text>
+  </g>
+  
+  <!-- Scale Bar -->
+  <g transform="translate(750, 490)">
+    <rect x="-70" y="-20" width="140" height="40" rx="5" ry="5" fill="url(#cardBg)" stroke="#c8102e" stroke-width="1" filter="url(#dropShadow)"/>
+    <line x1="-60" y1="0" x2="60" y2="0" stroke="#333" stroke-width="2"/>
+    <line x1="-60" y1="-5" x2="-60" y2="5" stroke="#333" stroke-width="2"/>
+    <line x1="60" y1="-5" x2="60" y2="5" stroke="#333" stroke-width="2"/>
+    <text x="0" y="18" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#333">500 miles</text>
+  </g>
+</svg> 

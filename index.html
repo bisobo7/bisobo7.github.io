@@ -22,11 +22,12 @@
   <header class="header">
     <div class="container">
       <div class="logo-container">
-        <img src="public/images/dixie-logo-black.svg" alt="Dixie Auto Land" class="logo">
+        <a href="/">
+          <img src="public/images/dixie-logo-black.svg" alt="Dixie Auto Land" class="logo">
+        </a>
       </div>
       <nav class="nav">
         <ul class="nav-list">
-          <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
           <li class="nav-item"><a href="#inventory" class="nav-link">Inventory</a></li>
           <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
@@ -67,7 +68,7 @@
             </p>
           </div>
           <div class="about-image animate-on-scroll">
-            <img src="https://images.unsplash.com/photo-1566473965997-3de9c817e938?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dixie Auto Land Dealership" class="dealership-illustration">
+            <img src="public/images/dixie-outside.png" alt="Dixie Auto Land Dealership" class="dealership-illustration">
           </div>
         </div>
       </div>
@@ -242,62 +243,16 @@
           </div>
           <div class="network-map animate-on-scroll">
             <div class="usa-map-container">
-              <svg class="usa-map" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                <!-- Map Definitions -->
-                <defs>
-                  <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#f9f9f9"/>
-                    <stop offset="100%" stop-color="#f0f0f0"/>
-                  </linearGradient>
-                  <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
-                    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.1)"/>
-                  </filter>
-                </defs>
-                
-                <!-- USA Map Base - Simplified outline -->
-                <path class="map-base" d="M215,185 L370,185 L390,140 L510,140 L555,185 L700,185 L745,230 L745,330 L700,375 L610,375 L565,420 L510,420 L470,375 L370,375 L215,330 Z" fill="url(#mapGradient)" stroke="#c8102e" stroke-width="1" filter="url(#mapShadow)"/>
-                
-                <!-- Great Lakes -->
-                <path d="M480,185 C495,170 525,165 540,180 C555,195 560,210 545,225 C530,240 505,235 490,220 C475,205 470,195 480,185 Z" fill="#f1f8fe" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="1,1"/>
-                
-                <!-- Major Regions - Subtle Dividers -->
-                <path class="region-divider" d="M370,185 L370,375" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
-                <path class="region-divider" d="M510,140 L510,420" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
-                <path class="region-divider" d="M610,185 L610,375" stroke="#c8102e" stroke-width="0.5" stroke-dasharray="5,5" opacity="0.3"/>
-              </svg>
+              <!-- New SVG Map Implementation with Simplified Design -->
+              <object data="public/images/usa-network-map-simplified.svg" type="image/svg+xml" class="usa-map-svg" id="usa-network-map">
+                <!-- Fallback content -->
+                <img src="public/images/usa-network-map.png" alt="USA Parts Network Map" class="network-fallback-img">
+              </object>
               
-              <!-- Interactive Junkyard Network Points -->
-              <div class="map-dots">
-                <!-- Main Michigan dot (Saginaw) -->
-                <span class="map-dot pulsing michigan-dot" title="Dixie Auto Land - Saginaw, MI" style="top: 30%; left: 63%"></span>
-                
-                <!-- East Coast Network -->
-                <span class="map-dot east-coast" title="East Coast Partner - New York" style="top: 25%; left: 80%"></span>
-                <span class="map-dot east-coast" title="East Coast Partner - Virginia" style="top: 40%; left: 76%"></span>
-                <span class="map-dot east-coast" title="East Coast Partner - Florida" style="top: 65%; left: 75%"></span>
-                
-                <!-- Midwest Network -->
-                <span class="map-dot midwest" title="Midwest Partner - Illinois" style="top: 35%; left: 55%"></span>
-                <span class="map-dot midwest" title="Midwest Partner - Missouri" style="top: 45%; left: 50%"></span>
-                <span class="map-dot midwest" title="Midwest Partner - Minnesota" style="top: 20%; left: 48%"></span>
-                
-                <!-- West Coast Network -->
-                <span class="map-dot west-coast" title="West Coast Partner - California" style="top: 45%; left: 15%"></span>
-                <span class="map-dot west-coast" title="West Coast Partner - Washington" style="top: 15%; left: 18%"></span>
-                <span class="map-dot west-coast" title="West Coast Partner - Arizona" style="top: 58%; left: 25%"></span>
-                
-                <!-- Southern Network -->
-                <span class="map-dot southern" title="Southern Partner - Texas" style="top: 65%; left: 40%"></span>
-                <span class="map-dot southern" title="Southern Partner - Georgia" style="top: 55%; left: 65%"></span>
-                <span class="map-dot southern" title="Southern Partner - Louisiana" style="top: 70%; left: 50%"></span>
-              </div>
-
-              <!-- Network Connections will be created by JavaScript -->
-              <svg class="network-connections" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg">
-                <!-- Connection paths will be dynamically created with JavaScript -->
-              </svg>
+              <!-- Tooltip Container (will be populated by JS) -->
+              <div class="map-tooltip-container"></div>
             </div>
-            <div class="map-caption">Our Saginaw location (pulsing dot) connects to a vast network of junkyards across the entire country</div>
+            <div class="map-caption">Our Saginaw location connects to a vast network of junkyards across the entire country</div>
           </div>
         </div>
       </div>
@@ -408,7 +363,7 @@
                 <p>Service: (586) 237-8440</p>
               </div>
             </div>
-            <div class="info-item">
+            <!-- <div class="info-item">
               <svg class="info-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20,4H4C2.89,4 2,4.89 2,6V18C2,19.11 2.89,20 4,20H20C21.11,20 22,19.11 22,18V6C22,4.89 21.11,4 20,4ZM20,18H4V8L12,13L20,8V18ZM12,11L4,6H20L12,11Z"/>
               </svg>
@@ -417,7 +372,7 @@
                 <p>Sales: sales@dixieautoland.com</p>
                 <p>Customer Service: support@dixieautoland.com</p>
               </div>
-            </div>
+            </div> -->
             <div class="hours">
               <h3>Business Hours</h3>
               <p><span>Monday - Friday:</span> <span>9:00 AM - 7:00 PM</span></p>
@@ -426,7 +381,11 @@
             </div>
             
             <div class="map">
-              <img src="public/images/map-static.svg" alt="Dixie Auto Land Location" class="static-map">
+              <!-- Replace the static map with our new interactive SVG map -->
+              <object data="public/images/location-map.svg" type="image/svg+xml" class="location-map-svg" id="location-map">
+                <!-- Fallback image if SVG doesn't load -->
+                <img src="public/images/map-static.svg" alt="Dixie Auto Land Location" class="static-map">
+              </object>
               <a href="https://maps.google.com/?q=4285+Dixie+Hwy,+Saginaw,+MI+48601" class="btn btn-secondary map-btn" target="_blank">Open in Google Maps</a>
             </div>
           </div>
@@ -445,7 +404,6 @@
         <div class="footer-links animate-on-scroll">
           <h4>Site Navigation</h4>
           <ul class="footer-nav">
-            <li><a href="#hero">Home</a></li>
             <li><a href="#about">About Us</a></li>
             <li><a href="#inventory">Used Vehicles</a></li>
             <li><a href="#services">Services</a></li>
