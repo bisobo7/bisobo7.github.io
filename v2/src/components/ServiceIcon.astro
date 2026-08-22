@@ -1,0 +1,95 @@
+---
+// src/components/ServiceIcon.astro
+// Custom line-style service icons, drawn for the premium redesign.
+// Inline SVG: crisp at any size, no external requests, inherits theme colors.
+interface Props {
+  name: 'parts' | 'dent' | 'windshield' | 'financing';
+}
+const { name } = Astro.props;
+
+const ink = '#0f1923';
+const red = '#c8102e';
+const gold = '#c9a24c';
+---
+
+{name === 'parts' && (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Auto parts">
+    <!-- gear -->
+    <circle cx="32" cy="32" r="16.5" stroke={ink} stroke-width="2.5" />
+    <circle cx="32" cy="32" r="6.5" stroke={red} stroke-width="2.5" />
+    <g stroke={ink} stroke-width="4" stroke-linecap="round">
+      <line x1="48.5" y1="32" x2="54" y2="32" />
+      <line x1="43.7" y1="43.7" x2="47.6" y2="47.6" />
+      <line x1="32" y1="48.5" x2="32" y2="54" />
+      <line x1="20.3" y1="43.7" x2="16.4" y2="47.6" />
+      <line x1="15.5" y1="32" x2="10" y2="32" />
+      <line x1="20.3" y1="20.3" x2="16.4" y2="16.4" />
+      <line x1="32" y1="15.5" x2="32" y2="10" />
+      <line x1="43.7" y1="20.3" x2="47.6" y2="16.4" />
+    </g>
+    <circle cx="32" cy="32" r="1.8" fill={gold} />
+  </svg>
+)}
+
+{name === 'dent' && (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Paintless dent repair">
+    <!-- car profile -->
+    <path
+      d="M8 41 C8.5 34.5 14 30.5 22.5 29.5 L26.5 22.5 C28.5 19 33 17.5 38 18.5 C42.5 19.5 46.5 21.5 49.5 24.8 C53.5 26.5 56 30 56.5 35 L56.8 41"
+      stroke={ink} stroke-width="2.5" stroke-linecap="round"
+    />
+    <path d="M8 41 H14.5 M28 41 H40 M53.5 41 H56.8" stroke={ink} stroke-width="2.5" stroke-linecap="round" />
+    <circle cx="21" cy="41" r="5" stroke={ink} stroke-width="2.5" />
+    <circle cx="47" cy="41" r="5" stroke={ink} stroke-width="2.5" />
+    <path d="M31.5 22 L29.8 29.5" stroke={ink} stroke-width="2" stroke-linecap="round" />
+    <!-- restored-finish sparkles -->
+    <g stroke={red} stroke-width="2" stroke-linecap="round">
+      <path d="M50 9 V17 M46 13 H54" />
+      <path d="M58 20 V26 M55 23 H61" />
+    </g>
+    <circle cx="38" cy="26" r="1.6" fill={gold} />
+  </svg>
+)}
+
+{name === 'windshield' && (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Windshield replacement">
+    <!-- glass -->
+    <path
+      d="M13 14 H51 C54.5 14 56.5 16.5 55.8 20 L51.5 44 C50.9 47.3 48.7 49 45.3 49 H18.7 C15.3 49 13.1 47.3 12.5 44 L8.2 20 C7.5 16.5 9.5 14 13 14 Z"
+      stroke={ink} stroke-width="2.5"
+    />
+    <!-- reflection -->
+    <g stroke={red} stroke-width="2" stroke-linecap="round">
+      <path d="M24 20 L19 32" />
+      <path d="M31 20 L23 40" />
+    </g>
+    <!-- wiper -->
+    <path d="M32 49 C36.5 44.5 43 42 50 42.5" stroke={ink} stroke-width="2" stroke-linecap="round" />
+    <circle cx="32" cy="49" r="1.8" fill={gold} />
+  </svg>
+)}
+
+{name === 'financing' && (
+  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Financing">
+    <!-- price tag -->
+    <path
+      d="M36.5 8.5 H51 C53.5 8.5 55.5 10.5 55.5 13 V27.5 C55.5 28.8 55 30 54.1 30.9 L32.4 52.6 C30.4 54.6 27.2 54.6 25.2 52.6 L11.4 38.8 C9.4 36.8 9.4 33.6 11.4 31.6 L33.1 9.9 C34 9 35.2 8.5 36.5 8.5 Z"
+      stroke={ink} stroke-width="2.5"
+    />
+    <circle cx="46" cy="18" r="3.2" stroke={gold} stroke-width="2.2" />
+    <!-- percent -->
+    <g stroke={red} stroke-width="2.4" stroke-linecap="round">
+      <line x1="37.5" y1="26.5" x2="23.5" y2="40.5" />
+      <circle cx="25.5" cy="28.5" r="3.4" fill="none" />
+      <circle cx="35.5" cy="38.5" r="3.4" fill="none" />
+    </g>
+  </svg>
+)}
+
+<style>
+  svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+</style>

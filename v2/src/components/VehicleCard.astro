@@ -1,0 +1,55 @@
+---
+// src/components/VehicleCard.astro
+const { vehicle } = Astro.props;
+const { data, id } = vehicle;
+const title = `${data.year} ${data.make} ${data.model}${data.trim ? ' ' + data.trim : ''}`;
+const photo = data.photos.length
+  ? `/images/vehicles/${data.photos[0]}`
+  : '/images/vehicle-placeholder.svg';
+const price = data.price
+  ? `$${data.price.toLocaleString('en-US')}`
+  : 'Call for price';
+const badge =
+  data.status === 'sold' ? { label: 'Sold', cls: 'badge-sold' }
+  : data.status === 'pending' ? { label: 'Sale Pending', cls: 'badge-pending' }
+  : data.featured ? { label: 'Featured', cls: '' }
+  : null;
+---
+
+<article
+  class="vehicle-card animate-on-scroll"
+  data-make={data.make}
+  data-body={data.bodyStyle}
+  data-price={data.price ?? ''}
+  data-status={data.status}
+>
+  <div class="vehicle-image">
+    <a href={`/inventory/${id}/`} aria-label={`View details for ${title}`}>
+      <img src={photo} alt={title} loading="lazy" width="800" height="500" />
+    </a>
+    {badge && <span class={`vehicle-badge ${badge.cls}`}>{badge.label}</span>}
+  </div>
+  <div class="vehicle-details">
+    <h3 class="vehicle-title">
+      <a href={`/inventory/${id}/`}>{title}</a>
+    </h3>
+    <p class="vehicle-price">{price}</p>
+    <div class="vehicle-specs">
+      <div class="vehicle-spec">
+        <span class="spec-value">{data.mileage.toLocaleString('en-US')}</span>
+        <span class="spec-label">Miles</span>
+      </div>
+      <div class="vehicle-spec">
+        <span class="spec-value">{data.transmission === 'automatic' ? 'Auto' : 'Manual'}</span>
+        <span class="spec-label">Trans</span>
+      </div>
+      {data.drivetrain && (
+        <div class="vehicle-spec">
+          <span class="spec-value">{data.drivetrain}</span>
+          <span class="spec-label">Drive</span>
+        </div>
+      )}
+    </div>
+    <a href={`/inventory/${id}/`} class="btn btn-secondary">View Details</a>
+  </div>
+</article>

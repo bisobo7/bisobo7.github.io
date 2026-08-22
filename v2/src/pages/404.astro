@@ -1,0 +1,21 @@
+---
+// src/pages/404.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page Not Found | Dixie Auto Land - Saginaw, MI" noindex={true}>
+  <section class="page-hero">
+    <div class="container">
+      <h1>That page took a wrong turn</h1>
+      <p class="page-hero-sub">The page you're looking for doesn't exist — but the lot is right this way.</p>
+    </div>
+  </section>
+  <section>
+    <div class="container text-center">
+      <div class="hero-actions" style="justify-content:center">
+        <a href="/inventory/" class="btn btn-primary">Browse Inventory</a>
+        <a href="/contact/" class="btn btn-secondary">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

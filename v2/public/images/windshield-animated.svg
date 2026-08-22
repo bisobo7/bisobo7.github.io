@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" class="animate-on-scroll">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="carBodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#444" />
+      <stop offset="100%" stop-color="#222" />
+    </linearGradient>
+    
+    <linearGradient id="roofGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#333" />
+      <stop offset="100%" stop-color="#111" />
+    </linearGradient>
+    
+    <linearGradient id="oldGlassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a8c6df" />
+      <stop offset="60%" stop-color="#7db0d7" />
+      <stop offset="100%" stop-color="#6a9fc7" />
+    </linearGradient>
+    
+    <linearGradient id="newGlassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b9d6f0" />
+      <stop offset="60%" stop-color="#9fcbf0" />
+      <stop offset="100%" stop-color="#8bc1eb" />
+    </linearGradient>
+    
+    <linearGradient id="brandAccentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e53244" />
+      <stop offset="100%" stop-color="#c8102e" />
+    </linearGradient>
+    
+    <radialGradient id="glassReflection" cx="50%" cy="30%" r="70%" fx="50%" fy="30%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7" />
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0.3" />
+      <stop offset="70%" stop-color="#ffffff" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    
+    <!-- Crack patterns -->
+    <pattern id="crackPattern" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- Main crack -->
+      <path d="M25,0 C30,15 15,25 25,35 C35,45 15,50 25,50" 
+            stroke="#347" stroke-width="0.6" fill="none" opacity="0.7" />
+      <!-- Secondary cracks -->
+      <path d="M25,15 L35,20 M25,25 L15,30 M25,40 L40,35" 
+            stroke="#347" stroke-width="0.4" fill="none" opacity="0.5" />
+    </pattern>
+    
+    <!-- Filters -->
+    <filter id="glassShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="rgba(0,0,0,0.3)" />
+    </filter>
+    
+    <filter id="innerGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Clip paths -->
+    <clipPath id="windshieldClip">
+      <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z" />
+    </clipPath>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="120" height="120" fill="#f8f8f8" opacity="0">
+    <animate attributeName="opacity" from="0" to="0.8" dur="0.5s" fill="freeze" />
+  </rect>
+  
+  <!-- Car body -->
+  <g class="car-body" opacity="0">
+    <!-- Hood -->
+    <path d="M15,78 
+             L15,80 
+             C15,86 20,93 28,93 
+             L92,93 
+             C100,93 105,86 105,80 
+             L105,78 
+             L98,78 
+             L95,93
+             L25,93
+             L22,78
+             Z" 
+         fill="url(#carBodyGradient)" stroke="#222" stroke-width="0.5" />
+    
+    <!-- Roof -->
+    <path d="M25,20 
+             L30,17 
+             L90,17 
+             L95,20 
+             L103,55 
+             L103,58
+             L17,58
+             L17,55
+             Z" 
+         fill="url(#roofGradient)" stroke="#222" stroke-width="0.5" />
+    
+    <!-- A-pillars (the supports on sides of windshield) -->
+    <path d="M25,20 L22,58" stroke="#222" stroke-width="3" fill="none" />
+    <path d="M95,20 L98,58" stroke="#222" stroke-width="3" fill="none" />
+    
+    <!-- Side windows suggestion -->
+    <path d="M15,58 L15,78" stroke="#222" stroke-width="1" fill="none" />
+    <path d="M105,58 L105,78" stroke="#222" stroke-width="1" fill="none" />
+    
+    <!-- Car body animation -->
+    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="0.2s" fill="freeze" />
+  </g>
+  
+  <!-- Old windshield with cracks -->
+  <g clip-path="url(#windshieldClip)" opacity="0">
+    <!-- Old damaged windshield -->
+    <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="url(#oldGlassGradient)" stroke="#444" stroke-width="1" />
+          
+    <!-- Windshield trim -->
+    <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="none" stroke="#333" stroke-width="1.5" />
+      
+    <!-- Cracks on old windshield -->
+    <path class="crack-pattern" d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="url(#crackPattern)" stroke="none" />
+    
+    <!-- Impact point -->
+    <g transform="translate(60, 40)">
+      <circle r="3" fill="none" stroke="#347" stroke-width="0.5" />
+      <circle r="6" fill="none" stroke="#347" stroke-width="0.3" />
+      <path d="M0,0 L6,6 M0,0 L-6,6 M0,0 L6,-6 M0,0 L-6,-6 M0,0 L0,8 M0,0 L0,-8 M0,0 L8,0 M0,0 L-8,0" 
+            stroke="#347" stroke-width="0.3" fill="none" />
+    </g>
+    
+    <!-- Slight windshield reflection -->
+    <path d="M30,25 C40,25 70,25 90,35" stroke="#fff" stroke-width="0.5" stroke-opacity="0.3" fill="none" />
+    
+    <!-- Old windshield appear animation -->
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.8s" fill="freeze" />
+  </g>
+  
+  <!-- New windshield sliding in -->
+  <g class="new-windshield" transform="translate(0, 0)" opacity="0">
+    <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="url(#newGlassGradient)" filter="url(#glassShadow)" stroke="#444" stroke-width="1" />
+          
+    <!-- Windshield trim -->
+    <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="none" stroke="#333" stroke-width="1.5" />
+    
+    <!-- Glass shine and reflection effect -->
+    <path d="M17,55 C17,35 38,17 60,17 C82,17 103,35 103,55 L95,78 C90,88 75,93 60,93 C45,93 30,88 25,78 Z"
+          fill="url(#glassReflection)" opacity="0.7" />
+    
+    <!-- Light reflections -->
+    <path d="M35,30 C45,28 75,28 85,35" stroke="#fff" stroke-width="1" stroke-opacity="0.8" fill="none" />
+    <path d="M40,60 C50,65 70,65 80,60" stroke="#fff" stroke-width="0.5" stroke-opacity="0.4" fill="none" />
+    
+    <!-- Windshield wiper suggestion -->
+    <path d="M40,78 C45,73 55,71 60,71" stroke="#222" stroke-width="0.8" fill="none" opacity="0.3" />
+    
+    <!-- New windshield animation -->
+    <animateTransform attributeName="transform" type="translate"
+                      from="120, 0" to="0, 0"
+                      dur="1.2s" begin="2s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2s" fill="freeze" />
+  </g>
+  
+  <!-- Installation tool -->
+  <g class="install-tool" transform="translate(150, 55)" opacity="0">
+    <!-- Tool handle -->
+    <rect x="-6" y="0" width="12" height="25" rx="3" ry="3" fill="#555" />
+    
+    <!-- Tool head -->
+    <rect x="-12" y="-8" width="24" height="8" rx="2" ry="2" fill="#777" stroke="#555" stroke-width="1" />
+    <path d="M-10,-4 L10,-4" stroke="#666" stroke-width="1" stroke-dasharray="2,1" />
+    
+    <!-- Tool animation -->
+    <animateTransform attributeName="transform" type="translate"
+                      from="150, 55" to="100, 55"
+                      dur="0.7s" begin="1.3s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.3s" fill="freeze" />
+    
+    <!-- Tool movement -->
+    <animateTransform attributeName="transform" type="translate"
+                      from="100, 55" to="60, 55"
+                      dur="0.8s" begin="1.8s" fill="freeze" />
+                      
+    <!-- Tool exit -->
+    <animateTransform attributeName="transform" type="translate"
+                      from="60, 55" to="-50, 55"
+                      dur="0.7s" begin="2.8s" fill="freeze" />
+    <animate attributeName="opacity" from="1" to="0" dur="0.3s" begin="3.2s" fill="freeze" />
+  </g>
+  
+  <!-- Sparkle effect over the new windshield -->
+  <g class="sparkles" opacity="0">
+    <circle cx="45" cy="40" r="1.5" fill="white">
+      <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="3s" repeatCount="2" />
+    </circle>
+    <circle cx="75" cy="35" r="1.5" fill="white">
+      <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="3.2s" repeatCount="2" />
+    </circle>
+    <circle cx="60" cy="50" r="1.5" fill="white">
+      <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="3.4s" repeatCount="2" />
+    </circle>
+    <circle cx="50" cy="65" r="1.5" fill="white">
+      <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="3.6s" repeatCount="2" />
+    </circle>
+    <animate attributeName="opacity" from="0" to="1" dur="0.1s" begin="3s" fill="freeze" />
+  </g>
+  
+  <!-- Service label -->
+  <g class="service-label" transform="translate(60, 105)" opacity="0">
+    <rect x="-35" y="-12" width="70" height="18" rx="5" ry="5" 
+          fill="url(#brandAccentGradient)" filter="url(#glassShadow)" />
+    <text x="0" y="0" text-anchor="middle" font-family="'Montserrat', sans-serif" 
+          font-size="8" font-weight="600" fill="white">WINDSHIELD</text>
+          
+    <!-- Label animation -->
+    <animateTransform attributeName="transform" type="translate"
+                      from="-50, 105" to="60, 105"
+                      dur="0.8s" begin="3.5s" fill="freeze" />
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.5s" fill="freeze" />
+  </g>
+  
+  <!-- Quality check mark -->
+  <g class="check-mark" transform="translate(90, 30) scale(0)" opacity="0">
+    <circle cx="0" cy="0" r="10" fill="white" stroke="url(#brandAccentGradient)" stroke-width="2" />
+    <path d="M-4,0 L-2,2 L4,-4" stroke="url(#brandAccentGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    
+    <!-- Check mark animation -->
+    <animateTransform attributeName="transform" type="scale"
+                      from="0" to="1"
+                      dur="0.5s" begin="4s" fill="freeze" additive="sum" />
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="4s" fill="freeze" />
+  </g>
+</svg> 

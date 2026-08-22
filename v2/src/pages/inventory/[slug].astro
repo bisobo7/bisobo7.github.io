@@ -1,0 +1,165 @@
+---
+// src/pages/inventory/[slug].astro — one indexable page per vehicle
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InquiryForm from '../../components/InquiryForm.astro';
+import { getCollection, render } from 'astro:content';
+import { business } from '../../data/business.js';
+
+export async function getStaticPaths() {
+  const vehicles = await getCollection('vehicles');
+  return vehicles.map((vehicle) => ({
+    params: { slug: vehicle.id },
+    props: { vehicle },
+  }));
+}
+
+const { vehicle } = Astro.props;
+const { data } = vehicle;
+const { Content } = await render(vehicle);
+
+const name = `${data.year} ${data.make} ${data.model}${data.trim ? ' ' + data.trim : ''}`;
+const priceText = data.price ? `$${data.price.toLocaleString('en-US')}` : 'Call for price';
+const photo = data.photos.length
+  ? `/images/vehicles/${data.photos[0]}`
+  : '/images/vehicle-placeholder.svg';
+
+const title = `${name} for Sale - Saginaw, MI | Dixie Auto Land`;
+const description = `${name} for sale at Dixie Auto Land in Saginaw, MI — ${data.mileage.toLocaleString('en-US')} miles${data.price ? ', ' + priceText : ''}. Hand-inspected with honest condition notes. Call ${business.phone}.`;
+
+const vehicleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Vehicle',
+  name,
+  vehicleModelDate: String(data.year),
+  brand: { '@type': 'Brand', name: data.make },
+  model: data.model,
+  ...(data.trim ? { vehicleConfiguration: data.trim } : {}),
+  ...(data.vin ? { vehicleIdentificationNumber: data.vin } : {}),
+  ...(data.exteriorColor ? { color: data.exteriorColor } : {}),
+  mileageFromOdometer: {
+    '@type': 'QuantitativeValue',
+    value: data.mileage,
+    unitCode: 'SMI',
+  },
+  vehicleTransmission: data.transmission,
+  ...(data.drivetrain ? { driveWheelConfiguration: data.drivetrain } : {}),
+  bodyType: data.bodyStyle,
+  image: new URL(photo, Astro.site).href,
+  itemCondition: 'https://schema.org/UsedCondition',
+  offers: {
+    '@type': 'Offer',
+    ...(data.price ? { price: data.price, priceCurrency: 'USD' } : {}),
+    availability:
+      data.status === 'available'
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/SoldOut',
+    itemCondition: 'https://schema.org/UsedCondition',
+    seller: { '@id': `${business.domain}/#dealer` },
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: business.domain + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Inventory', item: business.domain + '/inventory/' },
+    { '@type': 'ListItem', position: 3, name, item: `${business.domain}/inventory/${vehicle.id}/` },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} ogImage={photo} schema={[vehicleSchema, breadcrumbSchema]}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/inventory/">Inventory</a></li>
+          <li aria-current="page">{name}</li>
+        </ol>
+      </nav>
+      <h1>{name}</h1>
+      <p class="page-hero-sub">Used {data.bodyStyle === 'suv' ? 'SUV' : data.bodyStyle} for sale in Saginaw, MI</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="vehicle-detail">
+        <div class="vehicle-gallery animate-on-scroll">
+          <img src={photo} alt={`${name} at Dixie Auto Land in Saginaw, MI`} width="800" height="500" />
+        </div>
+
+        <div class="vehicle-summary animate-on-scroll">
+          {data.status === 'sold' && (
+            <p class="sold-notice">This vehicle has been sold — <a href="/inventory/">see what's on the lot now</a>.</p>
+          )}
+          {data.status === 'pending' && (
+            <p class="sold-notice">Sale pending — call to ask about similar vehicles.</p>
+          )}
+          <p class="vehicle-detail-price">{priceText}</p>
+          <p class="vehicle-detail-mileage">{data.mileage.toLocaleString('en-US')} miles</p>
+
+          {data.highlights.length > 0 && (
+            <ul class="highlights">
+              {data.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+          )}
+
+          <div class="detail-ctas">
+            <a href={business.phoneHref} class="btn btn-primary">Call {business.phone}</a>
+            <a href="#inquiry" class="btn btn-secondary">Ask About This Vehicle</a>
+            {data.carfaxUrl && (
+              <a href={data.carfaxUrl} class="btn btn-secondary" target="_blank" rel="noopener">View Carfax</a>
+            )}
+          </div>
+
+          <table class="spec-table">
+            <tbody>
+              <tr><th scope="row">Year</th><td>{data.year}</td></tr>
+              <tr><th scope="row">Make</th><td>{data.make}</td></tr>
+              <tr><th scope="row">Model</th><td>{data.model}{data.trim ? ` ${data.trim}` : ''}</td></tr>
+              <tr><th scope="row">Mileage</th><td>{data.mileage.toLocaleString('en-US')} mi</td></tr>
+              <tr><th scope="row">Transmission</th><td>{data.transmission === 'automatic' ? 'Automatic' : 'Manual'}</td></tr>
+              {data.drivetrain && <tr><th scope="row">Drivetrain</th><td>{data.drivetrain}</td></tr>}
+              {data.exteriorColor && <tr><th scope="row">Exterior Color</th><td>{data.exteriorColor}</td></tr>}
+              {data.vin && <tr><th scope="row">VIN</th><td>{data.vin}</td></tr>}
+            </tbody>
+          </table>
+
+          <div class="vehicle-description-body">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inquiry" class="about">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ask About This Vehicle</h2>
+      </div>
+      <div class="contact-content">
+        <InquiryForm
+          subject={`Vehicle inquiry: ${name}`}
+          vehicle={name}
+          heading={`Interested in the ${name}?`}
+          messagePlaceholder="Questions, trade-in, or schedule a test drive…"
+        />
+        <div class="contact-info animate-on-scroll">
+          <div class="hours">
+            <h3>See It in Person</h3>
+            <p><span>{business.address.street}</span></p>
+            <p><span>{business.address.city}, {business.address.state} {business.address.zip}</span></p>
+            {business.hours.map((h) => (
+              <p><span>{h.days}</span> <span>{h.open ? `${h.open} - ${h.close}` : 'Closed'}</span></p>
+            ))}
+          </div>
+          <p><a href="/inventory/" class="btn btn-secondary">← Back to All Inventory</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

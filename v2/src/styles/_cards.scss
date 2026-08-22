@@ -1,0 +1,311 @@
+// src/styles/_cards.scss
+// Vehicle cards + service cards (ported from v1)
+@use 'variables' as *;
+@use 'breakpoints' as *;
+
+// ---- Vehicle cards ----
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 36px;
+
+  @include mobile-only {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vehicle-card {
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 24px rgba(16, 19, 26, 0.07);
+  transition: all 0.5s $ease-premium;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $gold, transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(16, 19, 26, 0.14);
+
+    &::before { opacity: 1; }
+    .vehicle-image img { transform: scale(1.05); }
+  }
+}
+
+.vehicle-image {
+  height: 230px;
+  position: relative;
+  overflow: hidden;
+  background: #1d1d1d;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s $ease-premium;
+  }
+}
+
+.vehicle-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: $premium-gradient;
+  color: white;
+  padding: 5px 12px;
+  border-radius: $pill-radius;
+  font-size: 0.78rem;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(200, 16, 46, 0.3);
+  transition: transform 0.3s ease;
+
+  &.badge-sold {
+    background: #444;
+  }
+  &.badge-pending {
+    background: linear-gradient(135deg, #b07500 0%, #8a5c00 100%);
+  }
+}
+
+.vehicle-details {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.vehicle-title {
+  font-family: $font-display;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: $secondary-color;
+  margin-bottom: 6px;
+}
+
+.vehicle-price {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.vehicle-specs {
+  display: flex;
+  border-top: 1px solid #eee;
+  padding-top: 14px;
+  gap: 22px;
+  margin-bottom: 20px;
+  margin-top: auto;
+}
+
+.vehicle-spec {
+  display: flex;
+  flex-direction: column;
+
+  .spec-value {
+    font-weight: 700;
+    color: $secondary-color;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .spec-label {
+    font-size: 0.78rem;
+    color: #999;
+  }
+}
+
+.vehicle-card .btn {
+  align-self: flex-start;
+  padding: 11px 22px;
+  font-size: 0.8rem;
+}
+
+// ---- Service cards ----
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.service-card {
+  background-color: white;
+  padding: 44px 30px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(16, 19, 26, 0.06);
+  transition: all 0.5s $ease-premium;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: $premium-gradient;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s $ease-premium;
+  }
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 44px rgba(16, 19, 26, 0.12);
+
+    &::after { transform: scaleX(1); }
+  }
+}
+
+.service-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img, object {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.service-title {
+  font-size: 1.35rem;
+  margin-bottom: 12px;
+  color: $secondary-color;
+}
+
+.service-description {
+  color: $text-muted;
+  line-height: 1.7;
+  font-size: 0.97rem;
+  margin-bottom: 0;
+}
+
+// ---- Trust strip (home) ----
+.trust-strip {
+  background: $ink;
+  color: white;
+  padding: 38px 0;
+  border-bottom: 1px solid rgba(201, 162, 76, 0.25);
+
+  .trust-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+
+  .trust-item {
+    strong {
+      display: block;
+      font-family: $font-display;
+      font-weight: 600;
+      font-size: 1.65rem;
+      color: $gold;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 2px;
+    }
+
+    span {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.72);
+      letter-spacing: 0.02em;
+    }
+  }
+}
+
+// ---- Service-area (town) cards ----
+.towns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+}
+
+.town-card {
+  display: block;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  padding: 30px 28px;
+  box-shadow: 0 6px 24px rgba(16, 19, 26, 0.05);
+  transition: all 0.4s $ease-premium;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, $gold, transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 38px rgba(16, 19, 26, 0.12);
+
+    &::after { opacity: 1; }
+    .town-cta { color: $primary-color; }
+  }
+
+  h3 {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin-bottom: 6px;
+  }
+
+  .town-distance {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $gold;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .town-cta {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: $secondary-color;
+    transition: color 0.3s ease;
+  }
+}

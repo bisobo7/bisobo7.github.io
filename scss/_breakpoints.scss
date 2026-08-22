@@ -1,0 +1,128 @@
+// scss/_breakpoints.scss
+// Breakpoint mixins for responsive design
+
+// Breakpoint variables
+$mobile-xs: 375px;   // Small phones
+$mobile: 576px;      // Mobile devices
+$tablet: 768px;      // Tablets
+$desktop: 992px;     // Desktops
+$large-desktop: 1200px; // Large desktops
+$xl-desktop: 1400px; // Extra large screens
+
+// Mobile-first breakpoint mixins
+@mixin xs {
+  @media (min-width: #{$mobile-xs}) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: #{$mobile}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$large-desktop}) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: #{$xl-desktop}) {
+    @content;
+  }
+}
+
+// Desktop-first breakpoint mixins (max-width)
+@mixin mobile-only {
+  @media (max-width: #{$tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-down {
+  @media (max-width: #{$desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-down {
+  @media (max-width: #{$large-desktop - 1px}) {
+    @content;
+  }
+}
+
+// Custom breakpoint mixin
+@mixin custom-breakpoint($min, $max: null) {
+  @if $max {
+    @media (min-width: #{$min}) and (max-width: #{$max}) {
+      @content;
+    }
+  } @else {
+    @media (min-width: #{$min}) {
+      @content;
+    }
+  }
+}
+
+// Orientation mixins
+@mixin landscape {
+  @media (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media (orientation: portrait) {
+    @content;
+  }
+}
+
+// Device-specific mixins
+@mixin mobile-landscape {
+  @media (max-width: #{$tablet - 1px}) and (orientation: landscape) {
+    @content;
+  }
+}
+
+// Container widths for different breakpoints
+@mixin container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  
+  @include sm {
+    max-width: 540px;
+  }
+  
+  @include md {
+    max-width: 720px;
+  }
+  
+  @include lg {
+    max-width: 960px;
+  }
+  
+  @include xl {
+    max-width: 1140px;
+  }
+  
+  @include xxl {
+    max-width: 1320px;
+  }
+} 

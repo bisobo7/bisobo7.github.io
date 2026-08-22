@@ -1,0 +1,201 @@
+---
+// src/pages/index.astro — inventory-led home page
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VehicleCard from '../components/VehicleCard.astro';
+import ServiceIcon from '../components/ServiceIcon.astro';
+import { getCollection } from 'astro:content';
+import { business } from '../data/business.js';
+import { towns } from '../data/towns.js';
+
+const vehicles = await getCollection('vehicles', ({ data }) => data.status !== 'sold');
+const featured = vehicles
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured))
+  .slice(0, 6);
+
+const title = 'Used Cars for Sale in Saginaw, MI | Dixie Auto Land';
+const description =
+  'Shop quality used cars, trucks & SUVs in Saginaw, MI at Dixie Auto Land. Hand-inspected vehicles, honest pricing, financing available — plus OEM parts from 1,000+ yards nationwide.';
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-content animate-on-scroll">
+        <span class="hero-eyebrow">Saginaw, Michigan</span>
+        <h1 class="hero-title">Quality Used Cars, <em>Priced Honestly</em></h1>
+        <p class="hero-subtitle">
+          Hand-inspected used vehicles on Dixie Hwy — backed by the parts network
+          that keeps them on the road.
+        </p>
+        <div class="hero-actions">
+          <a href="/inventory/" class="btn btn-primary">Browse Inventory</a>
+          <a href={business.phoneHref} class="btn btn-light">Call {business.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="trust-strip">
+    <div class="container">
+      <div class="trust-items">
+        <div class="trust-item"><strong>Hand-Inspected</strong><span>Every vehicle checked before it hits the lot</span></div>
+        <div class="trust-item"><strong>1,000+</strong><span>Partner yards nationwide for parts &amp; repairs</span></div>
+        <div class="trust-item"><strong>Financing</strong><span>Options for a range of credit situations</span></div>
+        <div class="trust-item"><strong>Local</strong><span>Family-run on Dixie Hwy in Saginaw</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED INVENTORY -->
+  <section id="inventory" class="inventory">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-eyebrow">Curated Inventory</span>
+        <h2 class="section-title">Featured Used Vehicles</h2>
+        <p class="section-lead">
+          A hand-picked selection from our lot. Every car comes with honest condition
+          notes — what we fixed, what we checked, and why we'd stand behind it.
+        </p>
+      </div>
+      <div class="vehicle-grid">
+        {featured.map((v) => <VehicleCard vehicle={v} />)}
+      </div>
+      <div class="view-all-container">
+        <a href="/inventory/" class="btn btn-primary">View All Inventory</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES TEASER -->
+  <section id="services" class="services">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-eyebrow">Under One Roof</span>
+        <h2 class="section-title">More Than a Car Lot</h2>
+        <p class="section-lead">Buy the car, and keep it running — parts, repairs, and financing under one roof.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">
+            <ServiceIcon name="parts" />
+          </div>
+          <h3 class="service-title">OEM &amp; Color-Matched Parts</h3>
+          <p class="service-description">Genuine OEM and aftermarket parts with precise color matching, sourced through our nationwide network.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">
+            <ServiceIcon name="dent" />
+          </div>
+          <h3 class="service-title">Paintless Dent Repair</h3>
+          <p class="service-description">Dents and hail damage removed while preserving your original paint — faster and cheaper than a body shop.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">
+            <ServiceIcon name="windshield" />
+          </div>
+          <h3 class="service-title">Windshield Replacement</h3>
+          <p class="service-description">Professional windshield replacement with quality glass and expert installation.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon">
+            <ServiceIcon name="financing" />
+          </div>
+          <h3 class="service-title">Flexible Financing</h3>
+          <p class="service-description">Lender partnerships that make a quality used car work for your budget and credit situation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTS NETWORK -->
+  <section id="parts-network" class="parts-network">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-eyebrow">1,000+ Partner Yards</span>
+        <h2 class="section-title">Nationwide Parts Network</h2>
+      </div>
+      <div class="network-content">
+        <div class="network-info animate-on-scroll">
+          <h3>Access to Over 1,000 Yards Nationwide</h3>
+          <p>
+            Finding the right part shouldn't take weeks of phone calls. Our network of
+            over 1,000 partner yards across the country means we can source virtually
+            any part — often at a fraction of dealer cost.
+          </p>
+          <ul class="network-benefits">
+            <li>Rare and discontinued parts availability</li>
+            <li>OEM parts at a fraction of dealer costs</li>
+            <li>Perfect color matches for body panels</li>
+            <li>Comprehensive quality inspection</li>
+            <li>Fast nationwide shipping options</li>
+          </ul>
+          <a href="/contact/#part-request" class="btn btn-primary">Request a Part</a>
+        </div>
+        <div class="network-map animate-on-scroll">
+          <div class="usa-map-container">
+            <img src="/images/usa-network-map-simplified.svg" alt="Map of the USA showing Dixie Auto Land's nationwide parts network centered on Saginaw, Michigan" loading="lazy" width="600" height="380" />
+          </div>
+          <div class="map-caption">Our Saginaw location connects to partner yards across the entire country</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREAS -->
+  <section id="areas" class="parts-network" style="padding-top:0">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-eyebrow">The Great Lakes Bay Region</span>
+        <h2 class="section-title">Worth the Drive</h2>
+        <p class="section-lead">
+          Drivers come to us from across the region — see how close we are to you.
+        </p>
+      </div>
+      <div class="towns-grid">
+        {towns.map((t) => (
+          <a href={`/service-areas/${t.slug}/`} class="town-card animate-on-scroll">
+            <h3>{t.name}, MI</h3>
+            <p class="town-distance">{t.driveTime} away</p>
+            <span class="town-cta">Used Cars near {t.name} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section id="visit" class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text animate-on-scroll">
+          <h2>Visit the Lot</h2>
+          <p>
+            You'll find us at {business.address.street} in {business.address.city} —
+            just off I-75. Stop by during business hours, or call ahead and we'll have
+            the keys ready for a test drive.
+          </p>
+          <p>
+            <strong>{business.address.street}, {business.address.city}, {business.address.state} {business.address.zip}</strong><br />
+            <a href={business.phoneHref}>{business.phone}</a>
+          </p>
+          <div class="hero-actions" style="justify-content:flex-start">
+            <a href={business.mapsUrl} class="btn btn-secondary" target="_blank" rel="noopener">Get Directions</a>
+            <a href="/contact/" class="btn btn-primary">Contact Us</a>
+          </div>
+        </div>
+        <div class="about-image animate-on-scroll">
+          <img
+            src="/images/dixie-outside-800.webp"
+            srcset="/images/dixie-outside-800.webp 800w, /images/dixie-outside-1200.webp 1200w"
+            sizes="(max-width: 992px) 90vw, 45vw"
+            alt="Dixie Auto Land dealership on Dixie Hwy in Saginaw, Michigan"
+            loading="lazy"
+            width="800" height="533"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

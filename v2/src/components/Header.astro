@@ -1,0 +1,41 @@
+---
+// src/components/Header.astro
+import { business } from '../data/business.js';
+
+const { pathname } = Astro.url;
+const links = [
+  { href: '/inventory/', label: 'Inventory' },
+  { href: '/service-areas/', label: 'Areas We Serve' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+const isActive = (href) =>
+  href === '/' ? pathname === '/' : pathname.startsWith(href);
+---
+
+<header class="header" id="site-header">
+  <div class="container">
+    <div class="logo-container">
+      <a href="/" aria-label="Dixie Auto Land home">
+        <img src="/images/dixie-logo-white.svg" alt="Dixie Auto Land" class="logo" width="190" height="60" />
+      </a>
+    </div>
+    <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="site-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {links.map((l) => (
+          <li class="nav-item">
+            <a href={l.href} class="nav-link" aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="header-cta">
+        <a href={business.phoneHref} class="header-phone">{business.phone}</a>
+        <a href="/inventory/" class="btn btn-primary">View Inventory</a>
+      </div>
+    </nav>
+    <div class="nav-overlay" id="nav-overlay"></div>
+  </div>
+</header>

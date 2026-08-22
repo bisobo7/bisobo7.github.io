@@ -1,0 +1,93 @@
+---
+// src/components/InquiryForm.astro
+// Static-friendly lead form (Web3Forms). Works without JS (posts + redirect);
+// with JS it submits inline and shows a status message.
+import { business } from '../data/business.js';
+
+interface Props {
+  subject?: string;
+  vehicle?: string; // pre-fill "Vehicle of Interest"
+  heading?: string;
+  messageLabel?: string;
+  messagePlaceholder?: string;
+}
+const {
+  subject = 'Website inquiry — Dixie Auto Land',
+  vehicle = '',
+  heading = 'Send Us a Message',
+  messageLabel = 'Your Message',
+  messagePlaceholder = 'How can we help?',
+} = Astro.props;
+---
+
+<form
+  class="contact-form animate-on-scroll js-inquiry-form"
+  action="https://api.web3forms.com/submit"
+  method="POST"
+>
+  <h3>{heading}</h3>
+  <input type="hidden" name="access_key" value={business.web3formsKey} />
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value="dixieauto.land" />
+  <!-- Honeypot -->
+  <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" />
+
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name" />
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" placeholder="(989) 555-0100" required autocomplete="tel" />
+  </div>
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+  </div>
+  <div class="form-group">
+    <label for="vehicle">Vehicle or Part of Interest</label>
+    <input type="text" id="vehicle" name="vehicle" placeholder="e.g. 2018 F-150, or a part + year/make/model" value={vehicle} />
+  </div>
+  <div class="form-group">
+    <label for="message">{messageLabel}</label>
+    <textarea id="message" name="message" placeholder={messagePlaceholder} required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Send Inquiry</button>
+  <p class="form-status" role="status" aria-live="polite"></p>
+  <p class="form-note">We typically reply within one business day. Prefer to talk? Call <a href={business.phoneHref}>{business.phone}</a>.</p>
+</form>
+
+<script>
+  // Inline submit for all inquiry forms on the page
+  document.querySelectorAll('.js-inquiry-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = form as HTMLFormElement;
+      const status = f.querySelector('.form-status') as HTMLElement;
+      const btn = f.querySelector('button[type="submit"]') as HTMLButtonElement;
+      btn.disabled = true;
+      status.textContent = 'Sending…';
+      status.className = 'form-status';
+      try {
+        const res = await fetch(f.action, {
+          method: 'POST',
+          body: new FormData(f),
+          headers: { Accept: 'application/json' },
+        });
+        const data = await res.json();
+        if (data.success) {
+          f.reset();
+          status.textContent = "Thanks — we got your message and we'll be in touch shortly.";
+          status.classList.add('ok');
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      } catch {
+        status.textContent = 'Something went wrong sending your message. Please call us instead.';
+        status.classList.add('err');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  });
+</script>

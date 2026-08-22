@@ -1,0 +1,503 @@
+// src/styles/_sections.scss
+// About, network, contact, forms, inventory detail, filters
+@use 'variables' as *;
+@use 'breakpoints' as *;
+
+// ---- About ----
+.about {
+  background-color: $light-color;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at center, rgba(200, 16, 46, 0.1) 0%, rgba(200, 16, 46, 0) 70%);
+    z-index: 0;
+    border-radius: 50%;
+  }
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+
+  @include tablet-down {
+    flex-direction: column;
+  }
+}
+
+.about-text {
+  flex: 1;
+
+  p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #555;
+  }
+}
+
+.about-image {
+  flex: 1;
+
+  img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: $card-radius;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ---- Parts network ----
+.parts-network {
+  background-color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.network-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+
+  @include tablet-down {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.network-info {
+  h3 {
+    font-size: 1.7rem;
+    color: $secondary-color;
+    margin-bottom: 18px;
+  }
+
+  p {
+    margin-bottom: 26px;
+    line-height: 1.8;
+    color: #555;
+  }
+}
+
+.network-benefits {
+  margin-bottom: 30px;
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+
+    &::before {
+      content: '';
+      flex: 0 0 22px;
+      height: 22px;
+      margin-right: 12px;
+      border-radius: 50%;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='white' stroke='%23f0f0f0'/%3E%3Cpath d='M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z' fill='%23c8102e'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+  }
+}
+
+.usa-map-container {
+  position: relative;
+  background: linear-gradient(145deg, #f6f6f6, #ffffff);
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  margin-bottom: 16px;
+  min-height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  object, img {
+    width: 95%;
+    height: auto;
+  }
+}
+
+.map-caption {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+// ---- Contact / forms ----
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+
+  @include tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: $card-radius;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+  @include mobile-only {
+    padding: 28px 22px;
+  }
+}
+
+.form-group {
+  margin-bottom: 22px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: $secondary-color;
+    font-size: 0.95rem;
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: $font-family;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+    }
+  }
+
+  textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+}
+
+.form-note {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+.form-status {
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  &.ok { color: #1a7f37; }
+  &.err { color: $primary-color; }
+}
+
+// Honeypot field — visually hidden
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+
+  .info-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    fill: $primary-color;
+  }
+
+  .info-content {
+    h4 { color: $secondary-color; margin-bottom: 6px; }
+    p { margin-bottom: 4px; color: #555; line-height: 1.6; }
+    a:hover { color: $primary-color; }
+  }
+}
+
+.hours {
+  background-color: white;
+  padding: 28px;
+  border-radius: $card-radius;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: 18px;
+    font-size: 1.3rem;
+  }
+
+  p {
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    color: #555;
+
+    span:last-child {
+      font-weight: 600;
+      color: $secondary-color;
+    }
+  }
+}
+
+.map {
+  margin-top: 10px;
+
+  object, img {
+    width: 100%;
+    border-radius: $card-radius;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+  }
+}
+
+// ---- Inventory page ----
+.inventory-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 40px;
+
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: $secondary-color;
+  }
+
+  select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+    font-family: $font-family;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.1);
+    }
+  }
+
+  .inventory-count {
+    margin-left: auto;
+    color: $text-muted;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+}
+
+.no-results {
+  text-align: center;
+  color: $text-muted;
+  padding: 40px 0;
+}
+
+// ---- Vehicle detail page ----
+.vehicle-detail {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 50px;
+  align-items: start;
+
+  @include tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vehicle-gallery {
+  img {
+    width: 100%;
+    border-radius: $card-radius;
+    box-shadow: $card-shadow;
+    background: #1d1d1d;
+  }
+}
+
+.vehicle-summary {
+  .vehicle-detail-price {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vehicle-detail-mileage {
+    color: $text-muted;
+    margin-bottom: 22px;
+  }
+
+  .highlights {
+    margin: 0 0 26px;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      color: #444;
+
+      &::before {
+        content: '✓';
+        color: $primary-color;
+        font-weight: 700;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .detail-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+}
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0;
+  font-size: 0.97rem;
+
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    color: $text-muted;
+    font-weight: 600;
+    width: 40%;
+    white-space: nowrap;
+  }
+
+  td {
+    color: $secondary-color;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.vehicle-description-body {
+  color: #555;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+// ---- Service-area (town) pages ----
+.town-layout {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 60px;
+  align-items: start;
+
+  @include tablet-down {
+    grid-template-columns: 1fr;
+  }
+}
+
+.town-article {
+  h2 {
+    font-size: 1.9rem;
+    margin-top: 34px;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  p {
+    color: #4a4a4a;
+    line-height: 1.85;
+    font-size: 1.03rem;
+  }
+}
+
+.town-aside {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+
+  @include tablet-down {
+    position: static;
+  }
+
+  .aside-card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    padding: 28px;
+    box-shadow: 0 10px 30px rgba(16, 19, 26, 0.07);
+
+    h3 {
+      font-family: $font-display;
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 14px;
+    }
+
+    p {
+      color: $text-muted;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .btn { width: 100%; margin-top: 8px; }
+  }
+
+  .aside-drive {
+    background: $ink;
+    color: white;
+    border: 1px solid rgba(201, 162, 76, 0.3);
+
+    h3 { color: $gold; }
+    p { color: rgba(255, 255, 255, 0.8); }
+
+    strong { color: white; }
+  }
+}
+
+.sold-notice {
+  background: #fdf3f4;
+  border: 1px solid rgba(200, 16, 46, 0.25);
+  border-radius: 8px;
+  padding: 16px 20px;
+  color: $primary-dark;
+  font-weight: 600;
+  margin-bottom: 26px;
+}

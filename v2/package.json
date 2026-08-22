@@ -1,0 +1,16 @@
+{
+  "name": "dixie-auto-land",
+  "version": "2.0.0",
+  "description": "Dixie Auto Land - used vehicles & parts, Saginaw MI",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.1",
+    "astro": "^5.12.0",
+    "sass": "^1.89.2"
+  }
+}

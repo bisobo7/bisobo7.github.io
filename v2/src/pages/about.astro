@@ -1,0 +1,89 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { business } from '../data/business.js';
+
+const title = 'About Us | Dixie Auto Land - Saginaw, MI';
+const description =
+  'Dixie Auto Land is a Saginaw, MI used vehicle and parts specialist on Dixie Hwy — hand-inspected cars, transparent pricing, and a nationwide network of 1,000+ partner yards.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">About</li>
+        </ol>
+      </nav>
+      <h1>About Dixie Auto Land</h1>
+      <p class="page-hero-sub">Used vehicles and parts, done the honest way — on Dixie Hwy in Saginaw.</p>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text animate-on-scroll">
+          <p>
+            Every vehicle and part in our collection is hand-selected and inspected
+            before it's offered for sale. We'd rather tell you what a car needs than
+            hide it — that's how you earn customers who come back and send their
+            neighbors.
+          </p>
+          <p>
+            Buying used shouldn't feel like a gamble. With a personalized approach and
+            a commitment to transparency, we treat every customer like a long-time
+            partner — whether you're hunting for your next ride or tracking down a
+            hard-to-find part.
+          </p>
+          <p>
+            And because we tap into a nationwide network of over 1,000 partner yards,
+            we can source virtually any part — fast. It's also how we keep our own
+            reconditioning costs down, and those savings show up on the windshield price.
+          </p>
+          <div class="hero-actions" style="justify-content:flex-start">
+            <a href="/inventory/" class="btn btn-primary">See Our Inventory</a>
+            <a href="/contact/" class="btn btn-secondary">Get in Touch</a>
+          </div>
+        </div>
+        <div class="about-image animate-on-scroll">
+          <img
+            src="/images/dixie-outside-800.webp"
+            srcset="/images/dixie-outside-800.webp 800w, /images/dixie-outside-1200.webp 1200w"
+            sizes="(max-width: 992px) 90vw, 45vw"
+            alt="Dixie Auto Land dealership building at 4285 Dixie Hwy, Saginaw"
+            width="800" height="533"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="parts-network">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2 class="section-title">Why Buy From Us</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card animate-on-scroll">
+          <h3 class="service-title">Hand-Inspected</h3>
+          <p class="service-description">Every car gets checked before it hits the lot, and the condition notes on each listing tell you exactly what we found.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <h3 class="service-title">Honest Pricing</h3>
+          <p class="service-description">The price reflects the car's real condition. No hidden fees stacked on at the desk.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <h3 class="service-title">Parts Backbone</h3>
+          <p class="service-description">Our 1,000+ yard network means repairs and reconditioning cost us less — and that keeps our prices down.</p>
+        </div>
+        <div class="service-card animate-on-scroll">
+          <h3 class="service-title">Here After the Sale</h3>
+          <p class="service-description">Dent repair, glass, and parts sourcing under the same roof. Call {business.phone} and a person answers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,51 @@
+// src/styles/_variables.scss
+// Design tokens for Dixie Auto Land (carried over from v1)
+
+// Color scheme
+$primary-color: #c8102e; // Dixie red
+$primary-dark: #9e0c24;
+$secondary-color: #0f1923; // deep charcoal-navy (headings, footer)
+$accent-color: #f8b500;
+$light-color: #f9f9f9;
+$dark-color: #1a1a1a;
+$bg-color: #ffffff;
+$text-color: #333333;
+$text-muted: #666666;
+$light-text: #ffffff;
+$border-color: #e0e0e0;
+
+$premium-gradient: linear-gradient(135deg, #c8102e 0%, #8e0007 100%);
+
+// Luxury accents
+$gold: #c9a24c;        // champagne gold — hairlines, eyebrows, details
+$gold-soft: rgba(201, 162, 76, 0.35);
+$ink: #10131a;         // near-black rich surface
+
+// Typography
+$font-family: 'Montserrat', Arial, sans-serif;
+$font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+$base-font-size: 16px;
+$heading-font-weight: 700;
+$subtitle-font-weight: 500;
+$body-font-weight: 400;
+$light-font-weight: 300;
+
+// Spacing
+$base-spacing: 1rem;
+$section-spacing: 5rem;
+$card-spacing: 1.5rem;
+
+// Border radius
+$border-radius: 8px;
+$card-radius: 12px;
+$pill-radius: 30px;
+
+// Shadows
+$box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+$card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+// Transitions
+$transition-speed: 0.3s;
+$transition-ease: ease-in-out;
+$ease-premium: cubic-bezier(0.165, 0.84, 0.44, 1);

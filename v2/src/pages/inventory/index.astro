@@ -1,0 +1,119 @@
+---
+// src/pages/inventory/index.astro — full inventory list with client-side filters
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VehicleCard from '../../components/VehicleCard.astro';
+import { getCollection } from 'astro:content';
+import { business } from '../../data/business.js';
+
+const vehicles = (await getCollection('vehicles'))
+  .sort((a, b) => {
+    // available first, then pending, then sold; featured floats up within groups
+    const rank = { available: 0, pending: 1, sold: 2 };
+    return (
+      rank[a.data.status] - rank[b.data.status] ||
+      Number(b.data.featured) - Number(a.data.featured) ||
+      b.data.year - a.data.year
+    );
+  });
+
+const makes = [...new Set(vehicles.map((v) => v.data.make))].sort();
+
+const title = 'Used Cars for Sale in Saginaw, MI | Dixie Auto Land';
+const description =
+  'Browse every used car, truck & SUV for sale at Dixie Auto Land in Saginaw, MI. Hand-inspected vehicles with honest condition notes and financing available.';
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: business.domain + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Inventory', item: business.domain + '/inventory/' },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} schema={[breadcrumbSchema]}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">Inventory</li>
+        </ol>
+      </nav>
+      <h1>Used Cars for Sale in Saginaw</h1>
+      <p class="page-hero-sub">
+        Every vehicle on our lot, with honest condition notes. Don't see what you're
+        after? <a href="/contact/" style="color:#f8b500">Tell us</a> — we can source it.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="inventory-toolbar">
+        <label for="filter-make">Make</label>
+        <select id="filter-make">
+          <option value="">All makes</option>
+          {makes.map((m) => <option value={m}>{m}</option>)}
+        </select>
+
+        <label for="filter-body">Body</label>
+        <select id="filter-body">
+          <option value="">All types</option>
+          <option value="car">Cars</option>
+          <option value="truck">Trucks</option>
+          <option value="suv">SUVs</option>
+          <option value="van">Vans</option>
+        </select>
+
+        <label for="filter-price">Price</label>
+        <select id="filter-price">
+          <option value="">Any price</option>
+          <option value="0-10000">Under $10k</option>
+          <option value="10000-20000">$10k – $20k</option>
+          <option value="20000-999999">Over $20k</option>
+        </select>
+
+        <p class="inventory-count" id="inventory-count">{vehicles.length} vehicles</p>
+      </div>
+
+      <div class="vehicle-grid" id="vehicle-grid">
+        {vehicles.map((v) => <VehicleCard vehicle={v} />)}
+      </div>
+      <p class="no-results" id="no-results" hidden>
+        No vehicles match those filters — try widening them, or
+        <a href="/contact/">ask us to find one for you</a>.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const makeSel = document.getElementById('filter-make') as HTMLSelectElement;
+    const bodySel = document.getElementById('filter-body') as HTMLSelectElement;
+    const priceSel = document.getElementById('filter-price') as HTMLSelectElement;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('#vehicle-grid .vehicle-card'));
+    const count = document.getElementById('inventory-count')!;
+    const empty = document.getElementById('no-results')!;
+
+    function apply() {
+      const make = makeSel.value;
+      const body = bodySel.value;
+      const [min, max] = priceSel.value ? priceSel.value.split('-').map(Number) : [0, Infinity];
+      let shown = 0;
+      for (const card of cards) {
+        const price = card.dataset.price ? Number(card.dataset.price) : null;
+        const ok =
+          (!make || card.dataset.make === make) &&
+          (!body || card.dataset.body === body) &&
+          (!priceSel.value || (price !== null && price >= min && price <= max));
+        card.style.display = ok ? '' : 'none';
+        if (ok) shown++;
+      }
+      count.textContent = `${shown} vehicle${shown === 1 ? '' : 's'}`;
+      empty.hidden = shown !== 0;
+    }
+
+    [makeSel, bodySel, priceSel].forEach((el) => el.addEventListener('change', apply));
+  </script>
+</BaseLayout>

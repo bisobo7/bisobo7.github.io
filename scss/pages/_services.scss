@@ -1,0 +1,138 @@
+// scss/pages/_services.scss
+// Styling for the Services section
+
+.services {
+  background-color: var(--light-color);
+  position: relative;
+  overflow: hidden;
+  padding: 60px 0;
+  
+  @include md {
+    padding: 80px 0;
+  }
+  
+  @include lg {
+    padding: 100px 0;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    left: -150px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at center, rgba(248, 181, 0, 0.1) 0%, rgba(248, 181, 0, 0) 70%);
+    z-index: 0;
+    border-radius: 50%;
+  }
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  position: relative;
+  z-index: 1;
+  
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @include lg {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+}
+
+.service-card {
+  background-color: white;
+  padding: 30px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
+  
+  @include md {
+    padding: 40px 30px;
+  }
+  
+  &:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--premium-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.service-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  @include md {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 25px;
+  }
+  
+  .animated-service-icon,
+  .static-service-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.service-title {
+  font-size: 1.3rem;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+  
+  @include md {
+    font-size: 1.5rem;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 2px;
+    background-color: var(--primary-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.service-description {
+  color: #666;
+  line-height: 1.7;
+  font-size: 0.9rem;
+  
+  @include md {
+    font-size: 1rem;
+  }
+} 

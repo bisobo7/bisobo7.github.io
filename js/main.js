@@ -1,5 +1,55 @@
 // Intersection Observer for animations
 document.addEventListener('DOMContentLoaded', function() {
+  // Mobile Navigation Toggle
+  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const nav = document.querySelector('.nav');
+  const navOverlay = document.querySelector('.nav-overlay');
+  const mobileNavLinks = document.querySelectorAll('.nav-link');
+  
+  if (mobileToggle) {
+    // Toggle mobile menu
+    mobileToggle.addEventListener('click', function() {
+      this.classList.toggle('active');
+      nav.classList.toggle('active');
+      navOverlay.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+    });
+    
+    // Close menu when clicking overlay
+    navOverlay.addEventListener('click', function() {
+      mobileToggle.classList.remove('active');
+      nav.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.classList.remove('menu-open');
+    });
+    
+    // Close menu when clicking links
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        mobileToggle.classList.remove('active');
+        nav.classList.remove('active');
+        navOverlay.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      });
+    });
+  }
+  
+  // Header Scroll Effect
+  const header = document.querySelector('.header');
+  let lastScrollTop = 0;
+  
+  window.addEventListener('scroll', function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+    
+    lastScrollTop = scrollTop;
+  });
+
   // Select all elements that should be animated on scroll
   const animatedElements = document.querySelectorAll('.animate-on-scroll');
   
@@ -172,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Calculate control points for a nice curve
           const dx = dotX - hubX;
           const dy = dotY - hubY;
-        const distance = Math.sqrt(dx*dx + dy*dy);
+          const distance = Math.sqrt(dx*dx + dy*dy);
         
           // Control point offset factor - varies by distance
           const curveFactor = Math.min(0.3, distance / 1000);
@@ -180,17 +230,17 @@ document.addEventListener('DOMContentLoaded', function() {
           // Control points perpendicular to line between dots
           const midX = hubX + dx * 0.5;
           const midY = hubY + dy * 0.5;
-        const perpX = -dy * curveFactor;
-        const perpY = dx * curveFactor;
+          const perpX = -dy * curveFactor;
+          const perpY = dx * curveFactor;
         
           // Path data with quadratic curve
           const pathData = `M${hubX},${hubY} Q${midX + perpX},${midY + perpY} ${dotX},${dotY}`;
-        path.setAttribute('d', pathData);
+          path.setAttribute('d', pathData);
         
           // Styling
           path.setAttribute('stroke', 'url(#connLine)');
           path.setAttribute('stroke-width', '1.5');
-        path.setAttribute('fill', 'none');
+          path.setAttribute('fill', 'none');
           path.setAttribute('stroke-dasharray', '5,3');
           path.setAttribute('class', 'connection-path');
           

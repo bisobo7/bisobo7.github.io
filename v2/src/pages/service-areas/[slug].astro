@@ -1,0 +1,149 @@
+---
+// src/pages/service-areas/[slug].astro — one page per nearby city
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VehicleCard from '../../components/VehicleCard.astro';
+import { getCollection } from 'astro:content';
+import { towns } from '../../data/towns.js';
+import { business } from '../../data/business.js';
+
+export async function getStaticPaths() {
+  return towns.map((town) => ({ params: { slug: town.slug }, props: { town } }));
+}
+
+const { town } = Astro.props;
+
+const vehicles = (await getCollection('vehicles', ({ data }) => data.status === 'available')).slice(0, 3);
+
+const title = `Used Cars & Auto Parts near ${town.name}, MI | Dixie Auto Land`;
+const description = `Looking for used cars or OEM auto parts near ${town.name}, MI? Dixie Auto Land is ${town.driveTime} away in Saginaw — hand-inspected vehicles, honest pricing, and parts from 1,000+ yards nationwide.`;
+
+const areaSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoDealer',
+  '@id': `${business.domain}/service-areas/${town.slug}/#dealer`,
+  name: business.name,
+  url: `${business.domain}/service-areas/${town.slug}/`,
+  telephone: business.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: business.address.street,
+    addressLocality: business.address.city,
+    addressRegion: business.address.state,
+    postalCode: business.address.zip,
+    addressCountry: 'US',
+  },
+  areaServed: {
+    '@type': 'City',
+    name: `${town.name}, MI`,
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: town.faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: town.faq.a },
+    },
+    {
+      '@type': 'Question',
+      name: `How far is Dixie Auto Land from ${town.name}, MI?`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `We're ${town.distance} from ${town.name} — ${town.driveTime} via ${town.route}. Find us at ${business.address.street}, ${business.address.city}, MI ${business.address.zip}.`,
+      },
+    },
+  ],
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: business.domain + '/' },
+    { '@type': 'ListItem', position: 2, name: 'Areas We Serve', item: business.domain + '/service-areas/' },
+    { '@type': 'ListItem', position: 3, name: `${town.name}, MI`, item: `${business.domain}/service-areas/${town.slug}/` },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} schema={[areaSchema, faqSchema, breadcrumbSchema]}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/service-areas/">Areas We Serve</a></li>
+          <li aria-current="page">{town.name}, MI</li>
+        </ol>
+      </nav>
+      <span class="page-hero-eyebrow">{town.driveTime} from {town.name}</span>
+      <h1>Used Cars &amp; Auto Parts near {town.name}, MI</h1>
+      <p class="page-hero-sub">
+        Hand-inspected used vehicles and OEM parts sourcing — {town.distance} away
+        on Dixie Hwy in Saginaw.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="town-layout">
+        <article class="town-article animate-on-scroll">
+          <h2>Serving {town.name} from Dixie Hwy</h2>
+          {town.intro.map((p) => <p>{p}</p>)}
+
+          <h2>{town.faq.q}</h2>
+          <p>{town.faq.a}</p>
+
+          <h2>Getting Here from {town.name}</h2>
+          <p>
+            Take {town.route} — {town.driveTime} to {business.address.street},
+            {' '}{business.address.city}, {business.address.state} {business.address.zip}.
+            The inventory is out front and walk-ins are welcome during business hours.
+          </p>
+        </article>
+
+        <aside class="town-aside">
+          <div class="aside-card aside-drive animate-on-scroll">
+            <h3>From {town.name}</h3>
+            <p><strong>{town.distance}</strong> · {town.driveTime}</p>
+            <p>{town.route}</p>
+            <a href={business.mapsUrl} class="btn btn-gold" target="_blank" rel="noopener">Get Directions</a>
+          </div>
+          <div class="aside-card animate-on-scroll">
+            <h3>Talk to a Person</h3>
+            <p>Ask about a vehicle, check a part, or confirm a car is still on the lot before you drive over.</p>
+            <p><strong><a href={business.phoneHref}>{business.phone}</a></strong></p>
+            <a href="/contact/" class="btn btn-primary">Send a Message</a>
+          </div>
+          <div class="aside-card animate-on-scroll">
+            <h3>Hours</h3>
+            {business.hours.map((h) => (
+              <p>{h.days}: {h.open ? `${h.open} – ${h.close}` : 'Closed'}</p>
+            ))}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {vehicles.length > 0 && (
+    <section class="about">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <span class="section-eyebrow">On the Lot Now</span>
+          <h2 class="section-title">Worth the Drive from {town.name}</h2>
+        </div>
+        <div class="vehicle-grid">
+          {vehicles.map((v) => <VehicleCard vehicle={v} />)}
+        </div>
+        <div class="view-all-container">
+          <a href="/inventory/" class="btn btn-primary">View All Inventory</a>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
