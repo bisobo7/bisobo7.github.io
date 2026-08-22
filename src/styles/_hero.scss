@@ -11,13 +11,13 @@
   color: white;
   text-align: center;
   background:
-    linear-gradient(rgba(15, 25, 35, 0.78), rgba(15, 25, 35, 0.78)),
-    url('/images/dixie-outside-1200.webp') no-repeat center center / cover;
+    linear-gradient(rgba(12, 17, 24, 0.74), rgba(12, 17, 24, 0.8)),
+    url('/images/dixie-cars-hero-1200.webp') no-repeat center center / cover;
 
   @include lg {
     background-image:
-      linear-gradient(rgba(15, 25, 35, 0.78), rgba(15, 25, 35, 0.78)),
-      url('/images/dixie-outside-1536.webp');
+      linear-gradient(rgba(12, 17, 24, 0.74), rgba(12, 17, 24, 0.8)),
+      url('/images/dixie-cars-hero-1536.webp');
   }
 
   &::before {

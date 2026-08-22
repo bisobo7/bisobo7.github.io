@@ -1,166 +1,242 @@
 // src/styles/_footer.scss
+// Premium footer: closing CTA band, gold hairlines, tailored hierarchy.
 @use 'variables' as *;
 @use 'breakpoints' as *;
 
 .footer {
-  background-color: $secondary-color;
+  background: $ink;
   color: white;
-  padding: 70px 0 30px;
   position: relative;
   overflow: hidden;
 
+  // top hairline: brand red bleeding into gold
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 5px;
-    background: $premium-gradient;
-  }
-
-  h4 {
-    color: white;
-    margin-bottom: 20px;
-    position: relative;
-    padding-bottom: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 30px;
-      height: 2px;
-      background: $gold;
-    }
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(200, 16, 46, 0.8) 30%, rgba(201, 162, 76, 0.8) 70%, transparent 100%);
   }
 }
 
+// ---- Closing CTA band ----
+.footer-cta {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 52px 0;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(200, 16, 46, 0.16) 0%, transparent 62%),
+    radial-gradient(ellipse at 85% 100%, rgba(201, 162, 76, 0.09) 0%, transparent 60%);
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  h2 {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 2rem;
+    color: white;
+    margin: 0;
+
+    @include mobile-only { font-size: 1.55rem; }
+  }
+}
+
+.footer-cta-eyebrow {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: 10px;
+}
+
+.footer-cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+
+  @include mobile-only {
+    width: 100%;
+    .btn { flex: 1 1 100%; }
+  }
+}
+
+// ---- Columns ----
 .footer-content {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.1fr;
-  gap: 44px;
-  margin-bottom: 50px;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 48px;
+  padding: 62px 0 52px;
 
   @include tablet-down {
     grid-template-columns: 1fr 1fr;
+    gap: 40px;
   }
 
   @include mobile-only {
     grid-template-columns: 1fr;
-    text-align: center;
-
-    .footer h4::after,
-    h4::after {
-      left: 50%;
-      transform: translateX(-50%);
-    }
+    gap: 34px;
+    padding: 44px 0 36px;
   }
 }
 
-.footer-info {
+.footer h4 {
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  position: relative;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    height: 1px;
+    background: $gold;
+  }
+}
+
+.footer-brand {
   .logo-small {
     width: 190px;
+    margin-bottom: 22px;
   }
 
   p {
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: 20px;
-    line-height: 1.7;
-    font-size: 0.95rem;
-  }
-
-  @include mobile-only {
-    .logo-small { margin: 0 auto; }
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.8;
+    font-size: 0.92rem;
+    margin: 0;
+    max-width: 34ch;
   }
 }
 
 .footer-nav {
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
 
   a {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.95rem;
+    position: relative;
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.92rem;
+    transition: color 0.3s ease, padding-left 0.3s $ease-premium;
 
     &::before {
-      content: '→';
-      margin-right: 5px;
-      opacity: 0;
-      transform: translateX(-10px);
-      display: inline-block;
-      transition: all 0.3s ease;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: 1px;
+      background: $gold;
+      transition: width 0.3s $ease-premium;
     }
 
     &:hover {
-      color: $primary-color;
+      color: #fff;
+      padding-left: 18px;
 
-      &::before {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      &::before { width: 12px; }
     }
+  }
+}
+
+.footer-visit {
+  address {
+    font-style: normal;
+    margin-bottom: 22px;
+  }
+
+  .footer-address {
+    display: block;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.92rem;
+    line-height: 1.75;
+    margin-bottom: 12px;
+
+    &:hover { color: $gold; }
+  }
+
+  .footer-phone {
+    display: inline-block;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+
+    &:hover { color: $gold; }
+  }
+}
+
+.footer-hours {
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+  }
+
+  dt {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+}
+
+// ---- Bottom bar ----
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 26px 0 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .footer-mark {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    color: rgba(201, 162, 76, 0.75);
   }
 
   @include mobile-only {
-    align-items: center;
-  }
-}
-
-.footer-contact {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.95rem;
-  font-style: normal;
-
-  p {
-    margin-bottom: 10px;
-    line-height: 1.6;
-  }
-
-  a {
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 600;
-
-    &:hover {
-      color: $accent-color;
-    }
-  }
-
-  .footer-hours {
-    margin-top: 18px;
-
-    p {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-
-      @include mobile-only {
-        justify-content: center;
-      }
-
-      span:last-child {
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.9);
-      }
-    }
-  }
-}
-
-.copyright {
-  text-align: center;
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-
-  a:hover {
-    color: $primary-color;
+    justify-content: center;
+    text-align: center;
   }
 }

@@ -18,7 +18,7 @@ interface Props {
 const {
   title,
   description = seo.defaultDescription,
-  ogImage = '/images/dixie-outside-1200.webp',
+  ogImage = '/images/dixie-cars-1200.webp',
   schema = [],
   noindex = false,
 } = Astro.props;
@@ -33,7 +33,7 @@ const dealerSchema = {
   name: business.name,
   url: business.domain,
   telephone: business.phone,
-  image: `${business.domain}/images/dixie-outside-1200.webp`,
+  image: `${business.domain}/images/dixie-cars-1200.webp`,
   logo: `${business.domain}/images/dixie-logo-black.svg`,
   address: {
     '@type': 'PostalAddress',

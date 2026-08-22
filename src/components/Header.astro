@@ -14,28 +14,50 @@ const isActive = (href) =>
 ---
 
 <header class="header" id="site-header">
-  <div class="container">
-    <div class="logo-container">
-      <a href="/" aria-label="Dixie Auto Land home">
-        <img src="/images/dixie-logo-white.svg" alt="Dixie Auto Land" class="logo" width="190" height="60" />
-      </a>
+  <!-- Utility bar: collapses on scroll -->
+  <div class="header-utility">
+    <div class="container">
+      <span class="utility-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2 C8.13,2 5,5.13 5,9 C5,14.25 12,22 12,22 C12,22 19,14.25 19,9 C19,5.13 15.87,2 12,2 Z M12,11.5 C10.62,11.5 9.5,10.38 9.5,9 C9.5,7.62 10.62,6.5 12,6.5 C13.38,6.5 14.5,7.62 14.5,9 C14.5,10.38 13.38,11.5 12,11.5 Z"/></svg>
+        {business.address.street}, {business.address.city}, {business.address.state}
+      </span>
+      <span class="utility-divider" aria-hidden="true"></span>
+      <span class="utility-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12,2A10,10 0 1,0 22,12 10,10 0 0,0 12,2Zm0,18a8,8 0 1,1 8-8A8,8 0 0,1 12,20Zm.5-13H11v6l5.25,3.15.75-1.23-4.5-2.67Z"/></svg>
+        Mon–Fri 9–7 · Sat 10–5
+      </span>
+      <span class="utility-item utility-pitch">Hand-inspected vehicles · 1,000+ yard parts network</span>
     </div>
-    <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav" id="site-nav" aria-label="Main navigation">
-      <ul class="nav-list">
-        {links.map((l) => (
-          <li class="nav-item">
-            <a href={l.href} class="nav-link" aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
-          </li>
-        ))}
-      </ul>
-      <div class="header-cta">
-        <a href={business.phoneHref} class="header-phone">{business.phone}</a>
-        <a href="/inventory/" class="btn btn-primary">View Inventory</a>
+  </div>
+
+  <!-- Main bar -->
+  <div class="header-main">
+    <div class="container">
+      <div class="logo-container">
+        <a href="/" aria-label="Dixie Auto Land home">
+          <img src="/images/dixie-logo-white.svg" alt="Dixie Auto Land" class="logo" width="190" height="60" />
+        </a>
       </div>
-    </nav>
-    <div class="nav-overlay" id="nav-overlay"></div>
+      <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          {links.map((l) => (
+            <li class="nav-item">
+              <a href={l.href} class="nav-link" aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+        <div class="header-cta">
+          <a href={business.phoneHref} class="header-phone">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5C20.55,15.5 21,15.95 21,16.5V20C21,20.55 20.55,21 20,21C10.61,21 3,13.39 3,4C3,3.45 3.45,3 4,3H7.5C8.05,3 8.5,3.45 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>
+            <span>{business.phone}</span>
+          </a>
+          <a href="/inventory/" class="btn btn-primary">View Inventory</a>
+        </div>
+      </nav>
+      <div class="nav-overlay" id="nav-overlay"></div>
+    </div>
   </div>
 </header>
