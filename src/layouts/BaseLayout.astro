@@ -101,13 +101,7 @@ const allSchema = [dealerSchema, ...schema];
     </script>
 
     <!-- Ahrefs Analytics -->
-    <script is:inline>
-      var ahrefs_analytics_script = document.createElement('script');
-      ahrefs_analytics_script.async = true;
-      ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
-      ahrefs_analytics_script.setAttribute('data-key', 'eHSiqWI9Tz17Zq4VL3HEQQ');
-      document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
-    </script>
+    <script is:inline src="https://analytics.ahrefs.com/analytics.js" data-key="eHSiqWI9Tz17Zq4VL3HEQQ" async></script>
 
     <!-- Microsoft Clarity -->
     <script is:inline define:vars={{ clarityId: business.clarityId }}>
