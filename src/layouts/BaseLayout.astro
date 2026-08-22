@@ -100,6 +100,15 @@ const allSchema = [dealerSchema, ...schema];
       gtag('config', 'G-54EH4B5LP8');
     </script>
 
+    <!-- Ahrefs Analytics -->
+    <script is:inline>
+      var ahrefs_analytics_script = document.createElement('script');
+      ahrefs_analytics_script.async = true;
+      ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+      ahrefs_analytics_script.setAttribute('data-key', 'eHSiqWI9Tz17Zq4VL3HEQQ');
+      document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+    </script>
+
     <!-- Microsoft Clarity -->
     <script is:inline define:vars={{ clarityId: business.clarityId }}>
       (function (c, l, a, r, i, t, y) {
