@@ -1,13 +1,11 @@
 # .github/workflows/deploy.yml
-# Builds the Astro site in v2/ and deploys to GitHub Pages.
-# One-time setup: repo Settings → Pages → Source: "GitHub Actions".
-# NOTE: once this runs with Pages set to Actions, it replaces the current
-# root-folder site at dixieauto.land — flip it when v2 is ready.
+# Builds the Astro site at the repo root and deploys it to GitHub Pages.
+# One-time setup: repo Settings -> Pages -> Source: "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -28,15 +26,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: v2/package-lock.json
       - name: Install and build
-        working-directory: v2
         run: |
           npm ci
           npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: v2/dist
+          path: dist
 
   deploy:
     needs: build

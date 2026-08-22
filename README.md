@@ -1,12 +1,11 @@
-# Dixie Auto Land v2
+# Dixie Auto Land — live site (dixieauto.land)
 
-Astro 5 static rebuild of dixieauto.land. Phase 1 of the redesign spec (see `../SPEC.md`),
-pulled forward with the inventory system since used-car sales lead the strategy.
+Astro 5 site for dixieauto.land (see `SPEC.md` for the full redesign spec).
+The old one-page site is archived in `legacy-v1/` for reference only.
 
 ## Run it
 
 ```bash
-cd v2
 npm install
 npm run dev        # local dev at localhost:4321
 npm run build      # production build to dist/
@@ -35,7 +34,7 @@ or `status: pending`.
 - [ ] Confirm the phone number in `src/data/business.js` (see SPEC.md §12 — 989 vs 586)
 - [ ] Verify the geo pin coordinates against Google Business Profile
 - [ ] In GitHub repo settings → Pages, set Source to **GitHub Actions**
-      (the workflow in `.github/workflows/deploy.yml` builds from `v2/`)
+      (move `deploy-workflow.yml` to `.github/workflows/deploy.yml` first)
 
 ## Where things live
 
@@ -45,4 +44,4 @@ or `status: pending`.
 - `src/layouts/BaseLayout.astro` — head, AutoDealer schema, Clarity, header/footer
 - `public/images/` — brand SVGs + compressed dealership photos
 
-The old one-page site remains untouched at the repo root until cutover.
+The `_to_delete_v2_emptyshell/` folder is safe to delete.

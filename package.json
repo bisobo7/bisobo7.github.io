@@ -1,19 +1,16 @@
 {
   "name": "dixie-auto-land",
-  "version": "1.0.0",
-  "description": "Dixie Auto Land - Used Vehicles and Parts Specialists",
-  "main": "server/static-server.js",
+  "version": "2.0.0",
+  "description": "Dixie Auto Land - used vehicles & parts, Saginaw MI",
+  "type": "module",
   "scripts": {
-    "start": "node server/static-server.js",
-    "dev": "node server/static-server.js",
-    "sass": "sass --watch scss/styles.scss:css/styles.css"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
-  "keywords": [
-    "auto",
-    "vehicles",
-    "parts",
-    "repairs"
-  ],
-  "author": "Dixie Auto Land",
-  "license": "UNLICENSED"
-} 
+  "dependencies": {
+    "@astrojs/sitemap": "^3.4.1",
+    "astro": "^5.12.0",
+    "sass": "^1.89.2"
+  }
+}
