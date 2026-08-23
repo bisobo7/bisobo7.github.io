@@ -29,7 +29,7 @@ export const business = {
   // Web3Forms access key for the contact/inquiry forms.
   // Get a free key at https://web3forms.com (takes 1 minute) and paste it here.
   web3formsKey: 'YOUR_WEB3FORMS_ACCESS_KEY',
-  clarityId: 'r0qm9v26i3',
+  clarityId: 'y6ztry5dwf',
 };
 
 export const seo = {

@@ -18,7 +18,7 @@ interface Props {
 const {
   title,
   description = seo.defaultDescription,
-  ogImage = '/images/dixie-cars-1200.webp',
+  ogImage = '/images/og-logo.jpg',
   schema = [],
   noindex = false,
 } = Astro.props;
@@ -34,7 +34,7 @@ const dealerSchema = {
   url: business.domain,
   telephone: business.phone,
   image: `${business.domain}/images/dixie-cars-1200.webp`,
-  logo: `${business.domain}/images/dixie-logo-black.svg`,
+  logo: `${business.domain}/images/dixie-badge-512.png`,
   address: {
     '@type': 'PostalAddress',
     streetAddress: business.address.street,
@@ -75,10 +75,18 @@ const allSchema = [dealerSchema, ...schema];
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${business.name} logo`} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#10131a" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

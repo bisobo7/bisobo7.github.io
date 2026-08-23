@@ -25,6 +25,18 @@
     .header-main {
       padding: 0.55rem 0;
     }
+
+    .logo-container .logo {
+      height: 42px;
+
+      @include md {
+        height: 46px;
+      }
+
+      @include lg {
+        height: 50px;
+      }
+    }
   }
 }
 
@@ -114,13 +126,27 @@
   flex: 0 0 auto;
   padding: 0.2rem 0;
 
-  .logo {
-    width: 168px;
-    height: auto;
+  a {
     display: block;
+  }
+
+  picture {
+    display: block;
+  }
+
+  // The badge is a near-square crest, so it is sized by HEIGHT, not width.
+  .logo {
+    width: auto;
+    height: 46px;
+    display: block;
+    transition: height 0.35s $ease-premium;
+
+    @include md {
+      height: 54px;
+    }
 
     @include lg {
-      width: 190px;
+      height: 60px;
     }
   }
 }
@@ -318,9 +344,14 @@
 
 // Push page content below the fixed header
 main {
-  padding-top: 72px;
+  // fixed-header offset: badge height + .header-main padding (+ utility bar on lg)
+  padding-top: 84px;
+
+  @include md {
+    padding-top: 92px;
+  }
 
   @include lg {
-    padding-top: 110px;
+    padding-top: 136px;
   }
 }

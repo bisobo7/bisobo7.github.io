@@ -110,8 +110,14 @@
 }
 
 .footer-brand {
+  picture {
+    display: block;
+  }
+
   .logo-small {
-    width: 190px;
+    width: auto;
+    height: 92px;
+    display: block;
     margin-bottom: 22px;
   }
 

@@ -23,7 +23,21 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="/images/dixie-logo-white.svg" alt="Dixie Auto Land" class="logo-small" width="190" height="60" loading="lazy" />
+        <picture>
+          <source
+            type="image/webp"
+            srcset="/images/dixie-badge-128.webp 1x, /images/dixie-badge-256.webp 2x"
+          />
+          <img
+            src="/images/dixie-badge-128.png"
+            srcset="/images/dixie-badge-128.png 1x, /images/dixie-badge-256.png 2x"
+            alt="Dixie Auto Land"
+            class="logo-small"
+            width="128"
+            height="120"
+            loading="lazy"
+          />
+        </picture>
         <p>
           Saginaw's specialist for quality used vehicles and OEM parts — hand-inspected
           cars, transparent pricing, and a nationwide network of over 1,000 partner yards
