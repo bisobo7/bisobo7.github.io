@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dixieauto.land/sitemap-index.xml
+Sitemap: https://dixieauto.land/sitemap.xml
