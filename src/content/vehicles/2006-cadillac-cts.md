@@ -7,7 +7,7 @@ mileage: 104000
 bodyStyle: car
 transmission: automatic
 drivetrain: RWD
-status: available
+status: 'sold'
 featured: false
 photos:
   - '2006-cadillac-cts-1.jpg'
