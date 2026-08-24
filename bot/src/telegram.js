@@ -4,11 +4,14 @@ import { config } from './config.js';
 const API = `https://api.telegram.org/bot${config.botToken}`;
 const FILE_API = `https://api.telegram.org/file/bot${config.botToken}`;
 
-async function call(method, params = {}) {
+async function call(method, params = {}, timeoutMs = 15000) {
+  // Without a timeout a wedged connection hangs the process silently, with no
+  // output and no error — indistinguishable from "running fine".
   const res = await fetch(`${API}/${method}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   const json = await res.json();
   if (!json.ok) {
@@ -23,11 +26,11 @@ export const telegram = {
   /** Long-poll. Returns [] on a timeout rather than throwing, so the loop is simple. */
   async getUpdates(offset) {
     try {
-      return await call('getUpdates', {
-        offset,
-        timeout: 30,
-        allowed_updates: ['message', 'callback_query'],
-      });
+      return await call(
+        'getUpdates',
+        { offset, timeout: 30, allowed_updates: ['message', 'callback_query'] },
+        40000 // must outlast the 30s long-poll
+      );
     } catch (err) {
       // A dropped long-poll is routine; anything else is worth surfacing.
       if (!/aborted|timeout|fetch failed|ETIMEDOUT|ECONNRESET/i.test(err.message)) {

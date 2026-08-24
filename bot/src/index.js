@@ -386,10 +386,26 @@ async function onMessage(msg) {
 // ------------------------------------------------------------------- runtime
 
 async function main() {
+  // Announce each check BEFORE running it, so a hang shows which step wedged
+  // instead of just printing nothing at all.
+  process.stdout.write('Telegram… ');
   const me = await telegram.call('getMe');
+  console.log(`@${me.username}`);
+
+  // A webhook silently starves getUpdates: the bot runs, but never sees a
+  // single message. Worth detecting rather than leaving the user guessing.
+  const hook = await telegram.call('getWebhookInfo');
+  if (hook?.url) {
+    console.error(`\n  A webhook is registered for this bot:\n    ${hook.url}`);
+    console.error('  While that exists, polling receives NOTHING.');
+    console.error('  Clear it with:  npm run doctor -- --clear-webhook\n');
+    process.exit(1);
+  }
+
+  process.stdout.write('GitHub… ');
   const repo = await github.checkAccess();
-  console.log(`Bot:  @${me.username}`);
-  console.log(`Repo: ${repo.full_name} (${config.github.branch}) — write access confirmed`);
+  console.log(`${repo.full_name} (${config.github.branch}) — write access confirmed`);
+
   console.log(`Owners: ${config.ownerIds.join(', ')}`);
   console.log('Listening. Ctrl-C to stop.\n');
 
@@ -399,11 +415,17 @@ async function main() {
     for (const update of updates) {
       offset = update.update_id + 1;
       const from = update.message?.from || update.callback_query?.from;
+      const text = update.message?.text || (update.message?.photo ? '[photo]' : '');
+      console.log(`← ${from?.id} (@${from?.username || '—'}): ${text.slice(0, 60)}`);
 
       // The allowlist. Everything above this line is untrusted input.
       if (!from || !isOwner(from.id)) {
         if (update.message) {
-          console.warn(`Ignored message from ${from?.id} (@${from?.username || '—'})`);
+          console.warn(
+            `  IGNORED — ${from?.id} is not in TELEGRAM_OWNER_IDS ` +
+            `(allowed: ${config.ownerIds.join(', ')}).\n` +
+            '  If that is you, put that number in bot/.env and restart.'
+          );
           await telegram.send(update.message.chat.id, 'This bot is private.').catch(() => {});
         }
         continue;

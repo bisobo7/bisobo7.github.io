@@ -13,6 +13,9 @@ No npm dependencies. Node 20.6+ (uses native `fetch` and `--env-file`).
    the allowlist; without it anyone who finds the bot could publish to the lot.
 3. **GitHub token** — a [fine-grained PAT](https://github.com/settings/personal-access-tokens)
    scoped to *only this repo*, Repository permissions → Contents: Read and write.
+   Create it signed in as the repo **owner** (`bisobo7`). Fine-grained tokens
+   can't target a repo owned by another account, even with collaborator push
+   access — it won't show up in the repository picker.
 4. `cp .env.example .env`, fill it in, then:
 
 ```bash

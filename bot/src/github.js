@@ -10,6 +10,7 @@ const BASE = `https://api.github.com/repos/${owner}/${repo}`;
 
 async function gh(path, options = {}) {
   const res = await fetch(path.startsWith('http') ? path : `${BASE}${path}`, {
+    signal: AbortSignal.timeout(20000),
     ...options,
     headers: {
       Authorization: `Bearer ${token}`,
