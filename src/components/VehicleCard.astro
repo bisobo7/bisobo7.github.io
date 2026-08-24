@@ -1,11 +1,10 @@
 ---
 // src/components/VehicleCard.astro
+import VehiclePhoto from './VehiclePhoto.astro';
+
 const { vehicle } = Astro.props;
 const { data, id } = vehicle;
 const title = `${data.year} ${data.make} ${data.model}${data.trim ? ' ' + data.trim : ''}`;
-const photo = data.photos.length
-  ? `/images/vehicles/${data.photos[0]}`
-  : '/images/vehicle-placeholder.svg';
 const price = data.price
   ? `$${data.price.toLocaleString('en-US')}`
   : 'Call for price';
@@ -25,7 +24,14 @@ const badge =
 >
   <div class="vehicle-image">
     <a href={`/inventory/${id}/`} aria-label={`View details for ${title}`}>
-      <img src={photo} alt={title} loading="lazy" width="800" height="500" />
+      <VehiclePhoto
+        entry={data.photos[0]}
+        variant="card"
+        alt={`${title} for sale at Dixie Auto Land`}
+        sizes="(max-width: 700px) 100vw, 380px"
+        width="800"
+        height="533"
+      />
     </a>
     {badge && <span class={`vehicle-badge ${badge.cls}`}>{badge.label}</span>}
   </div>

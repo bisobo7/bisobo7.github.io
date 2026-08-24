@@ -1,0 +1,11 @@
+{
+  "name": "dixie-inventory-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Telegram bot that publishes Dixie Auto Land inventory by committing to the site repo",
+  "engines": { "node": ">=20.6" },
+  "scripts": {
+    "start": "node --env-file=.env src/index.js"
+  }
+}

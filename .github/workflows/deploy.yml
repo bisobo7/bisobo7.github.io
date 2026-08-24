@@ -6,6 +6,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # The bot lives in this repo but is not part of the site. Editing it
+    # should not burn an Actions run rebuilding pages that did not change.
+    # Vehicle markdown is NOT ignored here — that is what the bot commits.
+    paths-ignore:
+      - 'bot/**'
+      - 'legacy-v1/**'
+      - 'README.md'
+      - 'SPEC.md'
   workflow_dispatch:
 
 permissions:

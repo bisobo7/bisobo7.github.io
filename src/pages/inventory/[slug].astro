@@ -2,6 +2,8 @@
 // src/pages/inventory/[slug].astro — one indexable page per vehicle
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InquiryForm from '../../components/InquiryForm.astro';
+import VehicleGallery from '../../components/VehicleGallery.astro';
+import { primaryPhoto } from '../../utils/photos.js';
 import { getCollection, render } from 'astro:content';
 import { business } from '../../data/business.js';
 
@@ -19,9 +21,7 @@ const { Content } = await render(vehicle);
 
 const name = `${data.year} ${data.make} ${data.model}${data.trim ? ' ' + data.trim : ''}`;
 const priceText = data.price ? `$${data.price.toLocaleString('en-US')}` : 'Call for price';
-const photo = data.photos.length
-  ? `/images/vehicles/${data.photos[0]}`
-  : '/images/vehicle-placeholder.svg';
+const photo = primaryPhoto(data.photos);
 
 const title = `${name} for Sale - Saginaw, MI | Dixie Auto Land`;
 const description = `${name} for sale at Dixie Auto Land in Saginaw, MI — ${data.mileage.toLocaleString('en-US')} miles${data.price ? ', ' + priceText : ''}. Hand-inspected with honest condition notes. Call ${business.phone}.`;
@@ -44,7 +44,9 @@ const vehicleSchema = {
   vehicleTransmission: data.transmission,
   ...(data.drivetrain ? { driveWheelConfiguration: data.drivetrain } : {}),
   bodyType: data.bodyStyle,
-  image: new URL(photo, Astro.site).href,
+  image: data.photos.length
+    ? data.photos.map((p) => new URL(primaryPhoto([p]), Astro.site).href)
+    : new URL(photo, Astro.site).href,
   itemCondition: 'https://schema.org/UsedCondition',
   offers: {
     '@type': 'Offer',
@@ -87,8 +89,8 @@ const breadcrumbSchema = {
   <section>
     <div class="container">
       <div class="vehicle-detail">
-        <div class="vehicle-gallery animate-on-scroll">
-          <img src={photo} alt={`${name} at Dixie Auto Land in Saginaw, MI`} width="800" height="500" />
+        <div class="animate-on-scroll">
+          <VehicleGallery photos={data.photos} name={`${name} at Dixie Auto Land in Saginaw, MI`} />
         </div>
 
         <div class="vehicle-summary animate-on-scroll">

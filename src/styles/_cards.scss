@@ -12,6 +12,12 @@
   @include mobile-only {
     grid-template-columns: 1fr;
   }
+
+  // One or two cars on the lot shouldn't sit stranded against the left edge.
+  &.is-sparse {
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 380px));
+  }
 }
 
 .vehicle-card {
@@ -52,6 +58,11 @@
   position: relative;
   overflow: hidden;
   background: #1d1d1d;
+
+  picture {
+    display: block;
+    height: 100%;
+  }
 
   img {
     width: 100%;

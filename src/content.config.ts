@@ -20,7 +20,10 @@ const vehicles = defineCollection({
     vin: z.string().optional().default(''),
     status: z.enum(['available', 'pending', 'sold']).default('available'),
     featured: z.boolean().default(false),
-    photos: z.array(z.string()).default([]), // filenames under /public/images/vehicles/
+    // Image name stems from scripts/optimize-vehicle-photos.mjs, in gallery
+    // order (first = card/hero). A stem with a file extension is treated as a
+    // single literal file in /public/images/vehicles/. See src/utils/photos.js.
+    photos: z.array(z.string()).default([]),
     carfaxUrl: z.string().url().optional().or(z.literal('')),
     highlights: z.array(z.string()).default([]),
   }),

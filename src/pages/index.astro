@@ -12,6 +12,12 @@ const featured = vehicles
   .sort((a, b) => Number(b.data.featured) - Number(a.data.featured))
   .slice(0, 6);
 
+// The section lead has to read right whether there are six cars on the lot or one.
+const featuredLead =
+  featured.length < 3
+    ? "What's on the lot right now. Every car comes with honest condition notes — what we fixed, what we checked, and why we'd stand behind it. Looking for something else? Tell us and we'll source it."
+    : 'A hand-picked selection from our lot. Every car comes with honest condition notes — what we fixed, what we checked, and why we\'d stand behind it.';
+
 const title = 'Used Cars for Sale in Saginaw, MI | Dixie Auto Land';
 const description =
   'Shop quality used cars, trucks & SUVs in Saginaw, MI at Dixie Auto Land. Hand-inspected vehicles, honest pricing, financing available — plus OEM parts from 1,000+ yards nationwide.';
@@ -54,12 +60,9 @@ const description =
       <div class="section-header animate-on-scroll">
         <span class="section-eyebrow">Curated Inventory</span>
         <h2 class="section-title">Featured Used Vehicles</h2>
-        <p class="section-lead">
-          A hand-picked selection from our lot. Every car comes with honest condition
-          notes — what we fixed, what we checked, and why we'd stand behind it.
-        </p>
+        <p class="section-lead">{featuredLead}</p>
       </div>
-      <div class="vehicle-grid">
+      <div class:list={['vehicle-grid', featured.length < 3 && 'is-sparse']}>
         {featured.map((v) => <VehicleCard vehicle={v} />)}
       </div>
       <div class="view-all-container">

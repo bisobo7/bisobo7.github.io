@@ -343,11 +343,91 @@
 }
 
 .vehicle-gallery {
-  img {
-    width: 100%;
+  // Photos come off a phone in whatever orientation the seller held it, so the
+  // stage is a fixed SQUARE box and every shot is fitted inside it rather than
+  // cropped — a portrait side-profile still shows the whole vehicle, and square
+  // splits the leftover space evenly between portrait and landscape shots
+  // instead of pillarboxing every upright photo.
+  .gallery-stage {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     border-radius: $card-radius;
     box-shadow: $card-shadow;
-    background: #1d1d1d;
+    background: linear-gradient(160deg, #22262e 0%, #14161a 60%);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar { display: none; }
+    &:focus-visible { outline: 3px solid $gold; outline-offset: 3px; }
+
+    > img { // no-photo placeholder
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+    }
+  }
+
+  .gallery-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+
+    picture { display: block; }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+    }
+  }
+
+  .gallery-counter {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    margin: 0;
+    padding: 4px 10px;
+    border-radius: $pill-radius;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+
+  .gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .gallery-thumb {
+    display: block;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #14161a;
+    line-height: 0;
+    opacity: 0.62;
+    border: 2px solid transparent;
+    transition: opacity 0.25s ease, border-color 0.25s ease;
+
+    img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+
+    &:hover { opacity: 0.85; }
+
+    &.is-active {
+      opacity: 1;
+      border-color: $primary-color;
+    }
   }
 }
 

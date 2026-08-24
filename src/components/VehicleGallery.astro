@@ -1,0 +1,109 @@
+---
+// src/components/VehicleGallery.astro
+// Swipeable photo strip + thumbnails. The slides are a scroll-snap row, so with
+// JavaScript off it is still a working carousel you can swipe or scroll — the
+// script only adds thumbnail clicks and the active-dot state.
+import VehiclePhoto from './VehiclePhoto.astro';
+import { PLACEHOLDER } from '../utils/photos.js';
+
+const { photos = [], name } = Astro.props;
+const labels = ['front', 'side', 'rear', 'interior'];
+const caption = (i) => (photos.length > 1 && labels[i] ? `${name} — ${labels[i]}` : name);
+---
+
+{photos.length === 0 ? (
+  <div class="vehicle-gallery">
+    <div class="gallery-stage">
+      <img src={PLACEHOLDER} alt={name} width="800" height="600" />
+    </div>
+  </div>
+) : (
+  <div class="vehicle-gallery" data-gallery>
+    <div class="gallery-stage" data-slides tabindex="0" aria-label={`${name} photos`}>
+      {photos.map((p, i) => (
+        <div class="gallery-slide" id={`photo-${i + 1}`} data-slide={i}>
+          <VehiclePhoto
+            entry={p}
+            alt={caption(i)}
+            sizes="(max-width: 900px) 100vw, 620px"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            width="1200"
+            height="1200"
+          />
+        </div>
+      ))}
+      {photos.length > 1 && (
+        <p class="gallery-counter" data-counter aria-live="polite">1 / {photos.length}</p>
+      )}
+    </div>
+
+    {photos.length > 1 && (
+      <div class="gallery-thumbs" role="tablist" aria-label="Photos">
+        {photos.map((p, i) => (
+          <a
+            class:list={['gallery-thumb', i === 0 && 'is-active']}
+            href={`#photo-${i + 1}`}
+            data-thumb={i}
+            aria-label={`Photo ${i + 1}: ${caption(i)}`}
+          >
+            <VehiclePhoto
+              entry={p}
+              variant="card"
+              alt=""
+              sizes="120px"
+              width="400"
+              height="267"
+            />
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
+<script>
+  for (const gallery of document.querySelectorAll<HTMLElement>('[data-gallery]')) {
+    const stage = gallery.querySelector<HTMLElement>('[data-slides]');
+    const slides = Array.from(gallery.querySelectorAll<HTMLElement>('.gallery-slide'));
+    const thumbs = Array.from(gallery.querySelectorAll<HTMLAnchorElement>('.gallery-thumb'));
+    const counter = gallery.querySelector<HTMLElement>('[data-counter]');
+    if (!stage || slides.length < 2) continue;
+
+    const show = (i: number) => {
+      thumbs.forEach((t, n) => t.classList.toggle('is-active', n === i));
+      if (counter) counter.textContent = `${i + 1} / ${slides.length}`;
+    };
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', (e) => {
+        // scrollIntoView on the slide alone would drag the whole page up;
+        // scrolling the stage by offset keeps the viewport where it is.
+        e.preventDefault();
+        stage.scrollTo({ left: slides[i].offsetLeft - slides[0].offsetLeft, behavior: 'smooth' });
+        show(i);
+      });
+    });
+
+    // Keep the thumbs in sync when the strip is swiped or scrolled directly.
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+            show(slides.indexOf(entry.target as HTMLElement));
+          }
+        }
+      },
+      { root: stage, threshold: [0.61] }
+    );
+    slides.forEach((s) => io.observe(s));
+
+    stage.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!step) return;
+      e.preventDefault();
+      const current = thumbs.findIndex((t) => t.classList.contains('is-active'));
+      const next = Math.min(slides.length - 1, Math.max(0, current + step));
+      thumbs[next].click();
+    });
+  }
+</script>

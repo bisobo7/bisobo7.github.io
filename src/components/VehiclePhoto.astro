@@ -1,0 +1,31 @@
+---
+// src/components/VehiclePhoto.astro
+// A <picture> for one vehicle photo: WebP ladder with a JPEG src fallback.
+import { photoSources } from '../utils/photos.js';
+
+const {
+  entry,
+  variant = 'full',
+  alt,
+  sizes = '100vw',
+  loading = 'lazy',
+  width,
+  height,
+  class: className = '',
+} = Astro.props;
+
+const { src, srcset } = photoSources(entry, variant);
+---
+
+<picture>
+  {srcset && <source type="image/webp" srcset={srcset} sizes={sizes} />}
+  <img
+    src={src}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    width={width}
+    height={height}
+    class={className || undefined}
+  />
+</picture>

@@ -31,7 +31,7 @@ function vehicleLine(v: Awaited<ReturnType<typeof getCollection<'vehicles'>>>[nu
   const notes = [
     d.price ? money(d.price) : 'call for price',
     miles(d.mileage),
-    d.bodyStyle,
+    d.bodyStyle === 'suv' ? 'SUV' : d.bodyStyle,
     [d.drivetrain, d.transmission].filter(Boolean).join(' '),
     d.exteriorColor,
     d.status !== 'available' ? d.status.toUpperCase() : null,

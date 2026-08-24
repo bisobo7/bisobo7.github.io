@@ -50,3 +50,36 @@ const observer = new IntersectionObserver(
   { threshold: 0.12 }
 );
 document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+
+// --- Vehicle photo gallery -------------------------------------------------
+// Swaps the lead image when a thumbnail is chosen. Progressive enhancement:
+// with JS off, every photo is still in the DOM and reachable.
+(function initGallery() {
+  const gallery = document.querySelector('[data-gallery]');
+  if (!gallery) return;
+
+  const main = gallery.querySelector('[data-gallery-main]');
+  const thumbs = [...gallery.querySelectorAll('.gallery-thumb')];
+  if (!main || thumbs.length < 2) return;
+
+  const show = (thumb) => {
+    main.src = thumb.dataset.src;
+    thumbs.forEach((t) => {
+      const active = t === thumb;
+      t.classList.toggle('is-active', active);
+      if (active) t.setAttribute('aria-current', 'true');
+      else t.removeAttribute('aria-current');
+    });
+  };
+
+  thumbs.forEach((thumb, i) => {
+    thumb.addEventListener('click', () => show(thumb));
+    thumb.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const next = thumbs[(i + (e.key === 'ArrowRight' ? 1 : -1) + thumbs.length) % thumbs.length];
+      next.focus();
+      show(next);
+    });
+  });
+})();
