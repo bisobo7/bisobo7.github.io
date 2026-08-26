@@ -8,3 +8,10 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Scratch parking. This folder is mounted into Claude sessions with deletion
+# disabled, so anything Claude can't `rm` gets moved here instead. It is junk by
+# definition and must never be committed — a stray 4MB tarball in here is how
+# ~6MB of dead weight ended up in the repo's history in Aug 2026.
+_to_delete/
+_to_delete_*

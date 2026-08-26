@@ -4,6 +4,13 @@
 // change it once, it changes everywhere, and it must match Google Business
 // Profile and citations byte-for-byte.
 
+// Google Business Profile. One constant so the review badge, the footer link
+// and schema `sameAs` can never drift apart.
+// Canonical ?cid= form, derived from the profile's feature ID
+// (0x8823eb671660e56b:0x3b21cb242c0480b5 -> 4260910078686953653). Preferred
+// over a copied /search?q=… URL, which carries session params that rot.
+const googleBusinessUrl = 'https://www.google.com/maps?cid=4260910078686953653';
+
 export const business = {
   name: 'Dixie Auto Land',
   legalName: 'Dixie Auto Land',
@@ -24,8 +31,18 @@ export const business = {
     { days: 'Sunday', open: null, close: null, schema: null }, // closed
   ],
   mapsUrl: 'https://maps.google.com/?q=4285+Dixie+Hwy,+Saginaw,+MI+48601',
+  googleBusinessUrl,
+  // Google rating shown by <GoogleRating />. Hand-maintained: bump `count` (and
+  // `rating`, to one decimal) whenever the profile picks up a new review.
+  // NOT emitted as aggregateRating schema on purpose — Google treats
+  // self-serving review markup for your own business as a violation.
+  reviews: {
+    rating: 5,
+    count: 1,
+    url: googleBusinessUrl,
+  },
   // Only REAL profiles belong here (schema sameAs). Leave empty until verified.
-  socials: [],
+  socials: googleBusinessUrl ? [googleBusinessUrl] : [],
   // Web3Forms access key for the contact/inquiry forms.
   // Get a free key at https://web3forms.com (takes 1 minute) and paste it here.
   web3formsKey: 'YOUR_WEB3FORMS_ACCESS_KEY',

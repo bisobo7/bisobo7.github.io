@@ -1,0 +1,191 @@
+// src/styles/_reviews.scss
+// Google review badge (<GoogleRating />). Sits on its own, clear of the dark
+// trust strip above and the inventory heading below — it reads as a standalone
+// piece of proof rather than a caption on either neighbour.
+@use 'variables' as *;
+@use 'breakpoints' as *;
+
+.review-band {
+  position: relative;
+  z-index: 2;
+  // Roughly balances the inventory section's own 90px top padding below.
+  padding: 74px 0 0;
+
+  @include mobile-only {
+    padding-top: 52px;
+  }
+}
+
+.review-badge-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.review-badge {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  max-width: 100%;
+  padding: 18px 30px;
+  background: #fff;
+  border: 1px solid rgba(201, 162, 76, 0.4);
+  border-radius: 4px;
+  box-shadow: 0 14px 36px rgba(16, 19, 26, 0.12);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    box-shadow 0.4s $ease-premium,
+    border-color 0.4s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgba(201, 162, 76, 0.85);
+    box-shadow: 0 20px 46px rgba(16, 19, 26, 0.18);
+
+    .review-cta {
+      color: $primary-color;
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+
+  @include mobile-only {
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 22px;
+    text-align: center;
+  }
+}
+
+// Zero-size holder for the star gradients.
+.review-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.review-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  @include mobile-only {
+    justify-content: center;
+  }
+}
+
+.review-mark svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.review-stars {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.review-star {
+  width: 21px;
+  height: 21px;
+  display: block;
+  filter: drop-shadow(0 1px 1px rgba(16, 19, 26, 0.18));
+
+  path {
+    fill: url(#dal-star-gold);
+  }
+
+  &.is-half path {
+    fill: url(#dal-star-half);
+  }
+
+  &.is-empty path {
+    fill: rgba(201, 162, 76, 0.2);
+  }
+}
+
+.review-score {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1;
+  color: $secondary-color;
+  font-variant-numeric: tabular-nums;
+  margin-left: 3px;
+}
+
+.review-count {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.review-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 26px;
+  border-left: 1px solid rgba(201, 162, 76, 0.4);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: $secondary-color;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.4s $ease-premium;
+  }
+
+  @include mobile-only {
+    padding: 12px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(201, 162, 76, 0.4);
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Stars pop in one after another once the badge scrolls into view.
+html.js .animate-on-scroll .review-star {
+  opacity: 0;
+  transform: scale(0.55) rotate(-20deg);
+}
+
+html.js .animated .review-star {
+  animation: dal-star-pop 0.5s $ease-premium forwards;
+  animation-delay: calc(var(--i) * 90ms + 260ms);
+}
+
+@keyframes dal-star-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-20deg);
+  }
+  60% {
+    transform: scale(1.12) rotate(3deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .animate-on-scroll .review-star,
+  html.js .animated .review-star {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

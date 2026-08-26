@@ -3,6 +3,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import VehicleCard from '../components/VehicleCard.astro';
 import ServiceIcon from '../components/ServiceIcon.astro';
+import GoogleRating from '../components/GoogleRating.astro';
 import { getCollection } from 'astro:content';
 import { business } from '../data/business.js';
 import { towns } from '../data/towns.js';
@@ -53,6 +54,9 @@ const description =
       </div>
     </div>
   </div>
+
+  <!-- GOOGLE RATING -->
+  <GoogleRating />
 
   <!-- FEATURED INVENTORY -->
   <section id="inventory" class="inventory">
