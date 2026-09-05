@@ -51,3 +51,29 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # IndexNow tells Bing/Yandex/Seznam/Naver what just changed (Google ignores
+  # it). Runs only after the deploy succeeds, so every URL it names is live.
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Submit changed URLs
+        # A failed ping must never show up as a failed deploy: the site is already
+        # live, and the next push will submit these URLs again anyway.
+        continue-on-error: true
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] \
+             || ! git rev-parse --quiet --verify "${{ github.event.before }}^{commit}" > /dev/null; then
+            # Manual run, or a first push with no previous commit to diff against.
+            node scripts/indexnow.mjs --all
+          else
+            git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" \
+              | xargs -r node scripts/indexnow.mjs
+          fi
