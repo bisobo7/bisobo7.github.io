@@ -83,14 +83,6 @@
 .otd-disclaimer { font-size: .63rem; color: #aebcc0; line-height: 1.75; margin: 24px 0 0; }
 .otd-error { font-size: .7rem; color: #a10d2b; margin: 6px 0 0; }
 .otd-error:empty { display: none; }
-.otd-quote { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; padding: 45px 0; scroll-margin-top: 100px; }
-.otd-quote h2 { font-size: 2rem; }
-.otd-quote p { font-size: .8rem; }
-#quote-preview { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; font-size: .72rem; background: #eeefe9; border: 1px solid #d5d8d0; border-radius: 6px; padding: 22px; line-height: 1.8; }
-.otd-page .contact-form { box-shadow: none; border: 1px solid #deded5; }
-.otd-page .contact-form.animate-on-scroll { opacity: 1; transform: none; }
-.otd-page .form-note { color: #626a6b; }
-.form-unavailable { font-size: .85rem; padding: 12px; background: #faf4e7; color: #665030; }
 .otd-guide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 75px; padding: 65px 0 60px; }
 .otd-guide h2 { font-size: 2rem; letter-spacing: -.025em; }
 .otd-example > p:not(.otd-eyebrow) { font-size: .78rem; color: #687170; max-width: 46ch; }
@@ -108,15 +100,15 @@
   .otd-page { padding-top: 24px; } .otd-page .container { width: 100%; padding: 0 18px; }
   .otd-intro .breadcrumbs { margin-bottom: 23px; } .otd-intro { padding-bottom: 25px; }
   .desktop-break { display: none; } .otd-lead { font-size: .88rem; } .otd-scope { font-size: .7rem; }
-  .otd-workspace, .otd-guide, .otd-quote { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .otd-workspace, .otd-guide { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .otd-result { position: static; } .otd-inputs, .otd-result { padding: 22px 19px; }
   .otd-page .form-group :is(input, select), .otd-options select { font-size: 16px; }
   .otd-options summary .otd-optional { display: none; } .otd-guide { gap: 45px; padding-top: 45px; }
-  .otd-total { font-size: clamp(2rem, 9vw, 3rem); } .otd-quote { padding-top: 30px; }
+  .otd-total { font-size: clamp(2rem, 9vw, 3rem); }
 }
 @media print {
   main { padding-top: 0; }
-  .header, .footer, .otd-intro .breadcrumbs, .otd-inputs, .otd-guide, .otd-quote, .otd-actions, .otd-conversion, .otd-intro .otd-lead, .otd-intro .otd-scope { display: none !important; }
+  .header, .footer, .otd-intro .breadcrumbs, .otd-inputs, .otd-guide, .otd-actions, .otd-conversion, .otd-intro .otd-lead, .otd-intro .otd-scope { display: none !important; }
   .otd-page { padding: 0; background: #fff; } .otd-page .container { width: 100%; max-width: none; padding: 0; }
   .otd-intro { padding-bottom: 12px; } .otd-intro h1 { font-size: 22px; } .otd-intro .otd-eyebrow { margin: 0 0 8px; }
   .otd-workspace { display: block; } .otd-result { position: static; border: 1px solid #aaa; box-shadow: none; padding: 20px; background: white; }

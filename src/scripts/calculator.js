@@ -1,4 +1,4 @@
-import { calculateEstimate, estimateSummary, michiganToday, money, parseMoney, rulesFor } from '../utils/out-the-door.js';
+import { calculateEstimate, michiganToday, money, parseMoney, rulesFor } from '../utils/out-the-door.js';
 const root = document.getElementById('otd-calculator');
 if (root) {
   const el = id => document.getElementById(id);
@@ -7,7 +7,7 @@ if (root) {
   const feeConfig = JSON.parse(root.dataset.fees);
   const requested = new URLSearchParams(location.search).get('vehicle');
   const entry = requested ? 'inventory' : 'manual';
-  let current = null, started = false, viewed = false, accepted = false;
+  let current = null, started = false, viewed = false;
   let resultVisible = false;
   const track = (name) => {
     if (typeof window.gtag !== 'function') return;
@@ -34,7 +34,7 @@ if (root) {
     el('dixie-fee-notice').hidden = !selected;
     const feesCurrent = feeConfig.verifiedOn && feeConfig.effectiveFrom <= el('transaction-date').value && feeConfig.effectiveThrough >= el('transaction-date').value;
     const noDealerFees = feeConfig.charges.every(f => f.amountCents === 0);
-    el('dixie-fee-notice').textContent = feesCurrent ? (noDealerFees ? 'Dixie charges no mandatory dealer fees. Dealer fees: $0.' : 'Dixie’s configured dealer charges appear in the worksheet. Final pricing requires confirmation.') : 'Dixie’s dealer fees need confirmation and are not yet included. Request a written quote for the applicable charges.';
+    el('dixie-fee-notice').textContent = feesCurrent ? (noDealerFees ? 'Dixie charges no mandatory dealer fees. Dealer fees: $0.' : 'Dixie’s configured dealer charges appear in the worksheet. Final pricing requires confirmation.') : 'Dixie’s dealer fees need confirmation and are not yet included. Call Dixie to confirm the applicable charges.';
     el('quoted-fees').hidden = el('fee-status').value !== 'quoted';
     el('trade-fields').hidden = !el('has-trade').checked;
     el('payoff-field').hidden = el('payoff-status').value !== 'known';
@@ -100,7 +100,7 @@ if (root) {
     el('estimate-error').textContent = unsupported ? 'This situation needs a personalized estimate. Please contact Dixie using the link in “Buying in a different situation?” or call us.' : result.error || 'Complete the required amounts to update your estimate.';
     el('estimate-badge').textContent = valid ? result.complete ? 'All costs entered' : 'Partial estimate' : 'Awaiting your details';
     el('result-heading').textContent = valid ? 'Your estimated cost.' : 'See the whole picture.';
-    if (!valid) { el('quote-request').hidden = true; el('calculation-summary').value = ''; return false; }
+    if (!valid) return false;
     el('result-vehicle').textContent = input.vehicle || 'Manual price · Michigan dealer purchase';
     el('result-label').textContent = result.label;
     el('result-total').textContent = money(result.total);
@@ -118,16 +118,7 @@ if (root) {
     );
     el('funding-note').textContent = !result.fundingComplete ? `Funding totals require ${[...result.unresolved, ...(input.payoff === null ? ['trade-in loan payoff'] : [])].join(', ')}. Unknown amounts have not been treated as $0.` : result.excess > 0 ? `No additional financing required. Excess contribution or equity of ${money(result.excess)} needs dealer confirmation; this is not a guaranteed cash refund.` : 'Assumes the remaining costs are financed. This is not a financing offer.';
     el('result-assumptions').textContent = `Purchase date: ${input.date} · ${input.plate}. ${result.rules.year} rules · reviewed ${result.rules.reviewed} · ${result.rules.version}.`;
-    const selected = selectedVehicle();
-    el('quote-action').href = selected ? '#quote-request' : '/inventory/';
-    el('quote-action').textContent = selected ? 'Get a written out-the-door quote' : 'Find a Dixie vehicle in this budget';
-    el('quote-support').textContent = selected ? 'Send this estimate to Dixie Auto Land so we can confirm the vehicle price and applicable fees.' : 'Choose a Dixie vehicle for a written quote. Dixie cannot confirm another seller’s price.';
-    const summary = estimateSummary(input, result);
-    el('quote-preview').textContent = summary;
-    el('calculation-summary').value = summary;
-    const inquiry = document.querySelector('[data-quote="true"]');
-    inquiry.elements.namedItem('vehicle').value = selected?.name || '';
-    if (!selected) el('quote-request').hidden = true;
+    el('call-support').textContent = selectedVehicle() ? 'Call Dixie to confirm this vehicle’s availability and registration or plate charges.' : 'Call Dixie to find a vehicle in your budget. Prices from other sellers need their confirmation.';
     markViewed();
     return true;
   }
@@ -135,8 +126,6 @@ if (root) {
     const vehicle = selectedVehicle();
     el('selling-price').value = vehicle?.price ? String(vehicle.price) : '';
     el('vehicle-notice').textContent = vehicle ? (vehicle.price ? 'Advertised price prefilled. Confirm pricing and availability with Dixie.' : 'Contact Dixie for this vehicle’s price, then enter it here.') : 'Choose a Dixie vehicle to prefill its advertised price. Availability requires confirmation.';
-    el('quote-request').hidden = true;
-    accepted = false;
   }
   el('calculator-fields').disabled = false;
   el('transaction-date').value = michiganToday();
@@ -153,21 +142,7 @@ if (root) {
     el('estimate-announcement').textContent = `${current.result.label}: ${money(current.result.total)}.`;
     el('estimate-panel').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
   });
-  el('quote-action').addEventListener('click', e => {
-    if (!selectedVehicle()) { track('calculator_inventory_click'); return; }
-    e.preventDefault();
-    if (!render(true)) return;
-    track('calculator_quote_click');
-    el('quote-request').hidden = false;
-    el('quote-request').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    el('name').focus({ preventScroll: true });
-  });
-  document.querySelector('[data-quote="true"]').addEventListener('inquiry:prepare', e => {
-    if (!render(true) || !selectedVehicle()) { e.preventDefault(); return; }
-  });
-  document.querySelector('[data-quote="true"]').addEventListener('inquiry:accepted', () => {
-    if (!accepted) { accepted = true; track('calculator_inquiry_accepted'); }
-  });
+  el('call-action').addEventListener('click', () => { track('calculator_call_click'); });
   el('print-estimate').addEventListener('click', () => { if (render(true)) window.print(); });
   el('reset-estimate').addEventListener('click', () => {
     form.reset(); el('transaction-date').value = michiganToday();

@@ -6,7 +6,10 @@ test('built calculator has canonical static content, sitemap and private analyti
  const html = fs.readFileSync(path, 'utf8');
  assert.match(html, /<link rel="canonical" href="https:\/\/dixieauto.land\/tools\/michigan-out-the-door-calculator\/"/);
  assert.equal((html.match(/<h1[ >]/g) || []).length, 1);
- for (const text of ['Michigan Out-the-Door Calculator | Dixie Auto Land', 'What does an out-the-door price include?', '$12,947.00', '$8,947.00', 'Interactive calculation requires JavaScript.', 'Online inquiries are temporarily unavailable.']) assert.ok(html.includes(text), text);
+ for (const text of ['Michigan Out-the-Door Calculator | Dixie Auto Land', 'What does an out-the-door price include?', '$12,947.00', '$8,947.00', 'Interactive calculation requires JavaScript.']) assert.ok(html.includes(text), text);
+ assert.match(html, /id="call-action"[^>]*href="tel:\+15862378440"/);
+ assert.ok(!html.includes('id="quote-request"'));
+ assert.ok(!html.includes('api.web3forms.com/submit'));
  assert.match(html, /<fieldset id="calculator-fields"[^>]*disabled/);
  assert.ok(!html.includes('www.clarity.ms/tag/'));
  assert.ok(!html.includes('analytics.ahrefs.com/analytics.js'));

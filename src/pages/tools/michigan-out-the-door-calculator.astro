@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import InquiryForm from '../../components/InquiryForm.astro';
 import { getCollection } from 'astro:content';
 import { currentRules as rules, sources } from '../../data/michigan-rules.js';
 import { dixieFees } from '../../data/dixie-fees.js';
@@ -18,7 +17,7 @@ const faqs = [
 ];
 const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Home', item: business.domain + '/' }, { '@type': 'ListItem', position: 2, name: 'Michigan Out-the-Door Calculator', item: business.domain + '/tools/michigan-out-the-door-calculator/' } ] };
 ---
-<BaseLayout title="Michigan Out-the-Door Calculator | Dixie Auto Land" description="Estimate a used car’s Michigan sales tax and purchase fees. Include a trade-in, review the breakdown, and request a written quote from Dixie Auto Land." privateCalculator schema={[breadcrumb]}>
+<BaseLayout title="Michigan Out-the-Door Calculator | Dixie Auto Land" description="Estimate a used car’s Michigan sales tax and purchase fees. Include a trade-in, review the breakdown, and call Dixie Auto Land to confirm your estimate." privateCalculator schema={[breadcrumb]}>
   <div class="otd-page">
     <div class="container">
       <header class="otd-intro">
@@ -61,7 +60,7 @@ const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList'
                 <label class="otd-check"><input type="checkbox" id="fees-included" /> These dealer fees are already included in my selling price</label>
               </div>
             </div>
-            <p id="dixie-fee-notice" class="otd-notice" hidden>Dixie’s dealer fees need confirmation and are not yet included. Request a written quote for the applicable charges.</p>
+            <p id="dixie-fee-notice" class="otd-notice" hidden>Dixie’s dealer fees need confirmation and are not yet included. Call Dixie to confirm the applicable charges.</p>
             <div class="form-group">
               <label for="registration">Registration &amp; plate charges <span class="otd-optional">if known</span></label>
               <input id="registration" inputmode="decimal" placeholder="Unknown — not yet included" aria-describedby="registration-help registration-error" />
@@ -83,7 +82,7 @@ const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList'
             </details>
             <details class="otd-options"><summary>Buying in a different situation?</summary><div class="otd-options-body"><p class="otd-help">Private sales, leases, out-of-state registration, tax exemptions, commercial registration, and other trade-in types need individual review.</p><label for="purchase-scope">Purchase type</label><select id="purchase-scope"><option value="supported">Standard Michigan dealer purchase</option><option value="unsupported">One of the situations listed above</option></select><p class="otd-help"><a href="/contact/">Ask us about your situation →</a></p></div></details>
             <button type="submit" class="btn btn-primary otd-view">View estimate <span aria-hidden="true">↓</span></button>
-            <p class="otd-local">No sign-up. Your entries stay in this browser until you send an inquiry.</p>
+            <p class="otd-local">No sign-up. Your entries stay in this browser.</p>
           </fieldset>
         </form>
         <aside id="estimate-panel" class="otd-result" aria-labelledby="result-heading" tabindex="-1">
@@ -101,16 +100,12 @@ const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList'
             <div id="funding-section" class="otd-funding"><h3>Your funding breakdown</h3><dl id="funding-lines" class="otd-lines"></dl><p id="funding-note" class="otd-help"></p></div>
             <p id="result-assumptions" class="otd-help"></p>
             <div class="otd-actions"><button type="button" id="print-estimate">Print estimate ↗</button><button type="button" id="reset-estimate">Reset</button></div>
-            <div class="otd-conversion"><a id="quote-action" class="btn btn-primary" href="/inventory/">Find a Dixie vehicle in this budget</a><p id="quote-support" class="otd-help">Explore our inventory to choose a vehicle for a written quote.</p></div>
+            <div class="otd-conversion"><a id="call-action" class="btn btn-primary" href={business.phoneHref}>Call now · {business.phone}</a><p id="call-support" class="otd-help">Call Dixie Auto Land to talk through your estimate.</p></div>
           </div>
           <p class="otd-disclaimer">{disclaimer}</p>
         </aside>
         <p id="estimate-announcement" class="sr-only" role="status" aria-live="polite"></p>
       </div>
-      <section id="quote-request" class="otd-quote" hidden>
-        <div><p class="otd-eyebrow">The next step</p><h2>Let’s confirm the details.</h2><p>Review what will accompany your inquiry. Amounts and availability are subject to dealer confirmation.</p><pre id="quote-preview" data-clarity-mask="true"></pre></div>
-        <InquiryForm quote heading="Request your written quote" subject="Out-the-door quote request — Dixie Auto Land" messageLabel="Note (optional)" messagePlaceholder="Anything else you’d like us to know?" />
-      </section>
       <section class="otd-guide" aria-label="Understanding your estimate">
         <div class="otd-example"><p class="otd-eyebrow">One worked example</p><h2>Purchase price.<br />Then, how you pay.</h2><p>A {money(exampleInput.price)} car with a {money(exampleInput.trade)} qualifying trade-in. These fees are illustrative, not Dixie’s fee schedule.</p>
           <dl class="otd-example-lines">
