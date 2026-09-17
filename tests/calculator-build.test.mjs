@@ -1,0 +1,18 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const path = 'dist/tools/michigan-out-the-door-calculator/index.html';
+test('built calculator has canonical static content, sitemap and private analytics', { skip: !fs.existsSync(path) && 'Run npm run build first' }, () => {
+ const html = fs.readFileSync(path, 'utf8');
+ assert.match(html, /<link rel="canonical" href="https:\/\/dixieauto.land\/tools\/michigan-out-the-door-calculator\/"/);
+ assert.equal((html.match(/<h1[ >]/g) || []).length, 1);
+ for (const text of ['Michigan Out-the-Door Calculator | Dixie Auto Land', 'What does an out-the-door price include?', '$12,947.00', '$8,947.00', 'Interactive calculation requires JavaScript.', 'Online inquiries are temporarily unavailable.']) assert.ok(html.includes(text), text);
+ assert.match(html, /<fieldset id="calculator-fields"[^>]*disabled/);
+ assert.ok(!html.includes('www.clarity.ms/tag/'));
+ assert.ok(!html.includes('analytics.ahrefs.com/analytics.js'));
+ assert.match(html, /page_location: canonical, page_referrer: ''/);
+ assert.match(fs.readFileSync('dist/sitemap.xml', 'utf8'), /<loc>https:\/\/dixieauto.land\/tools\/michigan-out-the-door-calculator\/<\/loc>/);
+ const vehicle = fs.readFileSync('dist/inventory/2017-ford-fusion/index.html', 'utf8');
+ assert.match(vehicle, /href="\/tools\/michigan-out-the-door-calculator\/\?vehicle=2017-ford-fusion"/);
+ assert.match(vehicle, /footer-tools-heading/);
+});

@@ -117,6 +117,8 @@ const breadcrumbSchema = {
             )}
           </div>
 
+          <p><a class="estimate-price-link" href={`/tools/michigan-out-the-door-calculator/?vehicle=${encodeURIComponent(vehicle.id)}`}>Estimate out-the-door price →</a></p>
+
           <table class="spec-table">
             <tbody>
               <tr><th scope="row">Year</th><td>{data.year}</td></tr>
@@ -165,3 +167,7 @@ const breadcrumbSchema = {
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .estimate-price-link { color: #a30c25; text-decoration: underline; text-underline-offset: 4px; font-weight: 600; }
+</style>

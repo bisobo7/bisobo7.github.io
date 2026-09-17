@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InquiryForm from '../../components/InquiryForm.astro';
+import { getCollection } from 'astro:content';
+import { currentRules as rules, sources } from '../../data/michigan-rules.js';
+import { dixieFees } from '../../data/dixie-fees.js';
+import { calculateEstimate, money, disclaimer } from '../../utils/out-the-door.js';
+import { business } from '../../data/business.js';
+import '../../styles/calculator.scss';
+const vehicles = (await getCollection('vehicles')).map(v => ({ id: v.id, name: `${v.data.year} ${v.data.make} ${v.data.model}${v.data.trim ? ' ' + v.data.trim : ''}`, price: v.data.price ?? null, status: v.data.status }));
+const exampleInput = { date: rules.effectiveFrom, price: 1200000, fees: [{ label: 'Illustrative taxable dealer fee', amountCents: 20000, taxable: true, includedInPrice: false, mandatory: true }], trade: 300000, qualifyingTrade: true, payoff: 100000, cash: 200000, registration: 18000 };
+const example = calculateEstimate(exampleInput);
+const faqs = [
+  { q: 'What does an out-the-door price include?', a: 'The vehicle selling price, applicable sales tax, dealer charges, title, and registration or plate charges. It is the purchase total before applying your trade-in as payment or your cash contribution.' },
+  { q: 'How does a trade-in affect Michigan sales tax?', a: `For a qualifying ${rules.year} dealer transaction, the agreed value of one eligible motor-vehicle trade-in reduces the taxable amount by up to ${money(rules.tradeCapCents)}. This is a tax deduction, not a cash discount. The loan payoff affects your equity, not this deduction.` },
+  { q: 'Why does registration sometimes remain an estimate?', a: 'Michigan registration depends on the original vehicle base price, age, plate choice, and other applicable charges. A used selling price alone is not enough. Enter the combined amount from the Secretary of State calculator or your dealer quote.' },
+  { q: 'Does a down payment reduce the purchase price?', a: 'No. A cash contribution reduces the amount left to finance. It does not change the selling price, sales tax, or out-the-door purchase total.' },
+];
+const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [ { '@type': 'ListItem', position: 1, name: 'Home', item: business.domain + '/' }, { '@type': 'ListItem', position: 2, name: 'Michigan Out-the-Door Calculator', item: business.domain + '/tools/michigan-out-the-door-calculator/' } ] };
+---
+<BaseLayout title="Michigan Out-the-Door Calculator | Dixie Auto Land" description="Estimate a used car’s Michigan sales tax and purchase fees. Include a trade-in, review the breakdown, and request a written quote from Dixie Auto Land." privateCalculator schema={[breadcrumb]}>
+  <div class="otd-page">
+    <div class="container">
+      <header class="otd-intro">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Out-the-Door Calculator</li></ol></nav>
+        <p class="otd-eyebrow">Dixie Auto Land / Buying tools</p>
+        <h1>Michigan Out-the-Door<br class="desktop-break" /> Car Price Calculator</h1>
+        <p class="otd-lead">Estimate the purchase price of a used car after Michigan sales tax and fees. Add a trade-in to see how it changes your total.</p>
+        <p class="otd-scope"><span aria-hidden="true">↳</span> For used vehicles purchased from a Michigan dealer and registered in Michigan.</p>
+      </header>
+      <noscript><p class="otd-notice">Interactive calculation requires JavaScript. The example and guidance below are still available. <a href="/contact/">Contact Dixie for an estimate.</a></p></noscript>
+      <div id="otd-calculator" class="otd-workspace" data-clarity-mask="true" data-vehicles={JSON.stringify(vehicles)} data-fees={JSON.stringify(dixieFees)}>
+        <form id="estimate-inputs" class="otd-inputs" novalidate>
+          <fieldset id="calculator-fields" disabled>
+            <legend class="sr-only">Purchase estimate inputs</legend>
+            <div class="otd-panel-heading"><span class="otd-step">01</span><h2>Your purchase</h2><span class="otd-unit">USD</span></div>
+            <div class="form-group">
+              <label for="vehicle-choice">Vehicle of interest <span class="otd-optional">optional</span></label>
+              <select id="vehicle-choice"><option value="">Enter a price / another dealer</option>{vehicles.filter(v => v.status === 'available').map(v => <option value={v.id}>{v.name}</option>)}</select>
+              <p id="vehicle-notice" class="otd-help">Choose a Dixie vehicle to prefill its advertised price. Availability requires confirmation.</p>
+            </div>
+            <div class="form-group otd-price-field">
+              <label for="selling-price">Vehicle selling price</label>
+              <div class="otd-money"><span aria-hidden="true">$</span><input id="selling-price" inputmode="decimal" type="text" placeholder="Enter price" aria-describedby="price-help selling-price-error" required /></div>
+              <p id="price-help" class="otd-help">After dealer discounts, before separate taxes and fees. Use the full price, not a monthly payment or down payment.</p>
+              <p class="otd-error" id="selling-price-error"></p>
+            </div>
+            <div class="otd-panel-heading otd-divider"><span class="otd-step">02</span><h2>Taxes &amp; fees</h2><span class="otd-unit">{rules.taxPercent}% MI tax</span></div>
+            <div class="otd-grid">
+              <div class="form-group"><label for="transaction-date">Purchase date</label><input type="date" id="transaction-date" aria-describedby="transaction-date-error" required /><p class="otd-error" id="transaction-date-error"></p></div>
+              <div class="form-group"><label for="plate-situation">Registration situation</label><select id="plate-situation"><option>Not sure</option><option>New plate</option><option>Transfer my Michigan plate</option></select></div>
+            </div>
+            <div class="form-group" id="manual-fees">
+              <label for="fee-status">Dealer fees</label><select id="fee-status"><option value="unknown">I don’t know the fees yet</option><option value="quoted">I have the dealer’s fee amounts</option></select>
+              <div id="quoted-fees" hidden>
+                <div class="otd-grid otd-inset">
+                  <div class="form-group"><label for="taxable-fee">Taxable dealer fees</label><input id="taxable-fee" inputmode="decimal" placeholder="e.g. 200.00" aria-describedby="fee-help taxable-fee-error" /><p class="otd-error" id="taxable-fee-error"></p></div>
+                  <div class="form-group"><label for="nontaxable-fee">Non-taxable dealer fees</label><input id="nontaxable-fee" inputmode="decimal" placeholder="Enter 0 if none" aria-describedby="fee-help nontaxable-fee-error" /><p class="otd-error" id="nontaxable-fee-error"></p></div>
+                </div>
+                <p id="fee-help" class="otd-help">Use the dealer’s quoted tax treatment. Documentary and service fees are taxable. Exclude government title and plate charges; enter those separately.</p>
+                <label class="otd-check"><input type="checkbox" id="fees-included" /> These dealer fees are already included in my selling price</label>
+              </div>
+            </div>
+            <p id="dixie-fee-notice" class="otd-notice" hidden>Dixie’s dealer fees need confirmation and are not yet included. Request a written quote for the applicable charges.</p>
+            <div class="form-group">
+              <label for="registration">Registration &amp; plate charges <span class="otd-optional">if known</span></label>
+              <input id="registration" inputmode="decimal" placeholder="Unknown — not yet included" aria-describedby="registration-help registration-error" />
+              <p id="registration-help" class="otd-help">Enter the combined government amount; exclude the title fee. Plate choice alone does not set the cost. <a href={sources.registrationCalculator} target="_blank" rel="noopener noreferrer">Michigan registration calculator ↗</a> (look for Registration Fee Calculator).</p>
+              <p class="otd-error" id="registration-error"></p>
+            </div>
+            <p class="otd-fixed-fee">Standard Michigan title <strong>{money(rules.titleCents)}</strong></p>
+            <details class="otd-options" id="trade-details"><summary><span>Trade-in &amp; cash contribution</span><span class="otd-optional">optional</span></summary>
+              <div class="otd-options-body">
+                <label class="otd-check"><input type="checkbox" id="has-trade" /> I have a vehicle to trade in</label>
+                <div id="trade-fields" hidden>
+                  <div class="form-group"><label for="trade-value">Trade-in allowance</label><input id="trade-value" inputmode="decimal" placeholder="Agreed or estimated amount" aria-describedby="trade-help trade-value-error" /><p id="trade-help" class="otd-help">Your estimate, not an appraisal. Final allowance requires dealer agreement.</p><p class="otd-error" id="trade-value-error"></p></div>
+                  <label class="otd-check"><input id="qualifying-trade" type="checkbox" /> This is one eligible motor vehicle traded to the selling dealer, with its value listed on the purchase agreement.</label>
+                  <div class="form-group"><label for="payoff-status">Is money still owed on the trade-in?</label><select id="payoff-status"><option value="unknown">Payoff unknown</option><option value="paid">No — paid off</option><option value="known">Yes — I know the payoff</option></select></div>
+                  <div class="form-group" id="payoff-field" hidden><label for="trade-payoff">Trade-in loan payoff</label><input id="trade-payoff" inputmode="decimal" aria-describedby="trade-payoff-error" /><p class="otd-error" id="trade-payoff-error"></p></div>
+                </div>
+                <div class="form-group"><label for="cash">Planned cash contribution</label><input id="cash" inputmode="decimal" placeholder="0.00" aria-describedby="cash-help cash-error" /><p id="cash-help" class="otd-help">Optional. Reduces the balance to finance, not the purchase total.</p><p class="otd-error" id="cash-error"></p></div>
+              </div>
+            </details>
+            <details class="otd-options"><summary>Buying in a different situation?</summary><div class="otd-options-body"><p class="otd-help">Private sales, leases, out-of-state registration, tax exemptions, commercial registration, and other trade-in types need individual review.</p><label for="purchase-scope">Purchase type</label><select id="purchase-scope"><option value="supported">Standard Michigan dealer purchase</option><option value="unsupported">One of the situations listed above</option></select><p class="otd-help"><a href="/contact/">Ask us about your situation →</a></p></div></details>
+            <button type="submit" class="btn btn-primary otd-view">View estimate <span aria-hidden="true">↓</span></button>
+            <p class="otd-local">No sign-up. Your entries stay in this browser until you send an inquiry.</p>
+          </fieldset>
+        </form>
+        <aside id="estimate-panel" class="otd-result" aria-labelledby="result-heading" tabindex="-1">
+          <div class="otd-receipt-heading"><span class="otd-eyebrow">Your purchase worksheet</span><span id="estimate-badge" class="otd-badge">Ready when you are</span></div>
+          <h2 id="result-heading">See the whole picture.</h2>
+          <div id="empty-estimate"><div class="otd-receipt-icon" aria-hidden="true">＝</div><p id="empty-estimate-prompt">Start with the vehicle’s selling price.</p><p class="otd-help">We’ll itemize the taxes and fees, and show you what still needs confirmation.</p><div class="otd-empty-lines" aria-hidden="true"><span>Vehicle price</span><span>Taxes &amp; fees</span><span>Purchase estimate</span></div></div>
+          <p id="estimate-error" class="otd-notice" hidden></p>
+          <div id="estimate-output" hidden>
+            <p id="result-vehicle" class="otd-help"></p>
+            <p id="result-label" class="otd-total-label"></p><p id="result-total" class="otd-total"></p>
+            <p class="otd-before">Before trade-in payments and cash contributions</p>
+            <dl id="purchase-lines" class="otd-lines"></dl>
+            <p id="tax-explanation" class="otd-tax-note"></p>
+            <p id="unresolved-note" class="otd-notice"></p>
+            <div id="funding-section" class="otd-funding"><h3>Your funding breakdown</h3><dl id="funding-lines" class="otd-lines"></dl><p id="funding-note" class="otd-help"></p></div>
+            <p id="result-assumptions" class="otd-help"></p>
+            <div class="otd-actions"><button type="button" id="print-estimate">Print estimate ↗</button><button type="button" id="reset-estimate">Reset</button></div>
+            <div class="otd-conversion"><a id="quote-action" class="btn btn-primary" href="/inventory/">Find a Dixie vehicle in this budget</a><p id="quote-support" class="otd-help">Explore our inventory to choose a vehicle for a written quote.</p></div>
+          </div>
+          <p class="otd-disclaimer">{disclaimer}</p>
+        </aside>
+        <p id="estimate-announcement" class="sr-only" role="status" aria-live="polite"></p>
+      </div>
+      <section id="quote-request" class="otd-quote" hidden>
+        <div><p class="otd-eyebrow">The next step</p><h2>Let’s confirm the details.</h2><p>Review what will accompany your inquiry. Amounts and availability are subject to dealer confirmation.</p><pre id="quote-preview" data-clarity-mask="true"></pre></div>
+        <InquiryForm quote heading="Request your written quote" subject="Out-the-door quote request — Dixie Auto Land" messageLabel="Note (optional)" messagePlaceholder="Anything else you’d like us to know?" />
+      </section>
+      <section class="otd-guide" aria-label="Understanding your estimate">
+        <div class="otd-example"><p class="otd-eyebrow">One worked example</p><h2>Purchase price.<br />Then, how you pay.</h2><p>A {money(exampleInput.price)} car with a {money(exampleInput.trade)} qualifying trade-in. These fees are illustrative, not Dixie’s fee schedule.</p>
+          <dl class="otd-example-lines">
+            <div><dt>Vehicle + taxable dealer fee</dt><dd>{money(exampleInput.price)} + {money(20000)}</dd></div>
+            <div><dt>Taxable amount after trade-in deduction</dt><dd>{money(example.taxable)}</dd></div>
+            <div><dt>Michigan sales tax · {rules.taxPercent}%</dt><dd>{money(example.tax)}</dd></div>
+            <div><dt>Title + entered registration / plates</dt><dd>{money(rules.titleCents)} + {money(exampleInput.registration)}</dd></div>
+            <div class="otd-example-total"><dt>Purchase total</dt><dd>{money(example.total)}</dd></div>
+            <div><dt>Less trade-in + loan payoff</dt><dd>−{money(exampleInput.trade)} + {money(exampleInput.payoff)}</dd></div>
+            <div><dt>Balance after trade-in</dt><dd>{money(example.balance)}</dd></div>
+            <div><dt>Less cash contribution</dt><dd>−{money(exampleInput.cash)}</dd></div>
+            <div class="otd-example-total"><dt>Amount to finance</dt><dd>{money(example.finance)}</dd></div>
+          </dl>
+        </div>
+        <div class="otd-faq"><p class="otd-eyebrow">A little clarity</p><h2>Know what’s in the total.</h2>{faqs.map(f => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}
+          <details class="otd-sources"><summary>Rules, assumptions &amp; sources</summary><div><p>{rules.year} rules · Last reviewed {rules.reviewed} · Version {rules.version}. No later-year trade-in cap is assumed.</p><p>Tax is rounded to the nearest cent. Standard title only; exceptional charges require a quote. No optional products are selected or included.</p><p>The documentary-fee ceiling for transactions covered by the Motor Vehicle Sales Finance Act is the lower of {rules.documentaryLimitPercent}% of the cash price or {money(rules.documentaryLimitCents)}. It is not an automatic dealer charge.</p><ul><li><a href={sources.tax}>Michigan sales tax and rounding</a></li><li><a href={sources.trade}>Trade-in deduction and negative equity</a></li><li><a href={sources.fees}>Dealer charges and title worksheet</a></li><li><a href={sources.title}>Standard title fees</a></li><li><a href={sources.registration}>Registration and plate guidance</a></li><li><a href={sources.docLimit}>DIFS documentary-fee bulletin</a></li></ul></div></details>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="../../scripts/calculator.js"></script>
+</BaseLayout>

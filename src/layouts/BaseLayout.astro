@@ -7,6 +7,7 @@ import '../styles/main.scss';
 
 interface Props {
   title: string;
+  privateCalculator?: boolean;
   description?: string;
   ogImage?: string;
   /** Extra JSON-LD objects for this page (Vehicle, FAQPage, ...) */
@@ -17,6 +18,7 @@ interface Props {
 
 const {
   title,
+  privateCalculator = false,
   description = seo.defaultDescription,
   ogImage = '/images/og-logo.jpg',
   schema = [],
@@ -99,26 +101,28 @@ const allSchema = [dealerSchema, ...schema];
       <script type="application/ld+json" set:html={JSON.stringify(s)} />
     ))}
 
+    <!-- Calculator analytics exclude query strings, referrers, and session replay. -->
+    {privateCalculator && <meta name="referrer" content="no-referrer" />}
     <!-- Google tag (gtag.js) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-54EH4B5LP8"></script>
-    <script is:inline>
+    <script is:inline define:vars={{ privateCalculator, canonical }}>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
       gtag('js', new Date());
-      gtag('config', 'G-54EH4B5LP8');
+      gtag('config', 'G-54EH4B5LP8', privateCalculator ? { page_location: canonical, page_referrer: '', allow_google_signals: false } : {});
     </script>
 
     <!-- Ahrefs Analytics -->
-    <script is:inline src="https://analytics.ahrefs.com/analytics.js" data-key="eHSiqWI9Tz17Zq4VL3HEQQ" async></script>
+    {!privateCalculator && <script is:inline src="https://analytics.ahrefs.com/analytics.js" data-key="eHSiqWI9Tz17Zq4VL3HEQQ" async></script>}
 
     <!-- Microsoft Clarity -->
-    <script is:inline define:vars={{ clarityId: business.clarityId }}>
+    {!privateCalculator && <script is:inline define:vars={{ clarityId: business.clarityId }}>
       (function (c, l, a, r, i, t, y) {
         c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
         t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
         y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
       })(window, document, 'clarity', 'script', clarityId);
-    </script>
+    </script>}
   </head>
   <body>
     <Header />
