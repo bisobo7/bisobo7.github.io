@@ -232,6 +232,12 @@
     margin: 0;
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.45);
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      &:hover { color: #fff; }
+    }
   }
 
   .footer-mark {
